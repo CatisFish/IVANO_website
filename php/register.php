@@ -37,6 +37,46 @@
             </div>
         </form>
     </div>
+    <?php
+            // Xử lý khi form được gửi
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $username = $_POST['username'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm-password'];
 
+            // Kiểm tra mật khẩu trùng khớp
+            if ($password !== $confirm_password) {
+                echo "Password and confirm password do not match!";
+                exit();
+            }
+
+            // Kiểm tra xem username đã tồn tại chưa
+            $check_username_sql = "SELECT * FROM users WHERE user_name = '$username'";
+            $result_username = $conn->query($check_username_sql);
+            if ($result_username->num_rows > 0) {
+                echo "Username already exists!";
+                exit();
+            }
+
+            // Kiểm tra xem email đã tồn tại chưa
+            $check_email_sql = "SELECT * FROM users WHERE email = '$email'";
+            $result_email = $conn->query($check_email_sql);
+            if ($result_email->num_rows > 0) {
+                echo "Email already exists!";
+                exit();
+            }
+
+            // Nếu không có vấn đề gì, thêm người dùng vào cơ sở dữ liệu
+            $insert_sql = "INSERT INTO users (user_name, pass_word, email) VALUES ('$username', '$email', '$password')";
+            if ($conn->query($insert_sql) === TRUE) {
+                echo "Registration successful!";
+            } else {
+                echo "Error: " . $insert_sql . "<br>" . $conn->error;
+            }
+        }
+    ?>
+
+    
 </body>
 </html>
