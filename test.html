@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/global.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <section class="banner-news">
+        <a href="#" class="news-item"><span><p class="title"></p></span></a>
+
+        <a href="#" class="news-item"><span>This is content News</span></a>
+
+        <a href="#" class="news-item"><span>This is content News</span></a>
+    </section>
+</body>
+
+<style>
+    .banner-news {
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+        margin: 0px auto;
+    }
+    
+    .news-item {
+        width: 30%;
+        height: 150px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    
+    .news-item:nth-child(1) {
+        background-image: url('images/banner1.png');
+    }
+    
+    .news-item:nth-child(2) {
+        background-image: url('images/banner2.png');
+    }
+    
+    .news-item:nth-child(3) {
+        background-image: url('images/banner3.png');
+    }
+    
+    .news-item span {
+        display: block;
+        background-color: rgba(0, 0, 0, 0.5); /* Nền màu đen với độ mờ */
+        color: white; /* Màu chữ trắng */
+        padding: 10px; /* Khoảng cách bên trong */
+        width: 100%; /* Chiếm toàn bộ chiều rộng của .news-item */
+        text-align: center; /* Canh giữa nội dung */
+        border-bottom-left-radius: 10px; /* Bo góc dưới bên trái */
+        border-bottom-right-radius: 10px; /* Bo góc dưới bên phải */
+        box-sizing: border-box; /* Để padding không làm tăng chiều rộng */
+    }
+
+
+    
+</style>
+
+</html>
