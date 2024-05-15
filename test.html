@@ -9,57 +9,114 @@
 </head>
 
 <body>
-    <section class="banner-news">
-        <a href="#" class="news-item"><span><p class="title"></p></span></a>
+    <section class="container-list-product">
+        <div class="list-product">
+            <div class="product-item">
+                <a href="#" class="container-img">
+                    <img class="product-img" src="images/I9.46-18-681x800.png" alt="Image of">
 
-        <a href="#" class="news-item"><span>This is content News</span></a>
+                    <div class="product-info">
+                        <p class="category-name">Sơn Ivano</p>
+                        <p class="product-name">IVANO IN FLAT Sơn Bóng NANO Nội Thất Cao Cấp I9.46</p>
 
-        <a href="#" class="news-item"><span>This is content News</span></a>
+                        <div class="product-action">
+                            <div class="product-price">242.000₫ – 4.517.500₫</div>
+                        
+                            <div class="action-add">
+                                <button type="submit" class="add-to-cart">
+                                    <p>Xem Nhanh</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="product-item">
+                <a href="#" class="container-info">
+                    <img class="product-img" src="images/I9.46-18-681x800.png" alt="Image of">
+
+                    <div class="product-info">
+                        <p class="category-name">Sơn Ivano</p>
+                        <p class="product-name">IVANO IN FLAT Sơn Bóng NANO Nội Thất Cao Cấp I9.46</p>
+
+                        <div class="product-action">
+                            <div class="product-price">242.000₫ – 4.517.500₫</div>
+
+                            <div class="action-add">
+                                <button type="submit" class="view-product">
+                                    <p>Xem Nhanh</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
     </section>
 </body>
 
 <style>
-    .banner-news {
+    .list-product {
         display: flex;
-        justify-content: space-between;
-        width: 90%;
-        margin: 0px auto;
+        flex-wrap: wrap;
+        gap: 20px;
     }
     
-    .news-item {
-        width: 30%;
-        height: 150px;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+    .product-img {
+        width: 250px;
+        height: 300px;
     }
     
-    .news-item:nth-child(1) {
-        background-image: url('images/banner1.png');
+    .category-name{
+        color: #333;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin: 10px 0;
     }
-    
-    .news-item:nth-child(2) {
-        background-image: url('images/banner2.png');
-    }
-    
-    .news-item:nth-child(3) {
-        background-image: url('images/banner3.png');
-    }
-    
-    .news-item span {
-        display: block;
-        background-color: rgba(0, 0, 0, 0.5); /* Nền màu đen với độ mờ */
-        color: white; /* Màu chữ trắng */
-        padding: 10px; /* Khoảng cách bên trong */
-        width: 100%; /* Chiếm toàn bộ chiều rộng của .news-item */
-        text-align: center; /* Canh giữa nội dung */
-        border-bottom-left-radius: 10px; /* Bo góc dưới bên trái */
-        border-bottom-right-radius: 10px; /* Bo góc dưới bên phải */
-        box-sizing: border-box; /* Để padding không làm tăng chiều rộng */
+    .product-name {
+        max-width: 250px; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        font-weight: 700;
+        color: #1e73be;
+        font-size: 17px;
     }
 
-
+    .product-price{
+        color: #f80000;
+        font-weight: 600;
+        margin: 10px 0;
+    }
+    
+    .view-product{
+        .view-product {
+            opacity: 0; /* Ẩn nút ban đầu */
+            transition: opacity 0.3s ease; /* Áp dụng hiệu ứng chuyển động */
+        }
+        
+        .list-product:hover .view-product {
+            opacity: 1; /* Hiển thị nút khi hover vào sản phẩm */
+        }  
+    }
+    
+    
+   
     
 </style>
+
+
+
+
+
+
+
+
+
+
 
 </html>

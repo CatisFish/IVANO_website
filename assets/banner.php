@@ -1,25 +1,26 @@
-<section class="banner-page">
+<!-- <section class="banner-page">
     <div id="infiniteCarousel" class="carousel banner-page">
         <div class="carousel-inner">
             <div class="carousel-item">
-                <img src="./images/banner1.png" alt="Image 1">
+                <img src="./images/banner1.jpeg" alt="Image 1">
             </div>
             <div class="carousel-item">
-                <img src="./images/banner2.png" alt="Image 2">
+                <img src="./images/banner2.jpeg" alt="Image 2">
             </div>
             <div class="carousel-item">
-                <img src="./images/banner3.png" alt="Image 3">
+                <img src="./images/banner3.gif" alt="Image 3">
             </div>
         </div>
     </div>
-</section>
+</section> -->
+
+
 
 <style>
     .carousel {
         position: relative;
         overflow: hidden;
-        width: 90%;
-        margin: 0px auto; 
+        width: 100%;
     }
 
     .carousel-inner {
@@ -32,13 +33,13 @@
     .carousel-item {
         flex: 0 0 auto;
         width: 100%;
+        position: relative;
     }
 
     .carousel-item img {
         width: 100%;
-        height: 100%;
-        margin: 0px auto;
-        border-radius: 10px;
+        height: 750px;
+        margin: 0px auto;    
     }
 </style>
 
@@ -58,6 +59,69 @@
             }, 1000);
         }
 
-        setInterval(shiftAndMove, 3000);
+        setInterval(shiftAndMove, 30000);
     });
 </script>
+
+
+<section class="banner-page">
+    <div id="infiniteCarousel" class="carousel banner-page">
+        <div class="carousel-inner">
+            <div class="carousel-item">
+                <img src="./images/banner1.jpeg" alt="Image 1">
+                <div class="carousel-caption">
+                    <h1>HỢP TÁC KHOA HỌC VIỆT - NHẬT </h1>
+                    <p>KHẲNG ĐỊNH CHẤT LƯỢNG TRONG TỪNG CÔNG TRÌNH</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./images/banner2.jpeg" alt="Image 2">
+                <div class="carousel-caption">
+                    <h3>Banner 2</h3>
+                    <p>Mô tả cho Banner 2</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./images/banner3.gif" alt="Image 3">
+                <div class="carousel-caption">
+                    <h3>Banner 3</h3>
+                    <p>Mô tả cho Banner 3</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+   .carousel-caption {
+    position: absolute;
+    bottom: -50%; /* Đặt ban đầu ở ngoài màn hình phía dưới */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+    animation: slideUp 1.5s ease forwards; /* Sử dụng animation slideUp */
+}
+
+@keyframes slideUp {
+    from {
+        bottom: -50%; /* Bắt đầu từ vị trí ở ngoài màn hình phía dưới */
+    }
+    to {
+        bottom: 50%; /* Kết thúc ở vị trí 50% phía dưới */
+    }
+}
+
+.carousel-caption h1 {
+    font-size: 40px; 
+    font-weight: bold; 
+    text-shadow: 10px 10px 30px rgba(0, 0, 0, 1.9);  
+}
+
+.carousel-caption p {
+    font-size: 20px; /* Kích thước của phần mô tả */
+    margin-top: 20px; 
+    text-shadow: 10px 10px 30px rgba(0, 0, 0, 1.9);  
+}
+
+</style>

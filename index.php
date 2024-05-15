@@ -10,6 +10,9 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="css/global.css">
+    <!-- <link rel="stylesheet" href="../css/responsive-header.css"> -->
+    <link rel="stylesheet" href="css/custom-scroll.css">
+
 
     <title>Trang Chủ | IVANO</title>
 </head>
@@ -24,7 +27,22 @@
             include "assets/banner.php";
         ?>
 
-        
+        <?php
+            include "assets/banner-news.php";
+        ?>
+
+<?php
+            include "assets/banner.php";
+        ?>
+
+
+<?php
+            include "assets/banner.php";
+        ?>
+
+<?php
+            include "assets/banner.php";
+        ?>
 
 
 

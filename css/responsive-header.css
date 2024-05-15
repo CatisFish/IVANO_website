@@ -1,0 +1,91 @@
+/* Common styles */
+.wrapper-header-top,
+.wrapper-header-bottom {
+    width: 100%;
+}
+
+.header-top,
+.header-bottom {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.container-nav-item {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nav-item {
+    margin: 5px 10px;
+}
+
+.logo-page {
+    order: 2;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    margin: 10px auto;
+}
+
+/* Responsive styles */
+@media only screen and (min-width: 768px) {
+    .header-top {
+        flex-direction: row;
+    }
+
+    .header-bottom {
+        height: auto;
+        padding: 10px 0;
+    }
+
+    .nav-left,
+    .nav-right {
+        width: 50%;
+    }
+
+    .nav-right {
+        text-align: right;
+    }
+
+    .logo-page {
+        order: 1;
+        width: auto;
+        margin-bottom: 0;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .header-top {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 0;
+    }
+
+    .header-top p {
+        display: block;
+        font-size: 10px;
+        text-align: center;
+    }
+
+    .recruitment-link,
+    .login-link {
+        display: none;
+    }
+
+    .logo-page img {
+        width: 120px;
+        height: auto;
+    }
+
+    .search-text {
+        width: 150px;
+    }
+
+    .search-btn {
+        width: 30px;
+    }
+}
