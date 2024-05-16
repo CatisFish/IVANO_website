@@ -63,7 +63,6 @@
     });
 </script>
 
-
 <section class="banner-page">
     <div id="infiniteCarousel" class="carousel banner-page">
         <div class="carousel-inner">
@@ -95,20 +94,20 @@
 <style>
    .carousel-caption {
     position: absolute;
-    bottom: -50%; /* Đặt ban đầu ở ngoài màn hình phía dưới */
+    bottom: -50%; 
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
     color: white;
-    animation: slideUp 1.5s ease forwards; /* Sử dụng animation slideUp */
+    animation: slideUp 1.5s ease forwards;
 }
 
 @keyframes slideUp {
     from {
-        bottom: -50%; /* Bắt đầu từ vị trí ở ngoài màn hình phía dưới */
+        bottom: -50%;
     }
     to {
-        bottom: 50%; /* Kết thúc ở vị trí 50% phía dưới */
+        bottom: 50%; 
     }
 }
 
@@ -119,7 +118,7 @@
 }
 
 .carousel-caption p {
-    font-size: 20px; /* Kích thước của phần mô tả */
+    font-size: 20px; 
     margin-top: 20px; 
     text-shadow: 10px 10px 30px rgba(0, 0, 0, 1.9);  
 }

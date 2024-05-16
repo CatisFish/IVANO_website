@@ -180,8 +180,8 @@
             </div>
         </div>
 
-        <button class="prev-button">&lt;</button>
-        <button class="next-button">&gt;</button>
+        <button class="prev-button"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="next-button"><i class="fa-solid fa-chevron-right"></i></button>
     </section>
 </body>
 
@@ -245,20 +245,33 @@
     .next-button {
         position: absolute;
         top: 50%;
+        background: none;
         transform: translateY(-50%);
-        background-color: red;
+        border: 1px solid #221F20;
         color: #333;
-        font-size: 20px;
+        width: 40px;
+        height: 40px;
         cursor: pointer;
         padding: 5px 10px;
+        border-radius: 50%;
+        color: #221F20;
+        transition: all ease-in-out 0.3s;
     }
 
     .prev-button {
-        left: 10px;
+        left: -50px;
     }
 
     .next-button {
-        right: 10px;
+        right: -50px;
+    }
+
+    .prev-button:hover ,
+    .next-button:hover{
+        background-color: #ff6900;
+        color: #fff;
+        border: 1px solid #ff6900;
+
     }
 </style>
 
@@ -281,7 +294,7 @@
     }
     
     .product-item:hover .product-action .action-add .view-product {
-        transform: translateX(-50%) translateY(-120px);
+        transform: translateX(-50%) translateY(-110px);
         opacity: 1;
     }
     

@@ -110,6 +110,7 @@
         position: relative;
         padding: 30px 0;
         align-items: center;
+        transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
     .logo-page {
@@ -222,12 +223,12 @@
             headerBottom.classList.add('fixed-header');
             setTimeout(function() {
                 headerBottom.classList.add('active');
-            }, 10); // Timeout nhỏ để tránh hiệu ứng glitch
+            }, 10);
         } else if (scrollPosition <= 10 && headerBottom.classList.contains('fixed-header')) {
             headerBottom.classList.remove('active');
             setTimeout(function() {
                 headerBottom.classList.remove('fixed-header');
-            }, 500); // Đợi cho hiệu ứng kết thúc trước khi loại bỏ class
+            }, 250);
         }
     });
 </script>
