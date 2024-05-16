@@ -254,6 +254,7 @@ if ($result_category->num_rows > 0) {
 
 <body>
     <h1>Quản lý sản phẩm</h1>
+    
 
     <!-- Form thêm mới sản phẩm -->
     <form method="POST" action="" enctype="multipart/form-data">
