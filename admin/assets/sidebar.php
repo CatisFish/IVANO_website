@@ -35,8 +35,9 @@
                 <li><a href="../php/products.php">Sản phẩm</a></li>
             </ul>
         </li>
-        <li><a href="../php/ad.php"><i class="fa fa-chart-bar"></i><span>Slider</span></a></li>
-        <li><a href="../php/agency.php"><i class="fa fa-file-alt"></i><span>Quản lý nhà cung cấp</span></a></li>
+        <li><a href="../php/ad.php"><i class="fa fa-chart-bar"></i><span>Quản lý Slider</span></a></li>
+        <li><a href="../php/news.php"><i class="fa fa-chart-bar"></i><span>Quản lý tin nổi bật</span></a></li>
+        <li><a href="../php/agency.php"><i class="fa fa-file-alt"></i><span>Các đại lý</span></a></li>
         <li><a href="../php/customer.php"><i class="fa fa-cogs"></i><span>Quản lý khách hàng</span></a></li>
         <li><a href="../php/employee.php"><i class="fa fa-chart-bar"></i><span>Quản lý nhân viên</span></a></li>
         <li><a href="../php/employee.php"><i class="fa fa-chart-bar"></i><span>Thống kê</span></a></li>

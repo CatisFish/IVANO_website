@@ -260,7 +260,7 @@ if ($result_category->num_rows > 0) {
     <form method="POST" action="" enctype="multipart/form-data">
         <input type="text" name="product_name" placeholder="Tên sản phẩm" required><br>
         <textarea name="product_description" placeholder="Mô tả sản phẩm" required></textarea><br>
-        <input type="number" name="product_price" placeholder="Giá sản phẩm" required><br>
+        <input type="text" name="product_price" placeholder="Giá sản phẩm" required><br>
         <select name="category_id" required>
             <option value="" disabled selected>Chọn danh mục</option>
             <?php foreach ($categories as $category): ?>

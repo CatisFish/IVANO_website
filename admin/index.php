@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
 
-    <link rel="stylesheet" href="css/style.css  ">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
@@ -75,7 +75,6 @@
         cursor: pointer;
     }
 
-
     .top-sidebar h2,
     .nav-icons ul li a span {
         transition: transform 0.3s ease;
@@ -84,6 +83,18 @@
     .hidden .top-sidebar h2,
     .hidden .nav-icons ul li a span {
         transform: translateX(-100%);
+    }
+
+    .content-box {
+        background-color: #f9f9f9;
+        padding: 15px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .content-box p {
+        margin: 0;
     }
 </style>
 
@@ -96,7 +107,24 @@
 
     <div class="content" id="content">
         <h2>Welcome to Dashboard</h2>
-        <p>This is the main content area.</p>
+        <div class="content-box">
+            <p>- Thống kê số lượng đơn hàng theo ngày</p>
+        </div>
+        <div class="content-box">
+            <p>- Thống kê số lượng đơn hàng theo tháng</p>
+        </div>
+        <div class="content-box">
+            <p>- Thống kê số lượng đơn hàng theo năm</p>
+        </div>
+        <div class="content-box">
+            <p>- Thống kê số lượng đại lý</p>
+        </div>
+        <div class="content-box">
+            <p>- Top sản phẩm bán chạy</p>
+        </div>
+        <div class="content-box">
+            <p>- Doanh thu theo hóa đơn</p>
+        </div>
     </div>
 
     <script src="js/app.js"></script>
