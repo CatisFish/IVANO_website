@@ -1,18 +1,3 @@
-<!-- <section class="banner-page">
-    <div id="infiniteCarousel" class="carousel banner-page">
-        <div class="carousel-inner">
-            <div class="carousel-item">
-                <img src="./images/banner1.jpeg" alt="Image 1">
-            </div>
-            <div class="carousel-item">
-                <img src="./images/banner2.jpeg" alt="Image 2">
-            </div>
-            <div class="carousel-item">
-                <img src="./images/banner3.gif" alt="Image 3">
-            </div>
-        </div>
-    </div>
-</section> -->
 
 
 

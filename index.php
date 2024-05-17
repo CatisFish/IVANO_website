@@ -30,20 +30,53 @@
         ?>
 
         <section class="container-outstanding">
+            <h1>Sản Phẩm Nổi Bật</h1>
+
             <?php
             include "assets/outstanding.php";
             ?>
         </section>
 
-<style>
-    .container-outstanding{
-        width: 80%;
-        margin: 0px auto;
-        position: relative;
-    }
-</style>
+        <style>
+            .container-outstanding {
+                width: 80%;
+                margin: 0 auto;
+                position: relative;
+            }
 
-        <!-- <div id="popup" class="popup">
+            .container-outstanding h1 {
+                text-align: center;
+                font-size: 30px;
+                position: relative;
+                z-index: 1;
+                color: #FC0000;
+                text-transform: uppercase;
+            }
+
+            .container-outstanding h1::before,
+            .container-outstanding h1::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                height: 1px;
+                /* background-color: rgba(252, 185, 0, 1); */
+                width: 35%;
+                background-color: #FC0000;
+            }
+
+            .container-outstanding h1::before {
+                left: 0;
+            }
+
+            .container-outstanding h1::after {
+                right: 0;
+            }
+        </style>
+
+        <section class="container"></section>
+
+        <div id="popup" class="popup">
             <div class="popup-content">
                 <span class="close-btn" id="close-btn">&times;</span>
                 <h2>Thông tin mới</h2>
@@ -116,11 +149,11 @@
                 text-decoration: none;
                 cursor: pointer;
             }
-        </style> -->
+        </style>
     </main>
 </body>
 
-<!-- <script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         // Get the popup
         var popup = document.getElementById('popup');
@@ -147,6 +180,6 @@
     });
 
 
-</script> -->
+</script>
 
 </html>
