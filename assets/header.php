@@ -204,7 +204,7 @@
         left: 0;
         width: 100%;
         padding: 0px 5%;
-        z-index: 1000;
+        z-index: 99;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
 

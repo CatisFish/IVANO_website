@@ -101,7 +101,7 @@
 </style>
 
 <?php
-include '../php/conection.php';
+include 'php/conection.php';
 
 // Xử lý thêm mới quảng cáo
 if (isset($_POST['add_advertisement'])) {

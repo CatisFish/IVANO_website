@@ -1,7 +1,6 @@
 <?php
 include 'php/conection.php';
 
-// Truy vấn để lấy danh sách 8 sản phẩm ngẫu nhiên
 $sql = "SELECT p.*, i.path_image, c.category_name FROM products p 
         LEFT JOIN product_images i ON p.product_id = i.product_id
         LEFT JOIN categories c ON p.category_id = c.category_id
@@ -43,11 +42,45 @@ if ($result->num_rows > 0) {
     echo "<p class='no-products'>Không có sản phẩm nào.</p>";
 }
 
-// Đóng kết nối
 $conn->close();
 ?>
 
 <style>
+    .container-outstanding {
+        width: 80%;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .container-outstanding h1 {
+        text-align: center;
+        font-size: 30px;
+        position: relative;
+        z-index: 1;
+        color: #FC0000;
+        text-transform: uppercase;
+    }
+
+    .container-outstanding h1::before,
+    .container-outstanding h1::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 1px;
+        /* background-color: rgba(252, 185, 0, 1); */
+        width: 35%;
+        background-color: #FC0000;
+    }
+
+    .container-outstanding h1::before {
+        left: 0;
+    }
+
+    .container-outstanding h1::after {
+        right: 0;
+    }
+
     .container-list-product {
         position: relative;
         overflow: hidden;
@@ -84,6 +117,11 @@ $conn->close();
         text-transform: uppercase;
         font-size: 12px;
         margin: 10px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
     }
 
     .product-name {

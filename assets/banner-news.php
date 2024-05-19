@@ -4,24 +4,24 @@
         <a href="#" class="news-item">
             <img src="images/banner1.png" alt="">
             <span>
-                <h1>title</h1>
-                <p>this is content</p>
+                <h1>TIN TỨC</h1>
+                <p>Nổi Bật</p>
             </span>
         </a>
 
         <a href="#" class="news-item">
             <img src="images/banner2.png" alt="">
             <span>
-                <h1>title</h1>
-                <p>this is content</p>
+                <h1>GIỚI THIỆU</h1>
+                <p>Về Chúng Tôi</p>
             </span>
         </a>
 
         <a href="#" class="news-item">
             <img src="images/banner3.png" alt="">
             <span>
-                <h1>title</h1>
-                <p>this is content</p>
+                <h1>ĐĂNG KÝ</h1>
+                <p>Đại Lý</p>
             </span>
         </a>
     </section>
@@ -102,5 +102,6 @@
         font-size: 1em;
         font-weight: 600;
         margin: 0;
+        margin-top: 10px;
     }
 </style>
