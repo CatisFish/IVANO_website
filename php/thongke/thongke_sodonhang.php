@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thống kê số đơn hàng</title>
+    <title>Thống kê số lượng đơn hàng</title>
 </head>
 <body>
-    <h1>Thống kê số đơn hàng</h1>
+    <h1>Số lượng đơn hàng</h1>
 
     <?php
     // Kết nối đến cơ sở dữ liệu
     include '../php/conection.php';
 
     // Truy vấn số lượng đơn hàng
-    $sql = "SELECT COUNT(*) AS total_orders FROM orders";
+    $sql = "SELECT COUNT(order_id) AS total_orders FROM orders";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {

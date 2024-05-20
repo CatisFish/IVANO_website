@@ -25,7 +25,7 @@
 </head>
 <body>
     <a href="../admin/index.php">Trở về trang chủ</a>
-    <h1>Thống kê đơn hàng theo tháng</h1>
+    <h1>Số đơn hàng theo tháng</h1>
 
     <?php
     include '../php/conection.php';

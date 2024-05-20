@@ -26,7 +26,7 @@
     </style>
 </head>
 <body>
-    <h1>Sản phẩm hot và được quan tâm</h1>
+    <h1>Sản phẩm bán chạy và được quan tâm</h1>
     <a href="../admin/index.php">Trở về trang chủ</a>
 
     <?php
@@ -39,11 +39,11 @@
         JOIN order_details od ON p.product_id = od.product_id
         GROUP BY p.product_id, p.product_name
         ORDER BY total_sold DESC
-        LIMIT 10";
+        LIMIT 5";
     
     $result_hot_products = $conn->query($sql_hot_products);
 
-    echo "<h2>Sản phẩm hot (dựa trên số lượng bán)</h2>";
+    echo "<h2>Sản phẩm bán chạy (dựa trên số lượng bán được)</h2>";
     if ($result_hot_products->num_rows > 0) {
         echo "<table>
                 <thead>
@@ -69,22 +69,21 @@
 
     // Truy vấn để lấy sản phẩm được quan tâm dựa trên số lượng click
     $sql_interested_products = "
-        SELECT p.product_id, p.product_name, pc.click_count
+        SELECT p.product_id, p.product_name, p.clicks
         FROM products p
-        JOIN products_clicks pc ON p.product_id = pc.product_id
-        ORDER BY pc.click_count DESC
-        LIMIT 10";
+        ORDER BY p.clicks DESC
+        LIMIT 5";
 
     $result_interested_products = $conn->query($sql_interested_products);
 
-    echo "<h2>Sản phẩm được quan tâm (dựa trên số lượng click)</h2>";
+    echo "<h2>Sản phẩm được quan tâm (dựa trên số lượng truy cập vào)</h2>";
     if ($result_interested_products->num_rows > 0) {
         echo "<table>
                 <thead>
                     <tr>
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
-                        <th>Số lượt click</th>
+                        <th>Số lượt truy cập</th>
                     </tr>
                 </thead>
                 <tbody>";
@@ -92,7 +91,7 @@
             echo "<tr>
                     <td>{$row['product_id']}</td>
                     <td>{$row['product_name']}</td>
-                    <td>{$row['click_count']}</td>
+                    <td>{$row['clicks']}</td>
                   </tr>";
         }
         echo "</tbody>
