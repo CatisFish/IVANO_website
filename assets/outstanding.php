@@ -17,7 +17,7 @@ if ($result->num_rows > 0) {
         echo '<img class="product-img" src="admin/' . $row['path_image'] . '" alt="' . $row['product_name'] . '">';
 
         echo '<div class="product-info">';
-        echo '<p class="brand-name">' . $row['brand_name'] . '</p>';
+        echo '<p class="brand-name">' . 'SƠN ' . $row['brand_name'] . '</p>';
         echo '<p class="product-name">' . $row['product_name'] . '</p>';
 
         echo '<div class="product-action">';

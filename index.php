@@ -37,13 +37,17 @@
             ?>
         </section>
 
-        <style>
-           
-        </style>
+        <section class="container-show-list-category">
+            <h1>Thương Hiệu Nổi Bật</h1>
 
-        <section class="container"></section>
+            <?php 
+                include "assets/show-brand.php";
+            ?>
+        </section>
 
-        
+        <?php
+            include "assets/certification.php";
+        ?>
 
 
         <?php
