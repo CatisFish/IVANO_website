@@ -1,3 +1,5 @@
+
+
 <?php
 include '../php/conection.php';
 // Xử lý thêm mới danh mục
@@ -109,7 +111,10 @@ th {
 }
 
 </style>
+
 <body>
+<a href="../admin/index.php">Trở về trang chủ</a>
+
     <h1>Quản lý danh mục sản phẩm</h1>
 
     <?php

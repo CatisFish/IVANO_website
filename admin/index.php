@@ -108,22 +108,40 @@
     <div class="content" id="content">
         <h2>Welcome to Dashboard</h2>
         <div class="content-box">
-            <p>- Thống kê số lượng đơn hàng theo ngày</p>
+        <?php
+
+            include "../php/thongke/thongke_sodaily.php";
+        ?>
         </div>
         <div class="content-box">
-            <p>- Thống kê số lượng đơn hàng theo tháng</p>
+        <?php
+            include "../php/thongke/thongke_user.php";
+        ?>
         </div>
         <div class="content-box">
-            <p>- Thống kê số lượng đơn hàng theo năm</p>
+        <?php
+            include "../php/thongke/thongke_sodonhang.php";
+        ?>
         </div>
         <div class="content-box">
-            <p>- Thống kê số lượng đại lý</p>
+        <?php
+            include "../php/thongke/thongke_soluongsanpham.php";
+        ?>
         </div>
         <div class="content-box">
-            <p>- Top sản phẩm bán chạy</p>
+        <?php
+            include "../php/thongke/top_product.php";
+        ?>
         </div>
         <div class="content-box">
-            <p>- Doanh thu theo hóa đơn</p>
+        <?php
+            include "../php/thongke/doanhthu_theohoadon.php";
+            include "../php/thongke/donhang_theothang.php";
+            include "../php/thongke//donhang_theonam.php";
+
+
+
+        ?>
         </div>
     </div>
 

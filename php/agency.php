@@ -91,6 +91,7 @@
         max-height: 80px;
     }
 </style>
+<a href="../admin/index.php">Trở về trang chủ</a>
 
 <body>
 

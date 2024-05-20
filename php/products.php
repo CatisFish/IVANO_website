@@ -1,3 +1,7 @@
+<a href="../admin/index.php">Trở về trang chủ</a>
+
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -124,6 +128,7 @@ if ($conn->connect_error) {
 
 // Xử lý thêm mới sản phẩm
 if (isset($_POST['add_product'])) {
+    $product_id = $_POST['product_id'];
     $product_name = $_POST['product_name'];
     $product_description = $_POST['product_description'];
     $category_id = $_POST['category_id'];
@@ -131,7 +136,7 @@ if (isset($_POST['add_product'])) {
     $product_price = $_POST['product_price'];
 
     // Thêm sản phẩm vào bảng products
-    $sql_product = "INSERT INTO products (product_name, product_description, category_id, brand_id, product_price) VALUES ('$product_name', '$product_description', '$category_id', '$brand_id', '$product_price')";
+    $sql_product = "INSERT INTO products (product_id, product_name, product_description, category_id, brand_id, product_price) VALUES ('$product_id','$product_name', '$product_description', '$category_id', '$brand_id', '$product_price')";
     if ($conn->query($sql_product) === TRUE) {
         $last_product_id = $conn->insert_id; // Lấy ID của sản phẩm vừa thêm
 
@@ -162,7 +167,30 @@ if (isset($_POST['add_product'])) {
 if (isset($_GET['delete_product'])) {
     $product_id = $_GET['delete_product'];
     // Xóa sản phẩm trong bảng products
-    $sql_delete_product = "DELETE FROM products WHERE product_id=$product_id";
+    if(isset($_GET['delete_product'])){
+        $product_id = $_GET['delete_product'];
+        $sql_delete_product = "DELETE FROM products WHERE product_id='$product_id'";
+        if ($conn->query($sql_delete_product) === TRUE) {
+            // Xóa ảnh của sản phẩm trong thư mục images và trong bảng product_images
+            $sql_select_images = "SELECT path_image FROM product_images WHERE product_id='$product_id'";
+            $result_select_images = $conn->query($sql_select_images);
+            if ($result_select_images->num_rows > 0) {
+                while ($row = $result_select_images->fetch_assoc()) {
+                    $path_image = $row['path_image'];
+                    if (file_exists($path_image)) {
+                        unlink($path_image); // Xóa ảnh trong thư mục images
+                    }
+                }
+            }
+            $sql_delete_images = "DELETE FROM product_images WHERE product_id='$product_id'";
+            $conn->query($sql_delete_images);
+            header("Location: products.php");
+            exit();
+        } else {
+            echo "Lỗi khi xóa sản phẩm: " . $conn->error;
+        }
+    }
+    
     if ($conn->query($sql_delete_product) === TRUE) {
         // Xóa ảnh của sản phẩm trong thư mục images và trong bảng product_images
         $sql_select_images = "SELECT path_image FROM product_images WHERE product_id=$product_id";
@@ -258,6 +286,7 @@ if ($result_category->num_rows > 0) {
 
     <!-- Form thêm mới sản phẩm -->
     <form method="POST" action="" enctype="multipart/form-data">
+         <input type="text" name="product_id" placeholder="Mã sản phẩm" required><br>
         <input type="text" name="product_name" placeholder="Tên sản phẩm" required><br>
         <textarea name="product_description" placeholder="Mô tả sản phẩm" required></textarea><br>
         <input type="text" name="product_price" placeholder="Giá sản phẩm" required><br>

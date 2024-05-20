@@ -90,6 +90,8 @@
         }
     </style>
 </head>
+<a href="../admin/index.php">Trở về trang chủ</a>
+
 
 <body>
 
