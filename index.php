@@ -26,6 +26,10 @@
         ?>
 
         <?php
+            include "assets/sales.php";
+        ?>
+
+        <?php
         include "assets/banner-news.php";
         ?>
 
@@ -35,6 +39,12 @@
             <?php
             include "assets/outstanding.php";
             ?>
+
+            <div class="container-btn-see-more">
+                <button type="button" class="see-more">
+                    <a href="all-item.php">Xem Thêm</a>
+                </button>
+            </div>
         </section>
 
         <style>
@@ -54,6 +64,28 @@
     <style>
         #main-page{
             position: relative;
+        }
+
+        .container-btn-see-more{
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .see-more{
+            padding: 15px 50px;
+            border: none;
+            background-color: #dd9933;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all ease-in-out 0.3s;
+        }
+
+        .see-more a{
+            color: #fff;
+        }
+
+        .see-more:hover{
+            background-color: #fb9c0d;
         }
     </style>
 </body>

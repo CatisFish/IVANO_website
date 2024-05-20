@@ -8,9 +8,16 @@
                     <i class="fa-solid fa-plus"></i> <span>Tuyển Dụng</span>
                 </a>
 
+                <a href="" class="view-orders"><i class="fa-solid fa-headphones-simple"></i></a>
+
                 <a href="login-register/index.html" class="login-link">
-                    <span>Đăng Nhập</span><i class="fa-regular fa-user"></i>
+                    <i class="fa-regular fa-user"></i>
                 </a>
+
+
+
+
+
             </div>
         </section>
     </div>
@@ -26,7 +33,7 @@
                 </ul>
             </nav>
 
-            <a href="" class="logo-page"><img src="images/logo.png" alt="LOGO"></a>
+            <a href="index.php" class="logo-page"><img src="images/logo.png" alt="LOGO"></a>
 
             <nav class="nav-right">
                 <ul class="container-nav-item">
@@ -38,6 +45,34 @@
                             <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </form>
                     </li>
+
+                    <div class="shopping-cart-page" onclick="showCart(event)">
+                        <a href="#">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                            <p id="lenght-cart"></p>
+                        </a>
+
+                        <div id="show-cart">
+                            <div class="cart-top">
+                                <h2>Giỏ Hàng</h2>
+                                <button type="button" id="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            
+                            <div id="my-cart">
+                                <p id="cart-items"></p>
+                            </div>
+
+                            <div id="checkout">
+                                <p id="cart-total">Tổng tiền: <span>0 đ</span></p>
+
+                                <div class="container-clear-cart">
+                                    <button type="button" class="clear-cart-btn">Clear Giỏ Hàng</button>
+                                </div>
+
+                                <a id="view-cart-link" href="checkout.php">Thanh Toán</a>
+                            </div>
+                        </div>
+                    </div>
                 </ul>
             </nav>
         </section>
@@ -69,18 +104,21 @@
         gap: 20px;
     }
 
+    .view-orders,
     .recruitment-link,
     .login-link {
         color: #221F20;
         font-weight: 600;
         font-size: 11px;
         background-color: rgb(74, 234, 220);
-        padding: 10px 20px;
         border-radius: 10px;
-        padding: 10px 20px;
+        padding: 10px 15px;
         transition: all ease-in-out 0.3s;
+        cursor: pointer;
     }
 
+    .view-orders:hover,
+    .shopping-cart-page:hover,
     .recruitment-link:hover,
     .login-link:hover {
         background-color: rgb(57, 207, 197);
@@ -88,11 +126,7 @@
 
     .recruitment-link i {
         margin-right: 10px;
-    }
-
-    .login-link i {
-        margin-left: 10px;
-    }
+    }    
 </style>
 
 <!-- header-bottom -->
@@ -143,8 +177,6 @@
         font-weight: 600;
     }
 
-    .nav-item:hover {}
-
     .nav-right {
         text-align: center;
     }
@@ -152,6 +184,103 @@
     .nav-right a {
         color: #FFF;
     }
+
+    .cart-top{
+        align-items: center;
+        color: #FFF;
+        font-weight: 700;
+        padding: 10px 0;
+    }
+
+    .shopping-cart-page {
+        color: #221F20;
+        font-weight: 600;
+        background-color: rgb(74, 234, 220);
+        border-radius: 10px;
+        padding: 10px 15px;
+        transition: all ease-in-out 0.3s;
+        cursor: pointer;
+    }
+
+    #show-cart {
+        position: fixed;
+        width: 318px;
+        height: 650px;
+        box-shadow: 0 8px 10px 0 rgb(0 0 0 / 10%);
+        right: -65px;
+        top: 0px;
+        background-color: #221F20;
+        transition: all ease-in-out 0.3s;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        z-index: 500;
+    }
+
+    #close-cart-btn {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 10px 13px;
+        cursor: pointer;
+    }
+
+    #lenght-cart {
+        font-size: 15px;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        color: #000;
+        font-weight: 600;
+        transition: all ease-in-out 0.3s;
+    }
+
+    #my-cart {
+        max-height: 420px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #999 transparent;
+        overflow-x: hidden;
+        padding: 10px;
+    }
+
+    #my-cart::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    #show-cart.show {
+        opacity: 1;
+        right: 0px;
+        transition: all ease-in-out 0.3s;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .clear-cart-btn{
+    background-color: #FFD400;
+    width: 100%;
+    border: none;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    
+}
+
+/* #view-cart-link{
+    color: #221F20;
+    padding: 10px;
+    margin: 10px 0px;
+    background-color: #FFD400;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+} */
+
 </style>
 
 <!-- search -->
@@ -189,7 +318,34 @@
 </style>
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var showCartBtn = document.querySelector('.shopping-cart-page a');
+        var closeCartBtn = document.getElementById('close-cart-btn');
+        var cart = document.getElementById('show-cart');
 
+        function showCart(event) {
+            event.stopPropagation();
+            if (!cart.classList.contains('show')) {
+                cart.classList.add('show');
+            }
+        }
+
+        function closeCart(event) {
+            event.stopPropagation();
+            cart.classList.remove('show');
+        }
+
+        showCartBtn.addEventListener('click', showCart);
+        closeCartBtn.addEventListener('click', closeCart);
+
+        window.addEventListener('click', function(event) {
+            if (!cart.contains(event.target) && !showCartBtn.contains(event.target)) {
+                cart.classList.remove('show');
+            }
+        });
+    });
+</script>
 
 
 
