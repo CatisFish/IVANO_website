@@ -33,66 +33,64 @@
 </section>
 
 <script>
-   document.addEventListener("DOMContentLoaded", function () {
-    var carouselInner = document.querySelector(".carousel-inner");
-    var items = document.querySelectorAll(".carousel-item");
-    var totalItems = items.length;
-    var currentIndex = 0;
-    var slideInterval;
+    document.addEventListener("DOMContentLoaded", function() {
+        var carouselInner = document.querySelector(".carousel-inner");
+        var items = document.querySelectorAll(".carousel-item");
+        var totalItems = items.length;
+        var currentIndex = 0;
+        var slideInterval;
 
-    function shiftAndMove() {
-        carouselInner.style.transition = "transform 1s ease-in-out";
-        carouselInner.style.transform = "translateX(-100%)";
+        function shiftAndMove() {
+            carouselInner.style.transition = "transform 1s ease-in-out";
+            carouselInner.style.transform = "translateX(-100%)";
 
-        setTimeout(function () {
-            var firstItem = document.querySelector(".carousel-item:first-child");
-            carouselInner.appendChild(firstItem);
-            carouselInner.style.transition = "none";
-            carouselInner.style.transform = "translateX(0)";
+            setTimeout(function() {
+                var firstItem = document.querySelector(".carousel-item:first-child");
+                carouselInner.appendChild(firstItem);
+                carouselInner.style.transition = "none";
+                carouselInner.style.transform = "translateX(0)";
+                currentIndex = (currentIndex + 1) % totalItems;
+            }, 1000);
+        }
+
+        function nextSlide() {
             currentIndex = (currentIndex + 1) % totalItems;
-        }, 1000); 
-    }
+            updateCarousel();
+        }
 
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % totalItems;
-        updateCarousel();
-    }
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+            updateCarousel();
+        }
 
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-        updateCarousel();
-    }
+        function updateCarousel() {
+            const offset = -currentIndex * 100;
+            carouselInner.style.transition = 'transform 1s ease-in-out';
+            carouselInner.style.transform = `translateX(${offset}%)`;
+        }
 
-    function updateCarousel() {
-        const offset = -currentIndex * 100;
-        carouselInner.style.transition = 'transform 1s ease-in-out';
-        carouselInner.style.transform = `translateX(${offset}%)`;
-    }
+        function startSlide() {
+            slideInterval = setInterval(shiftAndMove, 3000);
+        }
 
-    function startSlide() {
-        slideInterval = setInterval(shiftAndMove, 3000);
-    }
+        function stopSlide() {
+            clearInterval(slideInterval);
+        }
 
-    function stopSlide() {
-        clearInterval(slideInterval);
-    }
-
-    startSlide();
-
-    document.querySelector(".next-banner-button").addEventListener("click", function () {
-        nextSlide();
-        stopSlide();
         startSlide();
+
+        document.querySelector(".next-banner-button").addEventListener("click", function() {
+            nextSlide();
+            stopSlide();
+            startSlide();
+        });
+
+        document.querySelector(".prev-banner-button").addEventListener("click", function() {
+            prevSlide();
+            stopSlide();
+            startSlide();
+        });
     });
-
-    document.querySelector(".prev-banner-button").addEventListener("click", function () {
-        prevSlide();
-        stopSlide();
-        startSlide();
-    });
-});
-
-
 </script>
 
 <style>
@@ -152,6 +150,7 @@
         margin-left: 10px;
     }
 
+    
     .banner-right-item {
         width: 100%;
         height: 135px;
@@ -163,6 +162,7 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
+        background: none;
         background: rgba(0, 0, 0, 0.5);
         color: white;
         padding: 20pX 10px;
