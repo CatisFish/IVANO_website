@@ -167,6 +167,7 @@ if (isset($_POST['add_advertisement'])) {
     }
 }
 
+
 // Xử lý xóa quảng cáo
 if (isset($_GET['delete_advertisement'])) {
     $ad_id = $_GET['delete_advertisement'];

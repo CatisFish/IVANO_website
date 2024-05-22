@@ -5,7 +5,9 @@ use Twilio\Rest\Client;
 
 // Thông tin tài khoản Twilio
 
-
+$sid = 'ACe58cc7c153ad1979f8bd9eacd9a48f6a';
+$token = '36bdd1246ceb38e5f4759850c56c8a91';
+$twilio_number = '+12563804538';
 // Số điện thoại của người nhận
 $recipient_number = '+84372762988';
 
