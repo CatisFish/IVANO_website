@@ -3,22 +3,11 @@
         <section class="header-top">
             <p>ĐIỂM TÔ CUỘC SỐNG - TIẾP BƯỚC THÀNH CÔNG</p>
 
-            <div class="header-top-right">
-                <a href="" class="recruitment-link">
-                    <i class="fa-solid fa-plus"></i> <span>Tuyển Dụng</span>
-                </a>
-
-                <a href="" class="view-orders"><i class="fa-solid fa-headphones-simple"></i></a>
-
-                <a href="login-register/index.html" class="login-link">
-                    <i class="fa-regular fa-user"></i>
-                </a>
+            <!-- <div class="header-top-right">
+                
 
 
-
-
-
-            </div>
+            </div> -->
         </section>
     </div>
 
@@ -26,52 +15,33 @@
         <section class="header-bottom">
             <nav class="nav-left">
                 <ul class="container-nav-item">
-                    <li class="nav-item"><a href="">Sản Phẩm</a></li>
-                    <li class="nav-item"><a href="">Giới Thiệu</a></li>
-                    <li class="nav-item"><a href="">Tin Tức</a></li>
-                    <li class="nav-item"><a href="">Liên Hệ</a></li>
+                    <li class="nav-item"><a href="all-item.php">Sản Phẩm</a></li>
+                    <li class="nav-item"><a href="">Đại Lý</a></li>
+                    <li class="nav-item"><a href="">Bảng Màu</a></li>
+                    <li class="nav-item"><a href="">Tuyển Dụng</a></li>
                 </ul>
             </nav>
 
             <a href="index.php" class="logo-page"><img src="images/logo.png" alt="LOGO"></a>
 
             <nav class="nav-right">
-                <ul class="container-nav-item">
-                    <li class="nav-item"><a href="">Đại Lý</a></li>
-                    <li class="nav-item"><a href="">Bảng Màu</a></li>
-                    <li class="nav-item">
-                        <form action="assets/search.php" class="search-box">
-                            <input type="text" placeholder="Nhập sản phẩm cần tìm..." class="search-text">
-                            <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-                        </form>
-                    </li>
+                <form class="search-box" action="search.php" method="GET">
+                    <input type="text" class="search-text" placeholder="Sản phẩm cần tìm..." name="search" required>
+                    <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+
+                <ul class="container-nav-right-item">
+                    <a href="" class="view-orders item-nav-right"><i class="fa-solid fa-headphones-simple"></i></a>
+
+                    <a href="login-register/index.html" class="login-link item-nav-right"><i class="fa-regular fa-user"></i></a>
 
                     <div class="shopping-cart-page" onclick="showCart(event)">
                         <a href="#">
-                            <i class="fa-solid fa-basket-shopping"></i>
+                            <i class="fa-solid fa-basket-shopping item-nav-right"></i>
                             <p id="lenght-cart"></p>
                         </a>
 
-                        <div id="show-cart">
-                            <div class="cart-top">
-                                <h2>Giỏ Hàng</h2>
-                                <button type="button" id="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
-                            </div>
-                            
-                            <div id="my-cart">
-                                <p id="cart-items"></p>
-                            </div>
 
-                            <div id="checkout">
-                                <p id="cart-total">Tổng tiền: <span>0 đ</span></p>
-
-                                <div class="container-clear-cart">
-                                    <button type="button" class="clear-cart-btn">Clear Giỏ Hàng</button>
-                                </div>
-
-                                <a id="view-cart-link" href="checkout.php">Thanh Toán</a>
-                            </div>
-                        </div>
                     </div>
                 </ul>
             </nav>
@@ -103,30 +73,6 @@
         display: flex;
         gap: 20px;
     }
-
-    .view-orders,
-    .recruitment-link,
-    .login-link {
-        color: #221F20;
-        font-weight: 600;
-        font-size: 11px;
-        background-color: rgb(74, 234, 220);
-        border-radius: 10px;
-        padding: 10px 15px;
-        transition: all ease-in-out 0.3s;
-        cursor: pointer;
-    }
-
-    .view-orders:hover,
-    .shopping-cart-page:hover,
-    .recruitment-link:hover,
-    .login-link:hover {
-        background-color: rgb(57, 207, 197);
-    }
-
-    .recruitment-link i {
-        margin-right: 10px;
-    }    
 </style>
 
 <!-- header-bottom -->
@@ -155,15 +101,14 @@
 
     }
 
-    .logo-page:hover img {
-        scale: 105%;
-    }
-
     .logo-page img {
         width: 170px;
         height: 70px;
-
         transition: all ease-in-out 0.3s;
+    }
+
+    .logo-page:hover img {
+        scale: 105%;
     }
 
     .container-nav-item {
@@ -177,145 +122,71 @@
         font-weight: 600;
     }
 
-    .nav-right {
-        text-align: center;
+    .nav-item a{
+        transition: all ease-in-out 0.3s;
     }
 
-    .nav-right a {
+    .nav-item:hover a{
         color: #FFF;
     }
-
-    .cart-top{
-        align-items: center;
-        color: #FFF;
-        font-weight: 700;
-        padding: 10px 0;
-    }
-
-    .shopping-cart-page {
-        color: #221F20;
-        font-weight: 600;
-        background-color: rgb(74, 234, 220);
-        border-radius: 10px;
-        padding: 10px 15px;
-        transition: all ease-in-out 0.3s;
-        cursor: pointer;
-    }
-
-    #show-cart {
-        position: fixed;
-        width: 318px;
-        height: 650px;
-        box-shadow: 0 8px 10px 0 rgb(0 0 0 / 10%);
-        right: -65px;
-        top: 0px;
-        background-color: #221F20;
-        transition: all ease-in-out 0.3s;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        z-index: 500;
-    }
-
-    #close-cart-btn {
-        position: absolute;
-        right: 0;
-        top: 0;
-        padding: 10px 13px;
-        cursor: pointer;
-    }
-
-    #lenght-cart {
-        font-size: 15px;
-        position: absolute;
-        top: -10px;
-        right: -10px;
-        color: #000;
-        font-weight: 600;
-        transition: all ease-in-out 0.3s;
-    }
-
-    #my-cart {
-        max-height: 420px;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: #999 transparent;
-        overflow-x: hidden;
-        padding: 10px;
-    }
-
-    #my-cart::-webkit-scrollbar {
-        width: 2px;
-    }
-
-    #show-cart.show {
-        opacity: 1;
-        right: 0px;
-        transition: all ease-in-out 0.3s;
-        visibility: visible;
-        pointer-events: auto;
-    }
-
-    .clear-cart-btn{
-    background-color: #FFD400;
-    width: 100%;
-    border: none;
-    padding: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    
-}
-
-/* #view-cart-link{
-    color: #221F20;
-    padding: 10px;
-    margin: 10px 0px;
-    background-color: #FFD400;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    text-align: center;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-} */
-
 </style>
 
 <!-- search -->
 <style>
-    .container-nav-item {
-        align-items: center;
-    }
-
     .search-box {
-        display: flex;
-        height: 40px;
-        border: 1px solid #eee;
-        border-radius: 10px;
-        background-color: #FFF;
+        background: #fff;
+        border: 1px solid #fff;
+        border-radius: 30px;
+        margin-right: 20px;
+        position: relative;
     }
 
     .search-text {
-        width: 200px;
-        padding: 10px;
+        background: #fff;
         border: none;
         outline: none;
-        margin-left: 5px;
         background: none;
+        width: 0;
+        padding: 0;
+        transition: all 0.50s ease-in-out;
+        color: #221f20;
+    }
+
+    .search-box:hover .search-text,
+    .search-box .search-text:valid {
+        width: 230px;
+        padding: 10px 10px 10px 20px;
     }
 
     .search-btn {
-        width: 40px;
-        height: 40px;
+        background-color: #fff;
         border: none;
         cursor: pointer;
-        border-left: 1px solid #eee;
-        border-radius: 10px;
-        background: none;
+        border-radius: 50%;
+        padding: 10px;
     }
 </style>
+
+<!-- nav-bottom-right -->
+<style>
+    .nav-right{
+        display: flex;
+        align-items: center;
+    }
+
+    .container-nav-right-item{
+        display: flex;
+        margin-left: 20px;
+        gap: 30px;
+        font-size: 20px;
+    }
+
+    .view-orders {
+        padding-left: 40px;
+        border-left: 1px solid #000;
+    }
+</style>
+
 
 
 <script>
