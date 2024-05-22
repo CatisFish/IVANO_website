@@ -26,10 +26,6 @@
         ?>
 
         <?php
-            include "assets/sales.php";
-        ?>
-
-        <?php
         include "assets/banner-news.php";
         ?>
 
@@ -39,12 +35,6 @@
             <?php
             include "assets/outstanding.php";
             ?>
-
-            <div class="container-btn-see-more">
-                <button type="button" class="see-more">
-                    <a href="all-item.php">Xem Thêm</a>
-                </button>
-            </div>
         </section>
 
         <section class="container-show-list-category">
@@ -69,30 +59,31 @@
         #main-page{
             position: relative;
         }
-
-        .container-btn-see-more{
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .see-more{
-            padding: 15px 50px;
-            border: none;
-            background-color: #dd9933;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all ease-in-out 0.3s;
-        }
-
-        .see-more a{
-            color: #fff;
-        }
-
-        .see-more:hover{
-            background-color: #fb9c0d;
-        }
     </style>
 </body>
+
+<?php
+// Kết nối tới cơ sở dữ liệu;
+include './php/conection.php';
+
+// Lấy product_id từ URL
+if(isset($_GET['product_id'])) {
+    $product_id = $_GET['product_id'];
+    
+    // Tăng click_count trong bảng products_clicks
+    $sql = "UPDATE products_clicks SET click_count = click_count + 1 WHERE product_id = $product_id";
+    
+    if ($conn->query($sql) === TRUE) {
+        echo "Click count updated successfully";
+    } else {
+        echo "Error updating click count: " . $conn->error;
+    }
+} else {
+    echo "Product ID not provided";
+}
+
+$conn->close();
+?>
 
 
 </html>

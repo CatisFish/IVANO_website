@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thống kê đơn hàng theo năm</title>
+    <title>Đơn hàng theo năm</title>
     <style>
         /* CSS cho bảng */
         table {

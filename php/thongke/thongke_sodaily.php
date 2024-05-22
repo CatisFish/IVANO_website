@@ -6,7 +6,7 @@
     <title>Thống kê số đại lý</title>
 </head>
 <body>
-    <h1>Thống kê số đại lý</h1>
+    <h1>Số lượng các đại lý</h1>
 
     <?php
     // Kết nối đến cơ sở dữ liệu

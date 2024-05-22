@@ -10,94 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<!-- style.css -->
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    .sidebar {
-        width: 15%;
-        height: 100%;
-        background-color: #333;
-        color: #fff;
-        position: fixed;
-        top: 0;
-        left: 0;
-        transition: width 0.3s ease;
-        overflow-y: auto;
-        border-top-right-radius: 30px;
-        border-bottom-right-radius: 30px;
-    }
-
-    .content {
-        margin-left: 15%;
-        padding: 20px;
-        transition: margin-left 0.3s ease;
-        height: 100%;
-    }
-
-    .top-sidebar {
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #fff;
-    }
-
-    .nav-icons ul {
-        list-style: none;
-        padding: 0;
-        margin: 50px 0 0 10px;
-    }
-
-    .nav-icons ul li {
-        margin: 0 0 25px 10px;
-    }
-
-    .nav-icons ul li a {
-        display: block;
-        color: #fff;
-        text-decoration: none;
-    }
-
-    .nav-icons ul li a i {
-        margin-right: 10px;
-        width: 30px;
-        height: 30px;
-    }
-
-    #toggleButton {
-        width: 30px;
-        height: 30px;
-        cursor: pointer;
-    }
-
-    .top-sidebar h2,
-    .nav-icons ul li a span {
-        transition: transform 0.3s ease;
-    }
-
-    .hidden .top-sidebar h2,
-    .hidden .nav-icons ul li a span {
-        transform: translateX(-100%);
-    }
-
-    .content-box {
-        background-color: #f9f9f9;
-        padding: 15px;
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-
-    .content-box p {
-        margin: 0;
-    }
-</style>
-
 <body>
     <div class="sidebar" id="sidebar">
         <?php
@@ -106,42 +18,28 @@
     </div>
 
     <div class="content" id="content">
-        <h2>Welcome to Dashboard</h2>
+       
         <div class="content-box">
-        <?php
-
-            include "../php/thongke/thongke_sodaily.php";
-        ?>
+            <?php include "../php/thongke/thongke_sodaily.php"; ?>
         </div>
         <div class="content-box">
-        <?php
-            include "../php/thongke/thongke_user.php";
-        ?>
+            <?php include "../php/thongke/thongke_user.php"; ?>
         </div>
         <div class="content-box">
-        <?php
-            include "../php/thongke/thongke_sodonhang.php";
-        ?>
+            <?php include "../php/thongke/thongke_sodonhang.php"; ?>
         </div>
         <div class="content-box">
-        <?php
-            include "../php/thongke/thongke_soluongsanpham.php";
-        ?>
+            <?php include "../php/thongke/thongke_soluongsanpham.php"; ?>
         </div>
         <div class="content-box">
-        <?php
-            include "../php/thongke/top_product.php";
-        ?>
+            <?php include "../php/thongke/top_product.php"; ?>
         </div>
         <div class="content-box">
-        <?php
-            include "../php/thongke/doanhthu_theohoadon.php";
-            include "../php/thongke/donhang_theothang.php";
-            include "../php/thongke//donhang_theonam.php";
-
-
-
-        ?>
+            <?php
+                include "../php/thongke/doanhthu_theohoadon.php";
+                include "../php/thongke/donhang_theothang.php";
+                include "../php/thongke/donhang_theonam.php";
+            ?>
         </div>
     </div>
 

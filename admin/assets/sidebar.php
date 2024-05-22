@@ -50,6 +50,8 @@
                 <li><a href="../php/thongke/quanly_nhanvien.php">Thống kê nhân viên</a></li>
             </ul>
         </li>
+        <li><a href="../php/colors.php"><i class="fa fa-chart-bar"></i><span>Màu</span></a></li>
+
     </ul>
 </div>
 

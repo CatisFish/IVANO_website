@@ -6,7 +6,7 @@
     <title>Thống kê số lượng sản phẩm</title>
 </head>
 <body>
-    <h1>Thống kê số lượng sản phẩm</h1>
+    <h1>Số lượng sản phẩm</h1>
 
     <?php
     // Kết nối đến cơ sở dữ liệu
