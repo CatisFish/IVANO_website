@@ -26,9 +26,9 @@
             </div>
 
             <div class="container-filter-btn">
-                <label for="sort">Bộ lọc:</label>
+                <label for="sort">Bộ sắp xếp:</label>
                 <select id="sort" onchange="sortItems()">
-                    <option>Chọn 1 cách lọc</option>
+                    <option>Chọn 1 cách sắp xếp</option>
                     <option value="product-price-asc">Thứ tự theo giá: Thấp đến Cao</option>
                     <option value="product-price-desc">Thứ tự theo giá: Cao xuống Thấp</option>
                 </select>
@@ -39,8 +39,20 @@
             <div class="left-content-all-item">
                 <div class="container-brands-all-item">
                     <h3>DANH MỤC</h3>
-                    <p>Sơn IVANO</p>
-                    <p>Sơn MEKONG</p>
+                    <ul class="menu-all-item">
+            <li onclick="toggleSubmenu(this)">Sơn IVANO <i class="fa-solid fa-angle-down"></i>
+                <ul class="submenu-all-item">
+                    <li onclick="submenuItemClicked(event)">Sơn chống thấm</li>
+                    <li onclick="submenuItemClicked(event)">Sơn lót</li>
+                </ul>
+            </li>
+            <li onclick="toggleSubmenu(this)">Sơn MEKONG <i class="fa-solid fa-angle-down"></i>
+                <ul class="submenu-all-item">
+                    <li onclick="submenuItemClicked(event)">Sơn chống thấm</li>
+                    <li onclick="submenuItemClicked(event)">Sơn lót</li>
+                </ul>
+            </li>
+        </ul>
                 </div>
             </div>
 
@@ -68,7 +80,7 @@
         transition: all ease-in-out 0.3s;
     }
 
-    .header-all-item a:hover{
+    .header-all-item a:hover {
         color: #DD9933;
     }
 
@@ -103,14 +115,9 @@
         cursor: pointer;
     }
 
-    .left-content-all-item {
-        width: 20%;
-        position: fixed;
-    }
-
     .right-content-all-item {
         width: 80%;
-        margin-left: 20%;
+        margin-left: 25%;
     }
 </style>
 
@@ -146,5 +153,139 @@
         });
     }
 </script>
+
+<style>
+    .left-content-all-item {
+            width: 20%;
+            position: fixed;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .left-content-all-item h3 {
+            font-size: 18px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .menu-all-item {
+            font-size: 16px;
+            margin: 10px 0;
+            list-style-type: none;
+            transition: all ease-in-out 0.3s; 
+        }
+        .menu-all-item li {
+            cursor: pointer;
+            margin: 20px 0;
+            position: relative;
+            font-weight: 600;
+            transition: all ease-in-out 0.3s;
+        }
+        .menu-all-item li i {
+           margin-left: 10px;
+        }
+        .submenu-all-item {
+            margin-left: 20px;
+            font-size: 14px;
+            list-style-type: none;
+            opacity: 0;
+            visibility: hidden;
+            height: 0;
+            overflow: hidden;
+            transform: translateY(-20px);
+            transition: opacity 0.5s ease, visibility 0.5s ease, height 0.5s ease, transform 0.5s ease;
+        }
+        .submenu-all-item li {
+            margin: 20px 0;
+            font-weight: 500;
+        }
+        .menu-all-item li.active .submenu-all-item {
+            opacity: 1;
+            visibility: visible;
+            height: auto;
+            transform: translateY(0);
+            overflow: visible; 
+        }
+
+        /* Hiệu ứng hover cho menu cấp 1 */
+.menu-all-item > li:hover {
+    color: #DD9933;
+}
+
+/* Loại bỏ hiệu ứng hover cho submenu */
+.submenu-all-item li:hover {
+    color: initial;
+}
+
+/* Loại bỏ hiệu ứng hover cho menu cấp 1 khi submenu đang hiển thị */
+.menu-all-item > li.active:hover {
+    color: initial;
+}
+
+/* Hiệu ứng hover cho các mục submenu khi submenu đang hiển thị */
+.menu-all-item > li.active .submenu-all-item li:hover {
+    color: #DD9933;
+}
+
+
+
+
+
+
+
+
+
+</style>
+
+<script>
+     function toggleSubmenu(element) {
+            const menuItems = document.querySelectorAll('.menu-all-item > li');
+
+            menuItems.forEach(item => {
+                if (item !== element) {
+                    item.classList.remove('active');
+                    const submenu = item.querySelector('.submenu-all-item');
+                    const icon = item.querySelector('i');
+                    if (submenu) {
+                        submenu.style.opacity = '0';
+                        submenu.style.visibility = 'hidden';
+                        submenu.style.height = '0';
+                        submenu.style.transform = 'translateY(-20px)';
+                        icon.classList.remove('fa-angle-up');
+                        icon.classList.add('fa-angle-down');
+                    }
+                }
+            });
+
+            element.classList.toggle('active');
+            const submenu = element.querySelector('.submenu-all-item');
+            const icon = element.querySelector('i');
+            if (submenu) {
+                if (element.classList.contains('active')) {
+                    submenu.style.opacity = '1';
+                    submenu.style.visibility = 'visible';
+                    submenu.style.height = 'auto';
+                    submenu.style.transform = 'translateY(0)';
+                    submenu.style.overflow = 'visible';
+                    icon.classList.remove('fa-angle-down');
+                    icon.classList.add('fa-angle-up');
+                } else {
+                    submenu.style.opacity = '0';
+                    submenu.style.visibility = 'hidden';
+                    submenu.style.height = '0';
+                    submenu.style.transform = 'translateY(-20px)';
+                    submenu.style.overflow = 'hidden'; 
+                    icon.classList.remove('fa-angle-up');
+                    icon.classList.add('fa-angle-down');
+                }
+            }
+        }
+
+        function submenuItemClicked(event) {
+            event.stopPropagation();
+            alert('Submenu item clicked: ' + event.target.textContent);
+        }
+</script>
+
 
 </html>

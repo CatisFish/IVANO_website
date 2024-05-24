@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/custom-scroll.css">
     <title>Thông Tin Sản Phẩm | IVANO</title>
 </head>
 
@@ -16,7 +15,6 @@
         <?php
         include "assets/header.php";
 
-        // Kiểm tra xem product_id đã được truyền qua URL hay không
         if (isset($_GET['product_id'])) {
             $productId = $_GET['product_id'];
 
@@ -29,7 +27,6 @@
             $stmt->execute();
             $stmt->close();
 
-            // Truy vấn chi tiết sản phẩm
             $detailSql = "SELECT p.*, pi.path_image, b.brand_name, c.category_name
                         FROM products p
                         LEFT JOIN product_images pi ON p.product_id = pi.product_id
@@ -144,7 +141,7 @@
 </body>
 
 <style>
-    <style>.product-detail-container {
+    .product-detail-container {
         width: 90%;
         margin: 20px auto;
     }
@@ -166,17 +163,21 @@
     }
 
     .product-detail {
+        width: 85%;
         display: flex;
-        justify-content: space-around;
-        margin-top: 20px;
+        justify-content: space-between;
+        margin: 20px auto;
     }
 
     .detail-left img {
         width: 510px;
         height: 612px;
+        margin-right: 20px;
     }
 
-    .detail-right {}
+    .detail-right {
+        margin-left: 20px;
+    }
 
     .product-name {
         font-size: 24px;
