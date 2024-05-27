@@ -10,7 +10,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="css/global.css">
-
     <link rel="stylesheet" href="css/custom-scroll.css">
 
     <title>Trang Chủ | IVANO</title>
