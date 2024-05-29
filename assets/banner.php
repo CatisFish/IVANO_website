@@ -1,34 +1,60 @@
+
+
+<?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $database = "ivano_website";
+
+    $conn = new mysqli($servername, $username, $password, $database);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Query to get only one banner for the left carousel
+    $sql_left = "SELECT banner_title, banner_img FROM banners";
+    $result_left = $conn->query($sql_left);
+?>
+
 <section class="banner-page">
     <div id="infiniteCarousel" class="carousel banner-left">
         <div class="carousel-inner">
-            <div class="carousel-item">
-                <img src="./images/vn-50009109-3b4844af326ff3b9c1e1793d0dbda9f3_xxhdpi.jpg" alt="Image 1">
-                <div class="carousel-caption">
-                    <h1>HỢP TÁC KHOA HỌC VIỆT - NHẬT</h1>
-                    <p>KHẲNG ĐỊNH CHẤT LƯỢNG TRONG TỪNG CÔNG TRÌNH</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="./images/vn-50009109-8ade39b303e98847359dad8e272ff03b_xxhdpi.jpg" alt="Image 2">
-                <div class="carousel-caption">
-                    <h1>Banner 2</h1>
-                    <p>Mô tả cho Banner 2</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="./images/vn-50009109-2f73310fe4fc32b9a2e5fb278fdc7d10_xxhdpi.jpg" alt="Image 3">
-                <div class="carousel-caption">
-                    <h1>Banner 3</h1>
-                    <p>Mô tả cho Banner 3</p>
-                </div>
-            </div>
+            <?php
+                // Check if there are any banners
+                if ($result_left && $result_left->num_rows > 0) {
+                    // Output data of each row
+                    while($row_left = $result_left->fetch_assoc()) {
+                        echo '<div class="carousel-item">';
+                        echo '<img src="./images/' . $row_left['banner_img'] . '" alt="' . $row_left['banner_title'] . '">';
+                        echo '<div class="carousel-caption">';
+                        echo '<h1>' . $row_left['banner_title'] . '</h1>';
+                        // Add description if available
+                        echo '<p>Mô tả cho ' . $row_left['banner_title'] . '</p>';
+                        echo '</div></div>';
+                    }
+                } else {
+                    echo '<p>No banners available</p>';
+                }
+            ?>
         </div>
         <button class="prev-banner-button"><i class="fa-solid fa-chevron-left"></i></button>
         <button class="next-banner-button"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
+
     <div class="banner-right">
-        <img src="images/vn-50009109-6097008a59200498687d270587c8b203_xhdpi.jpg" alt="" class="banner-right-item">
-        <img src="images/vn-50009109-b2efdb428063416e76ce8aac82fdc939_xhdpi.jpg" alt="" class="banner-right-item">
+        <?php
+            // Display banners in the right section (assuming you want to display all banners)
+            $sql_right = "SELECT banner_title, banner_img FROM banners";
+            $result_right = $conn->query($sql_right);
+            if ($result_right && $result_right->num_rows > 0) {
+                while($row_right = $result_right->fetch_assoc()) {
+                    echo '<img src="./images/' . $row_right['banner_img'] . '" alt="' . $row_right['banner_title'] . '" class="banner-right-item">';
+                }
+            } else {
+                echo '<p>No banners available</p>';
+            }
+        ?>
     </div>
 </section>
 
