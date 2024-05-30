@@ -242,6 +242,40 @@
     
 </style>
 
+
+
+
+
+<?php
+    // Database connection
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $database = "ivano_website";
+
+    $conn = new mysqli($servername, $username, $password, $database);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Query to get popup content
+    $sql_popup = "SELECT popup_content, popup_img, popup_description FROM popups "; // Replace '1' with the desired popup_id
+    $result_popup = $conn->query($sql_popup);
+
+    // Initialize variables with default values
+    $popup_title = "Popup Title";
+    $popup_img = "uploads/default_popup_img.jpg";
+    $popup_description = "Popup Description";
+
+    if ($result_popup && $result_popup->num_rows > 0) {
+        $row_popup = $result_popup->fetch_assoc();
+        $popup_title = $row_popup['popup_content'];
+        $popup_img = "uploads/" . $row_popup['popup_img'];
+        $popup_description = $row_popup['popup_description'];
+    }
+    ?>
+
 <div class="overlay" id="overlay"></div>
 
 <div class="popup-custom" id="popup-custom">
@@ -250,42 +284,74 @@
     </div>
 
     <div class="carousel-custom" id="carousel-custom">
-        <div class="slide-custom" style="background-image: url('images/BacksAndBeyond_Images_Learning_2-2000x700-1-1400x490.jpg');">
+        <div class="slide-custom" style="background-image: url('<?php echo $popup_img; ?>');">
             <div class="left-custom" id="left-container-custom-1">
-                <h1>Quà Tặng Cho Đại Lý Mới</h1>
-                <p>100 móc khoá giới hạn và hàng ngàn voucher giảm giá lên đến 40%</p>
+                <h1><?php echo $popup_title; ?></h1>
+                <p><?php echo $popup_description; ?></p>
                 <button class="signup-btn-custom" onclick="showFormCustom()">Nhận Ngay</button>
-            </div>
-        </div>
-        <div class="slide-custom" style="background-image: url('images/banner1.jpeg');">
-            <div class="left-custom" id="left-container-custom-2">
-                <h1>Ưu Đãi Đặc Biệt</h1>
-                <p>Giảm giá 50% cho tất cả sản phẩm trong tháng này</p>
-                <a href="javascript:void(0)" class="signup-btn-custom" target="_blank">Xem Ngay</a>
-            </div>
-        </div>
-        <div class="slide-custom" style="background-image: url('images/360_F_495286577_rpsT2Shmr6g81hOhGXALhxWOfx1vOQBa.jpg');">
-            <div class="left-custom" id="left-container-custom-3">
-                <h1>Khuyến Mãi Lớn</h1>
-                <p>Mua 1 tặng 1 cho các sản phẩm chỉ định</p>
-                <a href="javascript:void(0)" class="signup-btn-custom" target="_blank">Xem Ngay</a>
             </div>
         </div>
     </div>
 
     <div class="carousel-controls-custom">
-        <button id="prev-custom" onclick="prevSlideCustom()"><i class="fa-solid fa-angle-left"></i></button>
-        <button id="next-custom" onclick="nextSlideCustom()"><i class="fa-solid fa-angle-right"></i></button>
+        <!-- No need for carousel controls if only one slide -->
     </div>
     <div class="form-container-custom" id="form-container-custom">
-        <h2>Thông Tin Của Bạn</h2>
-        <form>
-            <button type="button" class="cancel-button" onclick="hideFormCustom()"><i class="fa-solid fa-xmark"></i></button>
-            <input type="text" placeholder="Họ Tên" required>
-            <input type="tel" placeholder="Số điện thoại (Đăng ký zalo)" required>
-            <button type="submit">Gửi</button>
-        </form>
-    </div>
+    <h2>Thông Tin Của Bạn</h2>
+    <form method="post" action="">
+        <button type="button" class="cancel-button" onclick="hideFormCustom()"><i class="fa-solid fa-xmark"></i></button>
+        <input type="text" name="ten" placeholder="Họ Tên" required>
+        <input type="tel" name="so_dien_thoai" placeholder="Số điện thoại (Đăng ký zalo)" required>
+        <button type="submit">Gửi</button>
+    </form>
+</div>
+
+
+    <?php
+  
+    // Kết nối đến cơ sở dữ liệu
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $database = "ivano_website";
+    
+    // Tạo kết nối
+    $conn = new mysqli($servername, $username, $password, $database);
+    
+    // Kiểm tra kết nối
+    if ($conn->connect_error) {
+        die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
+    }
+    
+    // Kiểm tra xem form đã được gửi chưa
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Lấy dữ liệu từ form
+        $ho_ten = $_POST['ten'];
+        $so_dien_thoai = $_POST['so_dien_thoai'];
+        
+        // Thời gian gửi
+        $thoi_gian_gui = date("Y-m-d H:i:s");
+    
+        // Thêm dữ liệu vào bảng tuvan_form
+        $sql = "INSERT INTO tuvan_form (ten, so_dien_thoai, ngay_gui) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sss", $ho_ten, $so_dien_thoai, $thoi_gian_gui);
+    
+        // Thực thi câu lệnh SQL
+        if ($stmt->execute()) {
+            echo "<p>Thông tin của bạn đã được gửi thành công.</p>";
+        } else {
+            echo "<p>Có lỗi xảy ra. Vui lòng thử lại sau.</p>";
+        }
+    
+        // Đóng câu lệnh prepare
+        $stmt->close();
+    }
+    
+    // Đóng kết nối
+    $conn->close();
+    ?>
+    
 </div>
 
 <script>
@@ -336,6 +402,6 @@
             document.getElementById('popup-custom').style.opacity = '1';
             overlay.style.display = 'block';
             document.getElementById('popup-custom').classList.add('show');
-        }, 5000);
+        }, 3000);
     });
 </script>

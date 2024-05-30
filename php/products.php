@@ -1,122 +1,106 @@
-<a href="../admin/index.php">Trở về trang chủ</a>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
 
+    }
 
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý sản phẩm</title>
-    <style>
-        /* CSS cho các phần input và button */
-        input[type="text"],
-        textarea,
-        select,
-        button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
+    form {
+        width: 50%;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-        input[type="file"] {
-            margin-top: 10px;
-        }
+    form input[type="text"],
+    form textarea,
+    form select,
+    form button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
 
-        /* CSS cho nút */
-        button[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
+    form button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        float: right;
+    }
 
-        button[type="submit"]:hover {
-            background-color: #45a049;
-        }
+    form button:hover {
+        background-color: #45a049;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
 
-        .container {
-            width: 80%;
-            margin: 0 auto;
-        }
+    th,
+    td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
 
-        h1 {
-            margin-top: 20px;
-        }
+    th {
+        background-color: #f2f2f2;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    td img {
+        max-width: 100px;
+        max-height: 100px;
+        display: block;
+        margin: 0 auto;
+    }
 
-        table th,
-        table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
+    a.button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 5px;
+    }
 
-        table th {
-            background-color: #f2f2f2;
-        }
+    a.button:hover {
+        background-color: #45a049;
+    }
 
-        table tbody tr:hover {
-            background-color: #f2f2f2;
-        }
+    a.delete-button {
+        background-color: #f44336;
+    }
 
-        table img {
-            max-width: 100px;
-            max-height: 100px;
-            display: block;
-            margin: 0 auto;
-        }
-
-        table td a {
-            text-decoration: none;
-            margin-right: 10px;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin-top: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
-</head>
+    a.delete-button:hover {
+        background-color: #da190b;
+    }
+</style>
 
 
 <?php
 // Kết nối đến cơ sở dữ liệu
-$servername = "localhost"; // Tên máy chủ cơ sở dữ liệu
-$username = "root"; // Tên người dùng MySQL
-$password = ""; // Mật khẩu MySQL
-$database = "ivano_website"; // Tên cơ sở dữ liệu
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "ivano_website";
 
 // Tạo kết nối
 $conn = new mysqli($servername, $username, $password, $database);
@@ -126,146 +110,140 @@ if ($conn->connect_error) {
     die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
 }
 
-// Xử lý thêm mới sản phẩm
+// Kiểm tra xem người dùng đã nhấn nút "Thêm" chưa
 if (isset($_POST['add_product'])) {
+    // Lấy thông tin sản phẩm từ form
     $product_id = $_POST['product_id'];
     $product_name = $_POST['product_name'];
     $product_description = $_POST['product_description'];
     $category_id = $_POST['category_id'];
     $brand_id = $_POST['brand_id'];
-    $product_price = $_POST['product_price'];
+    $productcategory_id = $_POST['productcategory_id'];
+    $product_size_id = $_POST['product_size_id']; // Thêm lấy thông tin product_size_id từ form
+
+    // Lấy giá sản phẩm từ form
+    $price = $_POST['price'];
 
     // Thêm sản phẩm vào bảng products
-    $sql_product = "INSERT INTO products (product_id, product_name, product_description, category_id, brand_id, product_price) VALUES ('$product_id','$product_name', '$product_description', '$category_id', '$brand_id', '$product_price')";
-    if ($conn->query($sql_product) === TRUE) {
-        $last_product_id = $conn->insert_id; // Lấy ID của sản phẩm vừa thêm
+    $sql_product = "INSERT INTO products (product_id, product_name, product_description, category_id, brand_id, ProductCategory_id) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt_product = $conn->prepare($sql_product);
+    $stmt_product->bind_param("ssssss", $product_id, $product_name, $product_description, $category_id, $brand_id, $productcategory_id);
 
-        // Thêm ảnh sản phẩm vào thư mục images và lưu đường dẫn vào cơ sở dữ liệu
-        $product_images = $_FILES['product_images']; // Danh sách ảnh đã upload
-        $uploaded_images = array();
-        foreach ($product_images['tmp_name'] as $key => $tmp_name) {
-            $image_name = $product_images['name'][$key];
-            $image_tmp_name = $product_images['tmp_name'][$key];
-            $upload_directory = "../admin/uploads/";
-            $target_file = $upload_directory . basename($image_name);
-            move_uploaded_file($image_tmp_name, $target_file); // Lưu ảnh vào thư mục images
+    // Thực thi câu lệnh SQL
+    if ($stmt_product->execute()) {
+        // Lưu giá trị product_id vào bảng products thành công
+        // Tiếp tục thêm giá và kích thước của sản phẩm vào bảng product_size
 
-            // Lưu đường dẫn của ảnh vào cơ sở dữ liệu
-            $uploaded_images[] = $target_file;
-            $sql_image = "INSERT INTO product_images (product_id, path_image) VALUES ('$last_product_id', '$target_file')";
-            $conn->query($sql_image);
-        }
+        // Thêm giá và kích thước của sản phẩm vào bảng product_size
+        $sql_product_size = "INSERT INTO product_size (product_id, size_id, price) VALUES (?, ?, ?)";
+        $stmt_product_size = $conn->prepare($sql_product_size);
+        $stmt_product_size->bind_param("sss", $product_id, $product_size_id, $price);
 
-        header("Location: products.php");
-        exit();
-    } else {
-        echo "Lỗi khi thêm mới sản phẩm: " . $conn->error;
-    }
-}
+        // Thực thi câu lệnh SQL
+        if ($stmt_product_size->execute()) {
+            // Lưu giá và kích thước sản phẩm vào bảng product_size thành công
+            // Tiếp tục thêm ảnh sản phẩm vào bảng product_images
 
-// Xử lý xóa sản phẩm
-if (isset($_GET['delete_product'])) {
-    $product_id = $_GET['delete_product'];
-    // Xóa sản phẩm trong bảng products
-    if(isset($_GET['delete_product'])){
-        $product_id = $_GET['delete_product'];
-        $sql_delete_product = "DELETE FROM products WHERE product_id='$product_id'";
-        if ($conn->query($sql_delete_product) === TRUE) {
-            // Xóa ảnh của sản phẩm trong thư mục images và trong bảng product_images
-            $sql_select_images = "SELECT path_image FROM product_images WHERE product_id='$product_id'";
-            $result_select_images = $conn->query($sql_select_images);
-            if ($result_select_images->num_rows > 0) {
-                while ($row = $result_select_images->fetch_assoc()) {
-                    $path_image = $row['path_image'];
-                    if (file_exists($path_image)) {
-                        unlink($path_image); // Xóa ảnh trong thư mục images
+            // Xử lý tải lên ảnh và lưu đường dẫn vào cơ sở dữ liệu
+            $product_images = $_FILES['product_images']; // Danh sách ảnh đã upload
+            foreach ($product_images['tmp_name'] as $key => $tmp_name) {
+                $image_name = $product_images['name'][$key];
+                $image_tmp_name = $product_images['tmp_name'][$key];
+                $upload_directory = "../admin/uploads/";
+                $target_file = $upload_directory . basename($image_name);
+
+                // Di chuyển và lưu ảnh vào thư mục uploads
+                if (move_uploaded_file($image_tmp_name, $target_file)) {
+                    // Lưu đường dẫn của ảnh vào cơ sở dữ liệu
+                    $sql_image = "INSERT INTO product_images (product_id, path_image) VALUES (?, ?)";
+                    $stmt_image = $conn->prepare($sql_image);
+                    $stmt_image->bind_param("ss", $product_id, $target_file);
+
+                    // Thực thi câu lệnh SQL
+                    if ($stmt_image->execute()) {
+                        // Lưu ảnh sản phẩm vào bảng product_images thành công
+                    } else {
+                        // Lỗi khi thêm ảnh vào bảng product_images
+                        echo "Lỗi khi thêm ảnh sản phẩm: " . $stmt_image->error;
                     }
+                } else {
+                    // Lỗi khi di chuyển ảnh vào thư mục
+                    echo "Lỗi khi di chuyển ảnh vào thư mục";
                 }
             }
-            $sql_delete_images = "DELETE FROM product_images WHERE product_id='$product_id'";
-            $conn->query($sql_delete_images);
-            header("Location: products.php");
-            exit();
         } else {
-            echo "Lỗi khi xóa sản phẩm: " . $conn->error;
+            // Lỗi khi thêm giá và kích thước sản phẩm vào bảng product_size
+            echo "Lỗi khi thêm giá và kích thước sản phẩm: " . $stmt_product_size->error;
         }
-    }
-    
-    if ($conn->query($sql_delete_product) === TRUE) {
-        // Xóa ảnh của sản phẩm trong thư mục images và trong bảng product_images
-        $sql_select_images = "SELECT path_image FROM product_images WHERE product_id=$product_id";
-        $result_select_images = $conn->query($sql_select_images);
-        if ($result_select_images->num_rows > 0) {
-            while ($row = $result_select_images->fetch_assoc()) {
-                $path_image = $row['path_image'];
-                if (file_exists($path_image)) {
-                    unlink($path_image); // Xóa ảnh trong thư mục images
-                }
-            }
-        }
-        $sql_delete_images = "DELETE FROM product_images WHERE product_id=$product_id";
-        $conn->query($sql_delete_images);
-
-        header("Location: products.php");
-        exit();
     } else {
-        echo "Lỗi khi xóa sản phẩm: " . $conn->error;
+        // Lỗi khi thêm sản phẩm vào bảng products
+        echo "Lỗi khi thêm mới sản phẩm: " . $stmt_product->error;
     }
+
+    // Đóng câu lệnh prepare
+    $stmt_product->close();
+    $stmt_product_size->close();
 }
 
 // Truy vấn để lấy danh sách các sản phẩm và đường dẫn ảnh sản phẩm
-$sql = "SELECT p.*, i.path_image FROM products p LEFT JOIN product_images i ON p.product_id = i.product_id";
+$sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
+FROM products p 
+INNER JOIN categories c ON p.category_id = c.category_id
+INNER JOIN brands b ON p.brand_id = b.brand_id
+INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
+INNER JOIN product_size ps ON p.product_id = ps.product_id
+INNER JOIN sizes s ON ps.size_id = s.size_id
+LEFT JOIN product_images i ON p.product_id = i.product_id
+GROUP BY p.product_id, ps.size_id;";
+
 $result = $conn->query($sql);
 
 // Kiểm tra xem có dữ liệu được trả về không
+$products = array();
 if ($result->num_rows > 0) {
-    // Đổ dữ liệu từ kết quả truy vấn vào mảng
-    $products = array();
     while ($row = $result->fetch_assoc()) {
-        // Tạo một mảng chứa thông tin của sản phẩm và ảnh
-        $product_info = array(
-            'product_id' => $row['product_id'],
-            'product_name' => $row['product_name'],
-            'product_description' => $row['product_description'],
-            'category_id' => $row['category_id'],
-            'brand_id' => $row['brand_id'],
-            'product_price' => $row['product_price'],
-            'path_image' => $row['path_image'] // Đường dẫn của ảnh sản phẩm
-        );
-        $products[] = $product_info;
+        $products[] = $row;
     }
-} else {
-    echo "Không có sản phẩm nào được tìm thấy.";
 }
 
-// Lấy danh sách thương hiệu
-$sql_brand = "SELECT * FROM brands";
-$result_brand = $conn->query($sql_brand);
+// Đóng kết nối
+$result->close();
 
-// Kiểm tra xem có dữ liệu được trả về không
-if ($result_brand->num_rows > 0) {
-    // Đổ dữ liệu từ kết quả truy vấn vào mảng
-    $brands = array();
-    while ($row_brand = $result_brand->fetch_assoc()) {
-        $brands[] = $row_brand;
+// Lấy danh sách các danh mục, thương hiệu, loại sản phẩm và kích thước
+$sql_categories = "SELECT * FROM categories";
+$result_categories = $conn->query($sql_categories);
+$categories = array();
+if ($result_categories->num_rows > 0) {
+    while ($row = $result_categories->fetch_assoc()) {
+        $categories[] = $row;
     }
-} else {
-    echo "Không có thương hiệu nào được tìm thấy.";
 }
 
-// Lấy danh sách các danh mục
-$sql_category = "SELECT * FROM categories";
-$result_category = $conn->query($sql_category);
-
-// Kiểm tra xem có dữ liệu được trả về không
-if ($result_category->num_rows > 0) {
-    // Đổ dữ liệu từ kết quả truy vấn vào mảng
-    $categories = array();
-    while ($row_category = $result_category->fetch_assoc()) {
-        $categories[] = $row_category;
+$sql_brands = "SELECT * FROM brands";
+$result_brands = $conn->query($sql_brands);
+$brands = array();
+if ($result_brands->num_rows > 0) {
+    while ($row = $result_brands->fetch_assoc()) {
+        $brands[] = $row;
     }
-} else {
-    echo "Không có danh mục nào được tìm thấy.";
+}
+
+$sql_productcategories = "SELECT * FROM productcategory";
+$result_productcategories = $conn->query($sql_productcategories);
+$productcategories = array();
+if ($result_productcategories->num_rows > 0) {
+    while ($row = $result_productcategories->fetch_assoc()) {
+        $productcategories[] = $row;
+    }
+}
+
+$sql_sizes = "SELECT * FROM sizes";
+$result_sizes = $conn->query($sql_sizes);
+$sizes = array();
+if ($result_sizes->num_rows > 0) {
+    while ($row = $result_sizes->fetch_assoc()) {
+        $sizes[] = $row;
+    }
 }
 
 
@@ -279,33 +257,130 @@ if ($result_category->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý sản phẩm</title>
 </head>
+<?php
+// Xử lý yêu cầu tìm kiếm
+if (isset($_GET['search'])) {
+    $keyword = $_GET['keyword'];
+
+    // Truy vấn để lấy danh sách sản phẩm phù hợp với từ khóa tìm kiếm
+    $sql_search = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
+    FROM products p 
+    INNER JOIN categories c ON p.category_id = c.category_id
+    INNER JOIN brands b ON p.brand_id = b.brand_id
+    INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
+    INNER JOIN product_size ps ON p.product_id = ps.product_id
+    INNER JOIN sizes s ON ps.size_id = s.size_id
+    LEFT JOIN product_images i ON p.product_id = i.product_id
+    WHERE p.product_name LIKE '%$keyword%' OR p.product_description LIKE '%$keyword%'
+    GROUP BY p.product_id, ps.size_id;";
+
+    $result_search = $conn->query($sql_search);
+
+    // Kiểm tra xem có dữ liệu được trả về không
+    $search_products = array();
+    if ($result_search->num_rows > 0) {
+        while ($row = $result_search->fetch_assoc()) {
+            $search_products[] = $row;
+        }
+    }
+}
+?>
+
+<!-- Form tìm kiếm -->
+<form method="GET" action="">
+    <input type="text" name="keyword" placeholder="Nhập từ khóa tìm kiếm">
+    <button type="submit" name="search">Tìm kiếm</button>
+</form>
+
+<?php
+// Hiển thị kết quả tìm kiếm (nếu có)
+if (isset($search_products) && !empty($search_products)) {
+    echo "<h2>Kết quả tìm kiếm cho từ khóa: " . $keyword . "</h2>";
+    // Hiển thị danh sách sản phẩm tìm kiếm
+    echo '<table border="1">';
+    echo '<thead>';
+    echo '<tr>';
+    echo '<th>ID</th>';
+    echo '<th>Tên sản phẩm</th>';
+    echo '<th>Mô tả</th>';
+    echo '<th>Danh mục</th>';
+    echo '<th>Thương hiệu</th>';
+    echo '<th>Loại sản phẩm</th>';
+    echo '<th>Kích thước</th>';
+    echo '<th>Giá</th>';
+    echo '<th>Ảnh</th>';
+    echo '<th>Hành động</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody>';
+    foreach ($search_products as $product) {
+        echo '<tr>';
+        echo '<td>' . $product['product_id'] . '</td>';
+        echo '<td>' . $product['product_name'] . '</td>';
+        echo '<td>' . $product['product_description'] . '</td>';
+        echo '<td>' . $product['category_name'] . '</td>';
+        echo '<td>' . $product['brand_name'] . '</td>';
+        echo '<td>' . $product['ProductCategory_name'] . '</td>';
+        echo '<td>' . $product['size_name'] . '</td>';
+        echo '<td>' . $product['price'] . '</td>';
+        echo '<td>';
+        if (!empty($product['path_image'])) {
+            echo '<img src="' . $product['path_image'] . '" width="100" height="100" alt="Product Image">';
+        } else {
+            echo 'No Image';
+        }
+        echo '</td>';
+        echo '<td>';
+        echo '<a href="delete_product.php?id=' . $product['product_id'] . '" onclick="return confirm(\'Bạn có chắc chắn muốn xóa sản phẩm này không?\')">Xóa</a>';
+        echo '<a href="edit_product.php?id=' . $product['product_id'] . '">Sửa</a>';
+        echo '</td>';
+        echo '</tr>';
+    }
+    echo '</tbody>';
+    echo '</table>';
+} else {
+    // Hiển thị thông báo khi không có kết quả tìm kiếm
+    echo "<p>Không tìm thấy sản phẩm nào phù hợp với từ khóa tìm kiếm.</p>";
+}
+?>
 
 <body>
-    <h1>Quản lý sản phẩm</h1>
-    
-
     <!-- Form thêm mới sản phẩm -->
+    <h2>Thêm sản phẩm mới</h2>
     <form method="POST" action="" enctype="multipart/form-data">
-         <input type="text" name="product_id" placeholder="Mã sản phẩm" required><br>
+        <input type="text" name="product_id" placeholder="Mã sản phẩm" required><br>
         <input type="text" name="product_name" placeholder="Tên sản phẩm" required><br>
         <textarea name="product_description" placeholder="Mô tả sản phẩm" required></textarea><br>
-        <input type="text" name="product_price" placeholder="Giá sản phẩm" required><br>
         <select name="category_id" required>
-            <option value="" disabled selected>Chọn danh mục</option>
+            <option value="">Chọn danh mục</option>
             <?php foreach ($categories as $category): ?>
                 <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
             <?php endforeach; ?>
         </select><br>
         <select name="brand_id" required>
-            <option value="" disabled selected>Chọn thương hiệu</option>
+            <option value="">Chọn thương hiệu</option>
             <?php foreach ($brands as $brand): ?>
                 <option value="<?php echo $brand['brand_id']; ?>"><?php echo $brand['brand_name']; ?></option>
             <?php endforeach; ?>
         </select><br>
+        <select name="productcategory_id" required>
+            <option value="">Chọn loại sản phẩm</option>
+            <?php foreach ($productcategories as $productcategory): ?>
+                <option value="<?php echo $productcategory['ProductCategory_id']; ?>">
+                    <?php echo $productcategory['ProductCategory_name']; ?></option>
+            <?php endforeach; ?>
+        </select><br>
+        <select name="product_size_id" required>
+            <option value="">Chọn kích thước</option>
+            <?php foreach ($sizes as $size): ?>
+                <option value="<?php echo $size['size_id']; ?>"><?php echo $size['size_name']; ?></option>
+            <?php endforeach; ?>
+        </select><br>
+        <input type="number" name="price" placeholder="Giá sản phẩm" required><br>
         <input type="file" name="product_images[]" multiple required><br>
-        <button type="submit" name="add_product">Thêm</button>
+        <button type="submit" name="add_product">Thêm sản phẩm</button>
     </form>
-    <br>
+    <h1>Quản lý sản phẩm</h1>
 
     <!-- Bảng danh sách sản phẩm -->
     <table border="1">
@@ -314,76 +389,45 @@ if ($result_category->num_rows > 0) {
                 <th>ID</th>
                 <th>Tên sản phẩm</th>
                 <th>Mô tả</th>
-                <th>Giá</th>
                 <th>Danh mục</th>
                 <th>Thương hiệu</th>
+                <th>Loại sản phẩm</th>
+                <th>Kích thước</th>
+                <th>Giá</th>
                 <th>Ảnh</th>
-                <th>Thao tác</th>
+                <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($products)): ?>
-                <?php foreach ($products as $product): ?>
-                    <tr>
-                        <td><?php echo $product['product_id']; ?></td>
-                        <td><?php echo $product['product_name']; ?></td>
-                        <td><?php echo $product['product_description']; ?></td>
-                        <td><?php echo $product['product_price']; ?></td>
-                        <td>
-                            <?php
-                            // Lấy tên danh mục của sản phẩm
-                            $product_category_id = $product['category_id'];
-                            $sql_category_name = "SELECT category_name FROM categories WHERE category_id=$product_category_id";
-                            $result_category_name = $conn->query($sql_category_name);
-                            if ($result_category_name->num_rows == 1) {
-                                $row_category_name = $result_category_name->fetch_assoc();
-                                echo $row_category_name['category_name'];
-                            } else {
-                                echo "Không xác định";
-                            }
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                            // Lấy tên thương hiệu của sản phẩm
-                            $product_brand_id = $product['brand_id'];
-                            $sql_brand_name = "SELECT brand_name FROM brands WHERE brand_id=$product_brand_id";
-                            $result_brand_name = $conn->query($sql_brand_name);
-                            if ($result_brand_name->num_rows == 1) {
-                                $row_brand_name = $result_brand_name->fetch_assoc();
-                                echo $row_brand_name['brand_name'];
-                            } else {
-                                echo "Không xác định";
-                            }
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                            // Hiển thị ảnh sản phẩm
-                            if (!empty($product['path_image'])) {
-                                echo '<img src="../admin/' . $product['path_image'] . '" width="100" height="100">';
-                            } else {
-                                echo "Không có ảnh";
-                            }
-                            ?>
-                        </td>
-                        <td>
-                            <a href="products.php?delete_product=<?php echo $product['product_id']; ?>"
-                                onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')">Xóa</a>
-                            <a href="edit_product.php?product_id=<?php echo $product['product_id']; ?>">Sửa</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
+            <?php foreach ($products as $product): ?>
                 <tr>
-                    <td colspan="8">Không có sản phẩm nào.</td>
+                    <td><?php echo $product['product_id']; ?></td>
+                    <td><?php echo $product['product_name']; ?></td>
+                    <td><?php echo $product['product_description']; ?></td>
+                    <td><?php echo $product['category_name']; ?></td>
+                    <td><?php echo $product['brand_name']; ?></td>
+                    <td><?php echo $product['ProductCategory_name']; ?></td>
+                    <td><?php echo $product['size_name']; ?></td>
+                    <td><?php echo $product['price']; ?></td>
+                    <td>
+                        <?php if (!empty($product['path_image'])): ?>
+                            <img src="<?php echo $product['path_image']; ?>" width="100" height="100" alt="Product Image">
+                        <?php else: ?>
+                            No Image
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <a href="delete_product.php?id=<?php echo $product['product_id']; ?>"
+                            onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')">Xóa</a>
+                        <a href="edit_product.php?id=<?php echo $product['product_id']; ?>">Sửa</a>
+                    </td>
                 </tr>
-            <?php endif; ?>
+            <?php endforeach; ?>
         </tbody>
     </table>
-    <?php
-    $conn->close();
-    ?>
+
+
 </body>
 
 </html>
+<?php $conn->close(); ?>

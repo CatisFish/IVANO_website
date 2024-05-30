@@ -42,6 +42,7 @@
     .nav-icons ul li.active .fa-chevron-down {
         transform: rotate(180deg);
     }
+    
 </style>
 
 <script>
@@ -66,39 +67,96 @@
     });
 </script>
 
-<div class="top-sidebar">
-    <h2>SB ADMIN 😍</h2>
-    <button id="toggleButton"><i class="fa-solid fa-xmark"></i></button>
-</div>
+<?php
+// Kiểm tra xem có bất kỳ form tư vấn nào có trạng thái "chưa tư vấn" hay không
+// Hàm kiểm tra xem có bất kỳ form tư vấn nào có trạng thái "Chưa Tư Vấn" hay không
+function hasChuaTuvan($conn) {
+    $sql = "SELECT COUNT(*) AS count FROM tuvan_form WHERE TrangThai = '2'";
+    $result = $conn->query($sql);
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['count'] > 0;
+    }
+    return false;
+}
 
-<div class="nav-icons">
-    <ul>
-        <li><a href="index.php"><i class="fa fa-home"></i><span>Trang Chủ</span></a></li>
-        <li class="product"><a><i class="fa-solid fa-store"></i><span>Cửa Hàng <i class="fa-solid fa-chevron-down"></i></span></a>
-            <ul class="submenu-admin">
-                <li><a href="../php/categories.php">Loại sản phẩm</a></li>
-                <li><a href="../php/productCategory.php">Doanh mục loại sản phẩm</a></li>
-                <li><a href="../php/brands.php">Thương hiệu</a></li>
-                <li><a href="../php/products.php">Sản phẩm</a></li>
-            </ul>
-        </li>
-        <li><a href="../php/ad.php"><i class="fa-solid fa-photo-film"></i><span>Quản lý Slider</span></a></li>
-        <li><a href="../php/news.php"><i class="fa-solid fa-bell"></i><span>Quản lý tin nổi bật</span></a></li>
-        <li><a href="../php/agency.php"><i class="fa fa-file-alt"></i><span>Các đại lý</span></a></li>
-        <li><a href="../php/customer.php"><i class="fa-solid fa-user"></i><span>Quản lý khách hàng</span></a></li>
-        <li><a href="../php/employee.php"><i class="fa-solid fa-users"></i><span>Quản lý nhân viên</span></a></li>
-        <li class="statistics"><a><i class="fa fa-chart-bar"></i><span>Thống kê <i class="fa-solid fa-chevron-down"></i></span></a>
-            <ul class="submenu-admin">
-                <li><a href="../php/thongke/doanhthu_theohoadon.php">Doanh thu theo hóa đơn</a></li>
-                <li><a href="../php/thongke/donhang_theothang.php">Doanh thu theo thời gian</a></li>
-                <li><a href="../php/thongke/thongke_sodaily.php">Thống kê số lượng đại lý theo ngày</a></li>
-                <li><a href="../php/thongke/quanly_nhanvien.php">Thống kê nhân viên</a></li>
-            </ul>
-        </li>
-        <li><a href="../php/colors.php"><i class="fa-solid fa-paint-roller"></i><span>Quản lý màu</span></a></li>
-        <li><a href="../php/table_colors.php"><i class="fa-solid fa-palette"></i><span>Bảng màu</span></a></li>
-    </ul>
-</div>
+// Tạo kết nối đến cơ sở dữ liệu
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "ivano_website";
+
+// Tạo kết nối
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Kiểm tra kết nối
+if ($conn->connect_error) {
+    die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
+}
+
+// Kiểm tra có form tư vấn nào có trạng thái "chưa tư vấn" hay không
+$hasChuaTuvan = hasChuaTuvan($conn);
+
+// Đóng kết nối
+$conn->close();
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB ADMIN</title>
+    <!-- Add your CSS styles here -->
+    <style>
+        .need-advice {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-sidebar">
+        <h2>SB ADMIN 😍</h2>
+        <button id="toggleButton"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="nav-icons">
+        <ul>
+            <li><a href="index.php"><i class="fa fa-home"></i><span>Trang Chủ</span></a></li>
+            <li class="product"><a><i class="fa-solid fa-store"></i><span>Cửa Hàng <i class="fa-solid fa-chevron-down"></i></span></a>
+                <ul class="submenu-admin">
+                    <li><a href="../php/categories.php">Loại sản phẩm</a></li>
+                    <li><a href="../php/productCategory.php">Doanh mục loại sản phẩm</a></li>
+                    <li><a href="../php/brands.php">Thương hiệu</a></li>
+                    <li><a href="../php/products.php">Sản phẩm</a></li>
+                </ul>
+            </li>
+            <li><a href="../assets/manage_popups.php"><i class="fa-solid fa-photo-film"></i><span>Quản lý Popup</span></a></li>
+            <li <?php if ($hasChuaTuvan): ?>class="need-advice"<?php endif; ?>><a href="../assets/tuvan_form.php"><i class="fa-solid fa-photo-film"></i><span>Cần Tư Vấn</span></a></li>
+
+            <li><a href="../assets/manage_banners.php"><i class="fa-solid fa-bell"></i><span>Quản lý Banner</span></a></li>
+            <li><a href="../php/agency.php"><i class="fa fa-file-alt"></i><span>Các đại lý</span></a></li>
+            <li><a href="../php/customer.php"><i class="fa-solid fa-user"></i><span>Quản lý khách hàng</span></a></li>
+            <li><a href="../php/employee.php"><i class="fa-solid fa-users"></i><span>Quản lý nhân viên</span></a></li>
+            <li class="statistics"><a><i class="fa fa-chart-bar"></i><span>Thống kê <i class="fa-solid fa-chevron-down"></i></span></a>
+                <ul class="submenu-admin">
+                    <li><a href="../php/thongke/doanhthu_theohoadon.php">Doanh thu theo hóa đơn</a></li>
+                    <li><a href="../php/thongke/donhang_theothang.php">Doanh thu theo thời gian</a></li>
+                    <li><a href="../php/thongke/thongke_sodaily.php">Thống kê số lượng đại lý theo ngày</a></li>
+                    <li><a href="../php/thongke/quanly_nhanvien.php">Thống kê nhân viên</a></li>
+                </ul>
+            </li>
+            <li><a href="../php/colors.php"><i class="fa-solid fa-paint-roller"></i><span>Quản lý màu</span></a></li>
+            <li><a href="../php/table_colors.php"><i class="fa-solid fa-palette"></i><span>Bảng màu</span></a></li>
+        </ul>
+    </div>
+</body>
+
+</html>
+
+
+
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
