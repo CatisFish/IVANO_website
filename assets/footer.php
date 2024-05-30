@@ -77,7 +77,8 @@
                 </form>
 
                 <div class="contact-link-container">
-                    <a class="contact-link" href="https://www.facebook.com/ivanovietnam?ref=embed_page" target="_blank"><i class="fa-brands fa-facebook contact-icon fb-icon"></i></a>
+                    <a class="contact-link" href="https://www.facebook.com/ivanovietnam?ref=embed_page"
+                        target="_blank"><i class="fa-brands fa-facebook contact-icon fb-icon"></i></a>
                     <a class="contact-link" href="#"><i
                             class="fa-regular fa-envelope contact-icon mail-icon"></i></i></a>
                     <a class="contact-link" href="#"><i class="fab fa-youtube contact-icon ytb-icon"></i></a>
@@ -101,204 +102,202 @@
 </footer>
 
 <style>
-    .ft-top {
-        background: linear-gradient(to bottom right, #555e63, #849396, #c7c3c0, #e2cdaf, #ecdbbf);
-        padding: 30px 0;
-        justify-content: space-around;
-        display: flex;
-        gap: 30px;
-    }
+.ft-top {
+    background: linear-gradient(to bottom right, #555e63, #849396, #c7c3c0, #e2cdaf, #ecdbbf);
+    padding: 30px 0;
+    justify-content: space-around;
+    display: flex;
+    gap: 30px;
+}
 
-    .ft-top a {
-        color: #FFF;
-        font-weight: 700;
-        font-size: 30px;
-    }
+.ft-top a {
+    color: #FFF;
+    font-weight: 700;
+    font-size: 30px;
+}
 
-    .ft-mid {
-        background: url("images/Paint-splash-black-background.jpg");
-        background-size: 100% !important;
-        background-repeat: no-repeat !important;
-        background-position: center top 45%;
-        padding: 20px 0;
-    }
+.ft-mid {
+    background: url("images/Paint-splash-black-background.jpg");
+    background-size: 100% !important;
+    background-repeat: no-repeat !important;
+    background-position: center top 45%;
+    padding: 20px 0;
+}
 
-    .container-ft-mid {
-        width: 90%;
-        margin: 0px auto;
-        display: flex;
-    }
+.container-ft-mid {
+    width: 90%;
+    margin: 0px auto;
+    display: flex;
+}
 
-    .ft-mid-left {
-        width: 33%;
-    }
+.ft-mid-left {
+    width: 33%;
+}
 
-    .container-img-ft-left {
-        text-align: center;
-    }
+.container-img-ft-left {
+    text-align: center;
+}
 
-    .ft-left-img {
-        width: 150px;
-    }
+.ft-left-img {
+    width: 150px;
+}
 
-    .ft-mid-left h2 {
-        font-weight: 600;
-        color: #FFF;
-        font-size: 17px;
-        margin: 10px 0 30px 0;
-        text-transform: uppercase;
-        text-align: center;
-    }
+.ft-mid-left h2 {
+    font-weight: 600;
+    color: #FFF;
+    font-size: 17px;
+    margin: 10px 0 30px 0;
+    text-transform: uppercase;
+    text-align: center;
+}
 
-    .ft-mid-left p,
-    .ft-mid-left p a {
-        color: #fff;
-        margin: 15px 0;
-        line-height: 1.7;
-    }
+.ft-mid-left p,
+.ft-mid-left p a {
+    color: #fff;
+    margin: 15px 0;
+    line-height: 1.7;
+}
 
-    .fa-hand-point-right {
-        margin-right: 10px;
-    }
+.fa-hand-point-right {
+    margin-right: 10px;
+}
 
-    /* ft-mid-mid */
+/* ft-mid-mid */
 
-    .ft-mid-mid {
-        width: 33%;
-        text-align: center;
-        color: #fff;
-    }
+.ft-mid-mid {
+    width: 33%;
+    text-align: center;
+    color: #fff;
+}
 
-    .ft-mid-mid h2 {
-        text-transform: uppercase;
-        margin-top: 20px;
-    }
+.ft-mid-mid h2 {
+    text-transform: uppercase;
+    margin-top: 20px;
+}
 
-    .ft-mid-mid p:first-of-type {
-        margin-top: 50px;
-    }
+.ft-mid-mid p:first-of-type {
+    margin-top: 50px;
+}
 
-    .policy-item {
-        margin-bottom: 25px;
-    }
+.policy-item {
+    margin-bottom: 25px;
+}
 
-    .policy-item a i {
-        margin-right: 5px;
-    }
+.policy-item a i {
+    margin-right: 5px;
+}
 
-    .ft-mid-mid p a {
-        color: #fff;
-        font-size: 16px;
-    }
+.ft-mid-mid p a {
+    color: #fff;
+    font-size: 16px;
+}
 
-    .policy-item span {
-        font-weight: 500;
-    }
+.policy-item span {
+    font-weight: 500;
+}
 
-    /* ft-mid-right */
+/* ft-mid-right */
 
-    .ft-mid-right {
-        width: 33%;
-    }
+.ft-mid-right {
+    width: 33%;
+}
 
-    .ft-mid-right h2 {
-        margin: 20px 0 50px 0;
-        color: #fff;
-        text-transform: uppercase;
-        text-align: center;
-    }
+.ft-mid-right h2 {
+    margin: 20px 0 50px 0;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+}
 
-    .input-contact {
-        height: 40px;
-        width: 79%;
-        padding: 0 15px;
-        border: 2px solid #FFD400;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
-    }
+.input-contact {
+    height: 40px;
+    width: 79%;
+    padding: 0 15px;
+    border: 2px solid #FFD400;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
 
-    .input-contact:focus {
-        outline: 2px solid #FFD400;
-    }
+.input-contact:focus {
+    outline: 2px solid #FFD400;
+}
 
+.contact-btn {
+    height: 40px;
+    width: 20%;
+    background-color: #C6A300;
+    color: #fff;
+    border: none;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: 600;
+}
 
-    .contact-btn {
-        height: 40px;
-        width: 20%;
-        background-color: #C6A300;
-        color: #fff;
-        border: none;
-        border-bottom-right-radius: 10px;
-        border-top-right-radius: 10px;
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
-        font-weight: 600;
-    }
+.contact-btn:hover {
+    background-color: #ffd400;
+}
 
-    .contact-btn:hover {
-        background-color: #ffd400;
-    }
+.contact-btn:active {
+    background-color: #ffd400;
+}
 
-    .contact-btn:active {
-        background-color: #ffd400;
-    }
+.contact-link-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 100px;
+}
 
-    .contact-link-container {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 100px;
+.contact-icon {
+    color: #221F20;
+}
 
-    }
+.contact-link {
+    color: #fff;
+    font-size: 20px;
+    color: #000;
+    text-decoration: none;
+    transition: transform 0.3s;
+    background-color: #FFF;
+    padding: 10px;
+    border-radius: 5px;
+}
 
-    .contact-icon {
-        color: #221F20;
-    }
+.contact-link:hover {
+    transform: translateY(-5px);
+}
 
-    .contact-link {
-        color: #fff;
-        font-size: 20px;
-        color: #000;
-        text-decoration: none;
-        transition: transform 0.3s;
-        background-color: #FFF;
-        padding: 10px;
-        border-radius: 5px;
-    }
+.fb-icon {
+    color: #3b5998;
+}
 
-    .contact-link:hover {
-        transform: translateY(-5px);
-    }
+.mail-icon {
+    color: #D14836;
+}
 
-    .fb-icon {
-        color: #3b5998;
-    }
+.ytb-icon {
+    color: #FF0000;
+}
 
-    .mail-icon {
-        color: #D14836;
-    }
+.pinterest-icon {
+    color: #E60023;
+}
 
-    .ytb-icon {
-        color: #FF0000;
-    }
+.container-gg-map {
+    width: 80%;
+    margin: 0px auto;
+    margin-top: 4px;
+    border-radius: 20px;
+    overflow: hidden;
+}
 
-    .pinterest-icon {
-        color: #E60023;
-    }
-
-    .container-gg-map {
-        width: 80%;
-        margin: 0px auto;
-        margin-top: 4px;
-        border-radius: 20px;
-        overflow: hidden;
-    }
-
-    /* ft-bottom */
-    .ft-bottom {
-        text-align: center;
-        font-weight: 600;
-        background: linear-gradient(to right, #001065 0, #008bd3 25%, #d40063 75%, #d4be00 100%);
-        color: #FFF;
-        padding: 10px 0;
-    }
+/* ft-bottom */
+.ft-bottom {
+    text-align: center;
+    font-weight: 600;
+    background: linear-gradient(to right, #001065 0, #008bd3 25%, #d40063 75%, #d4be00 100%);
+    color: #FFF;
+    padding: 10px 0;
+}
 </style>

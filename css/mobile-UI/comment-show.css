@@ -1,0 +1,105 @@
+@media only screen and (max-width: 600px) {
+    .show-ex-comment {
+        overflow: hidden;
+        margin-top: 50px;
+        background-image: url('../../images/BacksAndBeyond_Images_Learning_2-2000x700-1-1400x490.jpg');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        margin: 10px;
+        border-radius: 15px;
+    }
+
+    .ex-comment-container {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        width: 95%;
+        margin: 0px auto;
+    }
+
+    .ex-comment-item {
+        align-items: center;
+        min-width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        gap: 10px;
+        padding: 10px 20px;
+    }
+
+    .content-ex-cmt-left img {
+        width: 75px;
+        border-radius: 50%;
+    }
+
+    .ex-cmt-star {
+        margin-bottom: 15px;
+        font-size: 13px;
+    }
+
+    .star-point,
+    .star-no-point {
+        color: #FFD400;
+    }
+
+    .content-ex-cmt-right {
+        color: #FFF;
+
+    }
+
+    .ex-cmt-content {
+        font-weight: 500;
+        font-style: italic;
+        font-size: 10px;
+    }
+
+    .ex-cmt-name {
+        margin-top: 15px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .ex-name {
+        font-weight: 600;
+    }
+
+    .btn-ex-prev,
+    .btn-ex-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 15px 5px;
+        cursor: pointer;
+        border: none;
+        z-index: 1;
+        user-select: none;
+        font-size: 13px;
+    }
+
+    .btn-ex-prev {
+        left: 0px;
+        border-radius: 3px 0 0 3px;
+    }
+
+    .btn-ex-next {
+        right: 0px;
+        border-radius: 0px 3px 3px 0px;
+    }
+
+    .unique-radio-buttons {
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        user-select: none;
+        transition: all ease-in-out 0.3s;
+    }
+
+    .unique-radio-buttons input[type="radio"]:checked+span {
+        background-color: #fff;
+        border-color: #007bff;
+        transition: all ease-in-out 0.3s;
+    }
+}

@@ -1,0 +1,103 @@
+@media only screen and (max-width: 600px) {
+    .container-outstanding {
+        width: 95%;
+        margin: 25px auto;
+        position: relative;
+    }
+
+    .container-heading-oustanding {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .container-heading-oustanding h1 {
+        text-align: center;
+        font-size: 22px;
+        position: relative;
+        z-index: 1;
+        color: #FC0000;
+        text-transform: uppercase;
+    }
+
+    .see-more {
+        background-color: #ffffff;
+        border: 2px solid #FC0000;
+        border-radius: 6px;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .see-more a {
+        color: #FC0000;
+    }
+
+    .container-list-product {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        margin: auto;
+        margin: 20px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .list-product {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        width: 100%;
+    }
+
+    .product-item {
+        min-width: 50%;
+        box-sizing: border-box;
+        padding: 0 10px;
+        text-align: center;
+    }
+
+    .product-item img {
+        width: 100%;
+    }
+
+    .brand-name {
+        color: #333;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin: 10px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        text-align: left;
+    }
+
+    .product-name {
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        max-height: 45px;
+        font-weight: 700;
+        color: #1e73be;
+        font-size: 15px;
+    }
+
+    .product-price {
+        color: #f80000;
+        font-weight: 600;
+        margin: 10px 0 10px 0;
+        text-align: left;
+    }
+
+    .product-action .action-add {
+        display: none;
+    }
+}
