@@ -52,8 +52,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_banner'])) {
 // Xử lý xóa banner
 if (isset($_GET['delete_id'])) {
     $banner_id = $_GET['delete_id'];
-    $sql = "DELETE FROM banners WHERE banner_id=$banner_id";
-    $conn->query($sql);
+
+    // Truy vấn để lấy tên tệp ảnh của banner
+    $sql_select_img = "SELECT banner_img FROM banners WHERE banner_id = ?";
+    $stmt = $conn->prepare($sql_select_img);
+    $stmt->bind_param("i", $banner_id);
+    $stmt->execute();
+    $stmt->bind_result($banner_img);
+    $stmt->fetch();
+    $stmt->close();
+
+    // Xóa banner từ cơ sở dữ liệu
+    $sql_delete_banner = "DELETE FROM banners WHERE banner_id = ?";
+    $stmt = $conn->prepare($sql_delete_banner);
+    $stmt->bind_param("i", $banner_id);
+    if ($stmt->execute()) {
+        $stmt->close();
+
+        // Xóa tệp ảnh từ thư mục uploads
+        $filepath = "" . $banner_img;
+        if (file_exists($filepath)) {
+            unlink($filepath);
+        }
+
+        echo "<script>alert('Banner deleted successfully');</script>";
+    } else {
+        echo "<script>alert('Failed to delete banner');</script>";
+    }
 
     header("Location: ../assets/manage_banners.php");
     exit();

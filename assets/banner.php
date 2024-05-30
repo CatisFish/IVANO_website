@@ -26,7 +26,7 @@
                     // Output data of each row
                     while($row_left = $result_left->fetch_assoc()) {
                         echo '<div class="carousel-item">';
-                        echo '<img src="./images/' . $row_left['banner_img'] . '" alt="' . $row_left['banner_title'] . '">';
+                        echo '<img src="./uploads/' . $row_left['banner_img'] . '" alt="' . $row_left['banner_title'] . '">';
                         echo '<div class="carousel-caption">';
                         echo '<h1>' . $row_left['banner_title'] . '</h1>';
                         // Add description if available
@@ -49,7 +49,7 @@
             $result_right = $conn->query($sql_right);
             if ($result_right && $result_right->num_rows > 0) {
                 while($row_right = $result_right->fetch_assoc()) {
-                    echo '<img src="./images/' . $row_right['banner_img'] . '" alt="' . $row_right['banner_title'] . '" class="banner-right-item">';
+                    echo '<img src="./uploads/' . $row_right['banner_img'] . '" alt="' . $row_right['banner_title'] . '" class="banner-right-item">';
                 }
             } else {
                 echo '<p>No banners available</p>';

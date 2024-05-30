@@ -1,10 +1,16 @@
 <?php
-include 'php/conection.php';
 
-$sql = "SELECT p.*, i.path_image, b.brand_name FROM products p 
+$sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
+        FROM products p 
         LEFT JOIN product_images i ON p.product_id = i.product_id
-        LEFT JOIN brands b ON p.brand_id = b.brand_id
-        ORDER BY RAND() LIMIT 8";
+
+        INNER JOIN categories c ON p.category_id = c.category_id
+        INNER JOIN brands b ON p.brand_id = b.brand_id
+        INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
+        INNER JOIN product_size ps ON p.product_id = ps.product_id
+        INNER JOIN sizes s ON ps.size_id = s.size_id
+        GROUP BY p.product_id, ps.size_id";
+
 $result = $conn->query($sql);
 
 // Hiển thị dữ liệu
@@ -21,8 +27,7 @@ if ($result->num_rows > 0) {
         echo '<p class="product-name">' . $row['product_name'] . '</p>';
 
         echo '<div class="product-action">';
-        echo '<div class="product-price">' . $row['product_price'] . '</div>';
-
+        echo '<div class="product-price">' . htmlspecialchars($row['price']) . '</div>';
         echo '<div class="action-add">';
         echo '<button type="submit" class="view-product">';
         echo '<p>Xem Nhanh</p>';
@@ -42,7 +47,7 @@ if ($result->num_rows > 0) {
     echo "<p class='no-products'>Không có sản phẩm nào.</p>";
 }
 
-$conn->close();
+
 ?>
 
 

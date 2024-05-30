@@ -1,5 +1,5 @@
 <?php
-include '../php/conection.php';
+include '../php/conection.php'; // Thay đổi tên file connection.php nếu cần
 
 // Xử lý thêm popup
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_popup'])) {
@@ -20,6 +20,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_popup'])) {
         exit();
     } else {
         echo "Sorry, there was an error uploading your file.";
+    }
+}
+
+// Xử lý xóa popup
+if (isset($_GET['delete_id'])) {
+    $delete_id = $_GET['delete_id'];
+
+    // Truy vấn để lấy tên tệp ảnh của popup
+    $sql_select_img = "SELECT popup_img FROM popups WHERE popup_id = ?";
+    $stmt = $conn->prepare($sql_select_img);
+    $stmt->bind_param("i", $delete_id);
+    $stmt->execute();
+    $stmt->bind_result($popup_img);
+    $stmt->fetch();
+    $stmt->close();
+
+    // Xóa popup từ cơ sở dữ liệu
+    $sql_delete_popup = "DELETE FROM popups WHERE popup_id = ?";
+    $stmt = $conn->prepare($sql_delete_popup);
+    $stmt->bind_param("i", $delete_id);
+    if ($stmt->execute()) {
+        $stmt->close();
+
+        // Xóa tệp ảnh từ thư mục uploads
+        $filepath = "" . $popup_img;
+        if (file_exists($filepath)) {
+            unlink($filepath);
+        }
+
+        echo "<script>alert('Popup deleted successfully');</script>";
+    } else {
+        echo "<script>alert('Failed to delete popup');</script>";
     }
 }
 
@@ -46,16 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_popup'])) {
     $conn->query($sql);
 
     header("Location: manage_popups.php");
-    exit();
-}
-
-// Xử lý xóa popup
-if (isset($_GET['delete_id'])) {
-    $popup_id = $_GET['delete_id'];
-    $sql = "DELETE FROM popups WHERE popup_id=$popup_id";
-    $conn->query($sql);
-
-    header("Location: ../assets/manage_popups.php");
     exit();
 }
 
@@ -92,79 +114,83 @@ $conn->close();
         td {
             padding: 10px;
         }
+
         body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-h1, h2 {
-    margin-bottom: 20px;
-}
+        h1,
+        h2 {
+            margin-bottom: 20px;
+        }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
 
-th, td {
-    padding: 8px;
-    text-align: left;
-}
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
 
-th {
-    background-color: #f2f2f2;
-}
+        th {
+            background-color: #f2f2f2;
+        }
 
-img {
-    max-width: 100px;
-    height: auto;
-}
+        img {
+            max-width: 100px;
+            height: auto;
+        }
 
-form {
-    margin-top: 20px;
-}
+        form {
+            margin-top: 20px;
+        }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-}
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
 
-input[type="text"],
-textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-}
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
 
-input[type="file"] {
-    margin-bottom: 10px;
-}
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
 
-input[type="submit"],
-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        input[type="submit"],
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-input[type="submit"]:hover,
-button:hover {
-    background-color: #0056b3;
-}
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: #0056b3;
+        }
 
-button {
-    margin-right: 10px;
-}
-
+        button {
+            margin-right: 10px;
+        }
     </style>
 </head>
 
