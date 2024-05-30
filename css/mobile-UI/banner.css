@@ -1,0 +1,54 @@
+@media only screen and (max-width: 600px) {
+        .banner-page {
+            position: relative;
+            width: 100%;
+        }
+
+        .banner-left {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .container-banner-left {
+            display: flex;
+            transition: transform 0.5s ease;
+            position: relative;
+            width: 100%;
+        }
+
+        .banner-left-item {
+            flex: 0 0 100%;
+            position: relative;
+        }
+
+        .banner-left-item img {
+            width: 100%;
+            height: 100%;
+            /* object-fit: contain; */
+        }
+
+        .prev-banner-button,
+        .next-banner-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 20px 10px;
+            border: none;
+            z-index: 1;
+        }
+
+        .prev-banner-button {
+            left: 5px;
+        }
+
+        .next-banner-button {
+            right: 5px;
+        }
+
+        .banner-right {
+            display: none;
+        }
+    }
