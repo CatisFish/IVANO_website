@@ -63,13 +63,14 @@
     </div>
     <button class="btn-ex-next" onclick="uniqueShowNext()"><i class="fa-solid fa-chevron-right"></i></button>
 
-    <div class="unique-radio-buttons">
-        <input type="radio" name="unique-slider" id="unique-radio1" checked>
-        <span></span>
-        <input type="radio" name="unique-slider" id="unique-radio2">
-        <span></span>
-        <input type="radio" name="unique-slider" id="unique-radio3">
-        <span></span>
+    <div class="radio-buttons-comment">
+        <input type="radio" id="side-comment1" name="side-comment" checked>
+        <label for="side-comment1"></label>
+        <input type="radio" id="side-comment2" name="side-comment">
+        <label for="side-comment2"></label>
+        <input type="radio" id="side-comment3" name="side-comment">
+        <label for="side-comment3"></label>
+    </div>
 </section>
 
 <style>
@@ -85,9 +86,10 @@
     }
 
     .ex-comment-container {
+        align-items: center;
         display: flex;
         transition: transform 0.5s ease-in-out;
-        width: 80%;
+        width: 90%;
         margin: 0px auto;
     }
 
@@ -156,81 +158,205 @@
         border-radius: 3px 0 0 3px;
     }
 
-    .unique-radio-buttons {
+    .radio-buttons-comment {
+        display: flex;
+        justify-content: center;
+        margin: 5px 0 10px 0;
         position: absolute;
-        bottom: 5px;
-        left: 50%;
-        transform: translateX(-50%);
-        user-select: none;
+        bottom: 10px;
+        right: 50%;
+        transform: translateY(50%)
+
     }
 
-    .unique-radio-buttons input[type="radio"] {
+    .radio-buttons-comment input {
         display: none;
     }
 
-    .unique-radio-buttons input[type="radio"]+span {
-        display: inline-block;
-        width: 15px;
-        height: 15px;
-        background-color: #fff;
-        border: 2px solid #fff;
+    .radio-buttons-comment label {
+        width: 5px;
+        height: 5px;
+        background-color: #ccc;
         border-radius: 50%;
-        margin: 0 5px;
+        margin: 0px 5px 5px 5px;
         cursor: pointer;
-        transition: background-color 0.3s, border-color 0.3s;
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
-    .unique-radio-buttons input[type="radio"]:hover+span {
-        background-color: #ddd;
+    .radio-buttons-comment input:checked+label {
+        background-color: #007bff;
+        transform: scale(1.15);
+        box-shadow: 0 0 0 2px #007bff, 0 2px 10px rgba(0, 0, 0, 0.2);
     }
+</style>
 
-    .unique-radio-buttons input[type="radio"]:checked+span {
-        background-color: #fff;
-        border-color: #007bff;
+<style>
+    @media only screen and (max-width: 600px) {
+        .show-ex-comment {
+            overflow: hidden;
+            margin-top: 50px;
+            background-image: url('images/BacksAndBeyond_Images_Learning_2-2000x700-1-1400x490.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            margin: 10px;
+            border-radius: 15px;
+        }
+
+        .ex-comment-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 95%;
+            margin: 0px auto;
+        }
+
+        .ex-comment-item {
+            align-items: center;
+            min-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            gap: 10px;
+            padding: 10px 20px;
+        }
+
+        .content-ex-cmt-left img {
+            width: 75px;
+            border-radius: 50%;
+        }
+
+        .ex-cmt-star {
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .star-point,
+        .star-no-point {
+            color: #FFD400;
+        }
+
+        .content-ex-cmt-right {
+            color: #FFF;
+
+        }
+
+        .ex-cmt-content {
+            font-weight: 500;
+            font-style: italic;
+            font-size: 10px;
+        }
+
+        .ex-cmt-name {
+            margin-top: 15px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .ex-name {
+            font-weight: 600;
+        }
+
+        .btn-ex-prev,
+        .btn-ex-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 15px 5px;
+            cursor: pointer;
+            border: none;
+            z-index: 1;
+            user-select: none;
+            font-size: 13px;
+        }
+
+        .btn-ex-prev {
+            left: 0px;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .btn-ex-next {
+            right: 0px;
+            border-radius: 0px 3px 3px 0px;
+        }
+
+        .radio-buttons-comment {
+            display: flex;
+            justify-content: center;
+            margin: 5px 0 10px 0;
+        }
+
+        .radio-buttons-comment input {
+            display: none;
+        }
+
+        .radio-buttons-comment label {
+            width: 5px;
+            height: 5px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin: 0px 5px 5px 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .radio-buttons-comment input:checked+label {
+            background-color: #007bff;
+            transform: scale(1.15);
+            box-shadow: 0 0 0 2px #007bff, 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
     }
 </style>
 
 <script>
-    var commentContainer = document.querySelector('.ex-comment-container');
-    var currentPosition = 0;
-    var commentItems = document.querySelectorAll('.ex-comment-item');
-    var totalItems = commentItems.length;
-    var radioButtons = document.querySelectorAll('input[name="unique-slider"]');
-    var timer;
 
-    function updateRadioButtons() {
-        radioButtons.forEach(function(radioButton, index) {
-            radioButton.checked = index === currentPosition;
+    document.addEventListener("DOMContentLoaded", function () {
+        const exCommentContainer = document.querySelector(".ex-comment-container");
+        const exRadioButtons = document.querySelectorAll('[name="side-comment"]');
+        const exPreBtn = document.querySelector(".btn-ex-prev");
+        const exNextBtn = document.querySelector(".btn-ex-next");
+        const commentWidth = exCommentContainer.offsetWidth;
+
+        let currentSlideIndex = 0;
+
+        exPreBtn.addEventListener('click', () => {
+            const lastItem = exCommentContainer.querySelector(".ex-comment-item:last-child");
+            exCommentContainer.insertBefore(lastItem, exCommentContainer.firstChild);
+            exCommentContainer.style.transition = "none";
+            exCommentContainer.style.transform = `translateX(-${commentWidth}px)`;
+
+            setTimeout(() => {
+                exCommentContainer.style.transition = "transform 0.5s ease-in-out";
+                exCommentContainer.style.transform = "translateX(0)";
+            }, 20);
+
+            currentSlideIndex = (currentSlideIndex - 1 + exRadioButtons.length) % exRadioButtons.length;
+            updateRadioButtons();
         });
-    }
 
-    function uniqueShowNext() {
-        currentPosition = (currentPosition + 1) % totalItems;
-        slideComments();
-    }
+        exNextBtn.addEventListener('click', () => {
+            const firstItem = exCommentContainer.querySelector(".ex-comment-item:first-child");
+            exCommentContainer.style.transition = "transform 0.5s ease-in-out";
+            exCommentContainer.style.transform = `translateX(-${commentWidth}px)`;
 
-    function uniqueShowPrev() {
-        currentPosition = (currentPosition - 1 + totalItems) % totalItems;
-        slideComments();
-    }
-    document.querySelector('.btn-ex-prev').addEventListener('click', uniqueShowPrev);
-    document.querySelector('.btn-ex-next').addEventListener('click', uniqueShowNext);
-    radioButtons.forEach(function(radioButton, index) {
-        radioButton.addEventListener('click', function() {
-            currentPosition = index;
-            slideComments();
+            setTimeout(() => {
+                exCommentContainer.appendChild(firstItem);
+                exCommentContainer.style.transition = "none";
+                exCommentContainer.style.transform = "translateX(0)";
+            }, 500);
+
+            currentSlideIndex = (currentSlideIndex + 1) % exRadioButtons.length;
+            updateRadioButtons();
         });
+
+        function updateRadioButtons() {
+            exRadioButtons.forEach((radioButton, index) => {
+                radioButton.checked = index === currentSlideIndex;
+            });
+        }
     });
 
-    function slideComments() {
-        var newPosition = -currentPosition * 100 + '%';
-        commentContainer.style.transition = 'transform 0.5s ease-in-out';
-        commentContainer.style.transform = 'translateX(' + newPosition + ')';
-        updateRadioButtons();
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-            uniqueShowNext();
-        }, 5000);
-    }
-    slideComments();
 </script>

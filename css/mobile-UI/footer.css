@@ -20,10 +20,10 @@
 
     .ft-mid {
         background: url("../../images/Paint-splash-black-background.jpg");
-
     }
 
     .container-ft-mid {
+       display: block;
         width: 95%;
         margin: 0px auto;
     }

@@ -11,27 +11,25 @@
         position: fixed;
         top: 50%;
         left: 50%;
-      
         z-index: 1000;
     }
 
-
     .popup-custom.show {
-    display: block;
-    animation: slideUp 0.5s ease-out forwards;
-  }
-
-  @keyframes slideUp {
-    from {
-      transform: translateY(100%) translateX(-50%);
-      opacity: 0;
+        display: block;
+        animation: slideUp 0.5s ease-out forwards;
     }
-    to {
-        transform: translate(-50%, -50%);
-      opacity: 1;
-    }
-  }
 
+    @keyframes slideUp {
+        from {
+            transform: translateY(100%) translateX(-50%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translate(-50%, -50%);
+            opacity: 1;
+        }
+    }
 
     .popup-header-custom {
         position: absolute;
@@ -238,49 +236,81 @@
         background-color: rgba(0, 0, 0, 0.5);
         z-index: 999;
     }
-
-    
 </style>
 
-
-
-
+<style>
+    @media only screen and (max-width: 600px) {
+        .popup-custom {
+        opacity: 0;
+        width: 400px;
+        height: 400px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        background-size: cover;
+        transition: all 0.3s ease-in-out;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        z-index: 1000;
+    }
+    .form-container-custom {
+        position: relative;
+        width: 100%;
+        background: #f9f9f9;
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-left: 1px solid #ccc;
+        z-index: 11;
+        font-weight: 600;
+    }
+    }
+</style>
 
 <?php
-    // Database connection
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "ivano_website";
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "ivano_website";
 
-    $conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $database);
 
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-    // Query to get popup content
-    $sql_popup = "SELECT popup_content, popup_img, popup_description FROM popups "; // Replace '1' with the desired popup_id
-    $result_popup = $conn->query($sql_popup);
+// Query to get popup content
+$sql_popup = "SELECT popup_content, popup_img, popup_description FROM popups "; // Replace '1' with the desired popup_id
+$result_popup = $conn->query($sql_popup);
 
-    // Initialize variables with default values
-    $popup_title = "Popup Title";
-    $popup_img = "default_popup_img.jpg";
-    $popup_description = "Popup Description";
+// Initialize variables with default values
+$popup_title = "Popup Title";
+$popup_img = "default_popup_img.jpg";
+$popup_description = "Popup Description";
 
-    if ($result_popup && $result_popup->num_rows > 0) {
-        $row_popup = $result_popup->fetch_assoc();
-        $popup_title = $row_popup['popup_content'];
-        $popup_img = "" . $row_popup['popup_img'];
-        $popup_description = $row_popup['popup_description'];
-    }
-    ?>
+if ($result_popup && $result_popup->num_rows > 0) {
+    $row_popup = $result_popup->fetch_assoc();
+    $popup_title = $row_popup['popup_content'];
+    $popup_img = "" . $row_popup['popup_img'];
+    $popup_description = $row_popup['popup_description'];
+}
+?>
 
 <div class="overlay" id="overlay"></div>
 
 <div class="popup-custom" id="popup-custom">
     <div class="popup-header-custom">
-        <button type="button" class="close-popup-custom" onclick="hidePopUpCustom()"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="close-popup-custom" onclick="hidePopUpCustom()"><i
+                class="fa-solid fa-xmark"></i></button>
     </div>
 
     <div class="carousel-custom" id="carousel-custom">
@@ -297,62 +327,50 @@
         <!-- No need for carousel controls if only one slide -->
     </div>
     <div class="form-container-custom" id="form-container-custom">
-    <h2>Thông Tin Của Bạn</h2>
-    <form method="post" action="">
-        <button type="button" class="cancel-button" onclick="hideFormCustom()"><i class="fa-solid fa-xmark"></i></button>
-        <input type="text" name="ten" placeholder="Họ Tên" required>
-        <input type="tel" name="so_dien_thoai" placeholder="Số điện thoại (Đăng ký zalo)" required>
-        <button type="submit">Gửi</button>
-    </form>
-</div>
-
+        <h2>Thông Tin Của Bạn</h2>
+        <form method="post" action="">
+            <button type="button" class="cancel-button" onclick="hideFormCustom()"><i
+                    class="fa-solid fa-xmark"></i></button>
+            <input type="text" name="ten" placeholder="Họ Tên" required>
+            <input type="tel" name="so_dien_thoai" placeholder="Số điện thoại (Đăng ký zalo)" required>
+            <button type="submit">Gửi</button>
+        </form>
+    </div>
 
     <?php
-  
-    // Kết nối đến cơ sở dữ liệu
     $servername = "localhost";
     $username = "root";
     $password = "";
     $database = "ivano_website";
-    
-    // Tạo kết nối
+
     $conn = new mysqli($servername, $username, $password, $database);
-    
-    // Kiểm tra kết nối
+
     if ($conn->connect_error) {
         die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
     }
-    
-    // Kiểm tra xem form đã được gửi chưa
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Lấy dữ liệu từ form
         $ho_ten = $_POST['ten'];
         $so_dien_thoai = $_POST['so_dien_thoai'];
-        
-        // Thời gian gửi
+
         $thoi_gian_gui = date("Y-m-d H:i:s");
-    
-        // Thêm dữ liệu vào bảng tuvan_form
+
         $sql = "INSERT INTO tuvan_form (ten, so_dien_thoai, ngay_gui) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $ho_ten, $so_dien_thoai, $thoi_gian_gui);
-    
-        // Thực thi câu lệnh SQL
+
         if ($stmt->execute()) {
             echo "<p>Thông tin của bạn đã được gửi thành công.</p>";
         } else {
             echo "<p>Có lỗi xảy ra. Vui lòng thử lại sau.</p>";
         }
-    
-        // Đóng câu lệnh prepare
+
         $stmt->close();
     }
-    
-    
-    // Đóng kết nối
+
     $conn->close();
     ?>
-    
+
 </div>
 
 <script>
@@ -377,7 +395,7 @@
     function showSlideCustom(index) {
         const carousel = document.getElementById('carousel-custom');
         const slides = carousel.querySelectorAll('.slide-custom');
-        
+
         const totalSlides = slides.length;
 
         if (index >= totalSlides) {
@@ -398,8 +416,8 @@
         showSlideCustom(currentSlideCustom - 1);
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-        setTimeout(function() {
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(function () {
             document.getElementById('popup-custom').style.opacity = '1';
             overlay.style.display = 'block';
             document.getElementById('popup-custom').classList.add('show');

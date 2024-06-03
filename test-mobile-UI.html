@@ -143,7 +143,7 @@
             </li>
         </ul>
 
-        <div class="radio-buttons">
+        <div class="radio-buttons-sales">
             <input type="radio" id="side-sales1" name="side-sales" checked>
             <label for="side-sales1"></label>
             <input type="radio" id="side-sales2" name="side-sales">
@@ -390,13 +390,13 @@
         </div>
         <button class="btn-ex-next"><i class="fa-solid fa-chevron-right"></i></button>
 
-        <div class="unique-radio-buttons">
-            <input type="radio" name="unique-slider" id="unique-radio1" checked>
-            <span></span>
-            <input type="radio" name="unique-slider" id="unique-radio2">
-            <span></span>
-            <input type="radio" name="unique-slider" id="unique-radio3">
-            <span></span>
+        <div class="radio-buttons-comment">
+            <input type="radio" id="side-comment1" name="side-comment" checked>
+            <label for="side-comment1"></label>
+            <input type="radio" id="side-comment2" name="side-comment">
+            <label for="side-comment2"></label>
+            <input type="radio" id="side-comment3" name="side-comment">
+            <label for="side-comment3"></label>
         </div>
     </section>
 
@@ -560,7 +560,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const listSales = document.querySelector('.list-sales');
             const itemSales = document.querySelectorAll('.sale-item');
-            const radios = document.querySelectorAll('.radio-buttons input');
+            const radios = document.querySelectorAll('.radio-buttons-sales input');
             const itemWidth = itemSales[0].offsetWidth + 10;
             const midIndex = Math.floor(radios.length / 2);
 
@@ -601,7 +601,6 @@
             setInterval(slideNext, 3000);
         });
     }
-
 </script>
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script> -->
@@ -611,7 +610,7 @@
     if (window.matchMedia("(max-width: 600px)").matches) {
         document.addEventListener("DOMContentLoaded", function () {
             const exCommentContainer = document.querySelector(".ex-comment-container");
-            const exRadioButtons = document.querySelectorAll('[name="unique-slider"]');
+            const exRadioButtons = document.querySelectorAll('[name="side-comment"]');
             const exPreBtn = document.querySelector(".btn-ex-prev");
             const exNextBtn = document.querySelector(".btn-ex-next");
             const commentWidth = exCommentContainer.offsetWidth;

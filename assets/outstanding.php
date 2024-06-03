@@ -1,9 +1,9 @@
 <?php
+include "php/conection.php";
 
 $sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
         FROM products p 
         LEFT JOIN product_images i ON p.product_id = i.product_id
-
         INNER JOIN categories c ON p.category_id = c.category_id
         INNER JOIN brands b ON p.brand_id = b.brand_id
         INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
@@ -51,195 +51,420 @@ if ($result->num_rows > 0) {
 ?>
 
 <style>
-.container-outstanding {
-    width: 80%;
-    margin: 0 auto;
-    position: relative;
-}
+    .see-more {
+        display: none;
+    }
 
-.container-outstanding h1 {
-    text-align: center;
-    font-size: 30px;
-    position: relative;
-    z-index: 1;
-    color: #FC0000;
-    text-transform: uppercase;
-}
+    .container-outstanding {
+        width: 80%;
+        margin: 0 auto;
+        position: relative;
+    }
 
-.container-outstanding h1::before,
-.container-outstanding h1::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 1px;
-    /* background-color: rgba(252, 185, 0, 1); */
-    width: 35%;
-    background-color: #FC0000;
-}
+    .container-outstanding h1 {
+        text-align: center;
+        font-size: 30px;
+        position: relative;
+        z-index: 1;
+        color: #FC0000;
+        text-transform: uppercase;
+    }
 
-.container-outstanding h1::before {
-    left: 0;
-}
+    .container-outstanding h1::before,
+    .container-outstanding h1::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 1px;
+        /* background-color: rgba(252, 185, 0, 1); */
+        width: 35%;
+        background-color: #FC0000;
+    }
 
-.container-outstanding h1::after {
-    right: 0;
-}
+    .container-outstanding h1::before {
+        left: 0;
+    }
 
-.container-list-product {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    max-width: 1200px;
-    margin: auto;
-    margin: 30px 0;
-}
+    .container-outstanding h1::after {
+        right: 0;
+    }
 
-.list-product {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-}
+    .container-list-product {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        max-width: 1200px;
+        margin: auto;
+        margin: 30px 0;
+    }
 
-.product-item {
-    min-width: 25%;
-    box-sizing: border-box;
-    padding: 0 10px;
-    position: relative;
-    /* box-shadow: 0 5px 5px 0 rgb(0 0 0 / 10%); */
-    border-radius: 20px;
-}
+    .list-product {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
 
-.product-item img {
-    /* width: 100%;
+    .product-item {
+        min-width: 25%;
+        box-sizing: border-box;
+        padding: 0 10px;
+        position: relative;
+        /* box-shadow: 0 5px 5px 0 rgb(0 0 0 / 10%); */
+        border-radius: 20px;
+    }
+
+    .product-item img {
+        /* width: 100%;
             height: auto; */
-    width: 280px;
-    height: 320px;
-}
+        width: 280px;
+        height: 320px;
+    }
 
-.brand-name {
-    color: #333;
-    font-weight: 500;
-    text-transform: uppercase;
-    font-size: 12px;
-    margin: 10px 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-}
+    .brand-name {
+        color: #333;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin: 10px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
 
-.product-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    max-height: 45px;
-    font-weight: 700;
-    color: #1e73be;
-    font-size: 17px;
-}
+    .product-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        max-height: 45px;
+        font-weight: 700;
+        color: #1e73be;
+        font-size: 17px;
+    }
 
-.product-price {
-    color: #f80000;
-    font-weight: 600;
-    margin: 10px 0 10px 0;
-}
+    .product-price {
+        color: #f80000;
+        font-weight: 600;
+        margin: 10px 0 10px 0;
+    }
 
-.prev-button,
-.next-button {
-    position: absolute;
-    top: 50%;
-    background: none;
-    transform: translateY(-50%);
-    border: 1px solid #221F20;
-    color: #333;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 50%;
-    color: #221F20;
-    transition: all ease-in-out 0.3s;
+    .prev-button,
+    .next-button {
+        position: absolute;
+        top: 50%;
+        background: none;
+        transform: translateY(-50%);
+        border: 1px solid #221F20;
+        color: #333;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        padding: 5px 10px;
+        border-radius: 50%;
+        color: #221F20;
+        transition: all ease-in-out 0.3s;
 
-}
+    }
 
-.prev-button {
-    left: 0px;
-}
+    .prev-button {
+        left: 0px;
+    }
 
-.next-button {
-    right: 0px;
-}
+    .next-button {
+        right: 0px;
+    }
 
-.prev-button:hover,
-.next-button:hover {
-    background-color: #ff6900;
-    color: #fff;
-    border: 1px solid #ff6900;
+    .prev-button:hover,
+    .next-button:hover {
+        background-color: #ff6900;
+        color: #fff;
+        border: 1px solid #ff6900;
 
-}
+    }
 </style>
 
 <style>
-.product-action .action-add .view-product {
-    opacity: 0;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%) translateY(-250%);
-    background-color: #ff6900;
-    border: none;
-    padding: 10px 20px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    width: 100%;
-    color: #fff;
-    font-weight: 600;
-    text-transform: uppercase;
-    cursor: pointer;
-}
+    .product-action .action-add .view-product {
+        opacity: 0;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%) translateY(-250%);
+        background-color: #ff6900;
+        border: none;
+        padding: 10px 20px;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        width: 100%;
+        color: #fff;
+        font-weight: 600;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
 
-.product-item:hover .product-action .action-add .view-product {
-    transform: translateX(-50%) translateY(-125px);
-    opacity: 1;
-}
+    .product-item:hover .product-action .action-add .view-product {
+        transform: translateX(-50%) translateY(-125px);
+        opacity: 1;
+    }
 </style>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const productContainer = document.querySelector('.list-product');
-    const productItems = document.querySelectorAll('.product-item');
-    const prevButton = document.querySelector('.prev-button');
-    const nextButton = document.querySelector('.next-button');
-
-    let currentIndex = 0;
-    const itemsToShow = 4;
-    const additionalItems = 2; // Additional items to show when clicking "next"
-    const totalItems = productItems.length / 2 + additionalItems; // Adjust total items
-
-    prevButton.addEventListener('click', () => {
-        currentIndex--;
-        if (currentIndex < 0) {
-            currentIndex = totalItems - 1;
+<style>
+    @media only screen and (max-width: 600px) {
+        .see-more {
+            display: block;
         }
-        updateCarousel();
-    });
 
-    nextButton.addEventListener('click', () => {
-        currentIndex += additionalItems; // Increment index by additional items
-        if (currentIndex >= totalItems) {
-            currentIndex = 0;
+        .prev-button,
+        .next-button {
+            display: none;
         }
-        updateCarousel();
-    });
 
-    function updateCarousel() {
-        let newIndex = currentIndex % totalItems;
-        if (newIndex < 0) newIndex += totalItems;
+        .container-outstanding h1::before,
+        .container-outstanding h1::after {
+            display: none;
+        }
 
-        const newTransformValue = -(newIndex * 100 / itemsToShow) + '%';
-        productContainer.style.transform = `translateX(${newTransformValue})`;
+        .container-outstanding {
+            width: 95%;
+            margin: 25px auto;
+            position: relative;
+        }
+
+        .container-heading-oustanding {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .container-heading-oustanding h1 {
+            text-align: center;
+            font-size: 22px;
+            position: relative;
+            z-index: 1;
+            color: #FC0000;
+            text-transform: uppercase;
+        }
+
+        .see-more {
+            background-color: #ffffff;
+            border: 2px solid #FC0000;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .see-more a {
+            color: #FC0000;
+        }
+
+        .container-list-product {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            margin: auto;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .list-product {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .product-item {
+            min-width: 50%;
+            box-sizing: border-box;
+            padding: 0 10px;
+            text-align: center;
+        }
+
+        .product-item img {
+            width: 100%;
+        }
+
+        .brand-name {
+            color: #333;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 12px;
+            margin: 10px 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            text-align: left;
+        }
+
+        .product-name {
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            max-height: 45px;
+            font-weight: 700;
+            color: #1e73be;
+            font-size: 15px;
+        }
+
+        .product-price {
+            color: #f80000;
+            font-weight: 600;
+            margin: 10px 0 10px 0;
+            text-align: left;
+        }
+
+        .product-action .action-add {
+            display: none;
+        }
     }
-});
+</style>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const productContainer = document.querySelector('.list-product');
+        const productItems = document.querySelectorAll('.product-item');
+        const prevButton = document.querySelector('.prev-button');
+        const nextButton = document.querySelector('.next-button');
+
+        let currentIndex = 0;
+        const itemsToShow = 4;
+        const additionalItems = 2;
+        const totalItems = productItems.length / 2 + additionalItems;
+
+        prevButton.addEventListener('click', () => {
+            currentIndex--;
+            if (currentIndex < 0) {
+                currentIndex = totalItems - 1;
+            }
+            updateCarousel();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex += additionalItems;
+            if (currentIndex >= totalItems) {
+                currentIndex = 0;
+            }
+            updateCarousel();
+        });
+
+        function updateCarousel() {
+            let newIndex = currentIndex % totalItems;
+            if (newIndex < 0) newIndex += totalItems;
+
+            const newTransformValue = -(newIndex * 100 / itemsToShow) + '%';
+            productContainer.style.transform = `translateX(${newTransformValue})`;
+        }
+    });
+</script>
+
+<script>
+    if (window.matchMedia("(max-width: 600px)").matches) {
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.matchMedia("(max-width: 600px)").matches) {
+                const listProduct = document.querySelector('.list-product');
+                const items = document.querySelectorAll('.product-item');
+                const itemWidth = items[0].offsetWidth + 10;
+
+                let currentIndex = 0;
+                let startX = 0;
+                let isDragging = false;
+
+                function slideNext() {
+                    listProduct.style.transition = "transform 0.5s ease-in-out";
+                    listProduct.style.transform = `translateX(-${itemWidth}px)`;
+
+                    setTimeout(() => {
+                        const firstItem = listProduct.querySelector('.product-item:first-child');
+                        listProduct.appendChild(firstItem);
+
+                        listProduct.style.transition = "none";
+                        listProduct.style.transform = "translateX(0)";
+
+                        currentIndex = (currentIndex + 1) % items.length;
+                    }, 450);
+                }
+
+                function slidePrev() {
+                    listProduct.style.transition = "none";
+                    listProduct.style.transform = `translateX(-${itemWidth}px)`;
+
+                    const lastItem = listProduct.querySelector('.product-item:last-child');
+                    listProduct.insertBefore(lastItem, listProduct.firstChild);
+
+                    setTimeout(() => {
+                        listProduct.style.transition = "transform 0.5s ease-in-out";
+                        listProduct.style.transform = "translateX(0)";
+                    }, 50);
+                }
+
+
+                listProduct.addEventListener('mousedown', (event) => {
+                    startX = event.pageX;
+                    isDragging = true;
+                });
+
+                listProduct.addEventListener('mousemove', (event) => {
+                    if (isDragging) {
+                        const diffX = event.pageX - startX;
+                        if (diffX > 50) {
+                            slidePrev();
+                            isDragging = false;
+                        } else if (diffX < -50) {
+                            slideNext();
+                            isDragging = false;
+                        }
+                    }
+                });
+
+                listProduct.addEventListener('mouseup', () => {
+                    isDragging = false;
+                });
+
+                listProduct.addEventListener('mouseleave', () => {
+                    isDragging = false;
+                });
+
+                // Lắng nghe sự kiện cảm ứng
+                listProduct.addEventListener('touchstart', (event) => {
+                    startX = event.touches[0].pageX;
+                    isDragging = true;
+                });
+
+                listProduct.addEventListener('touchmove', (event) => {
+                    if (isDragging) {
+                        const diffX = event.touches[0].pageX - startX;
+                        if (diffX > 50) {
+                            slidePrev();
+                            isDragging = false;
+                        } else if (diffX < -50) {
+                            slideNext();
+                            isDragging = false;
+                        }
+                    }
+                });
+
+                listProduct.addEventListener('touchend', () => {
+                    isDragging = false;
+                });
+
+                listProduct.addEventListener('touchcancel', () => {
+                    isDragging = false;
+                });
+
+
+            }
+        });
+    }
 </script>

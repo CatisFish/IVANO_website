@@ -15,15 +15,10 @@
     <?php
 include "assets/header.php";
 
-// Kiểm tra xem product_id đã được truyền qua URL hay không
 if (isset($_GET['product_id'])) {
-    // Lấy product_id từ tham số truyền qua URL
     $productId = $_GET['product_id'];
-
-    // Bao gồm tệp kết nối đến cơ sở dữ liệu
     include 'php/conection.php';
 
-    // Kiểm tra xem product_id có tồn tại trong cơ sở dữ liệu hay không
     $checkProductSql = "SELECT * FROM products WHERE product_id = ?";
     $stmtCheck = $conn->prepare($checkProductSql);
     $stmtCheck->bind_param("s", $productId);
@@ -31,31 +26,26 @@ if (isset($_GET['product_id'])) {
     $resultCheck = $stmtCheck->get_result();
 
     if ($resultCheck->num_rows > 0) {
-        // Nếu product_id tồn tại, thực hiện cập nhật cột clicks
         $updateClicksSql = "UPDATE products SET clicks = clicks + 1 WHERE product_id = ?";
         $stmtUpdate = $conn->prepare($updateClicksSql);
         $stmtUpdate->bind_param("s", $productId);
         $stmtUpdate->execute();
         $stmtUpdate->close();
     } else {
-        // Xử lý khi product_id không tồn tại trong cơ sở dữ liệu
         echo "Product ID không tồn tại";
     }
 
     $stmtCheck->close();
     $conn->close();
 } else {
-    // Xử lý khi không có product_id được truyền qua URL
     echo "Không có product ID được truyền qua URL";
 }
 
-// Kiểm tra xem product_id đã được truyền qua URL hay không
 if (isset($_GET['product_id'])) {
     $productId = $_GET['product_id'];
 
     include "php/conection.php";
 
-    // Truy vấn chi tiết sản phẩm
     $detailSql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
             FROM products p 
             LEFT JOIN product_images i ON p.product_id = i.product_id
@@ -77,7 +67,6 @@ if (isset($_GET['product_id'])) {
     if ($detailResult->num_rows > 0) {
         $detailRow = $detailResult->fetch_assoc();
 
-        // Hiển thị thông tin chi tiết sản phẩm
         echo '<div class="product-detail-container">';
         echo '<div class="product-detail-link">';
         echo '<a href="index.php">Trang Chủ</a> <i class="fa-solid fa-chevron-right"></i> ';
@@ -171,15 +160,15 @@ if (isset($_GET['product_id'])) {
         echo "<p>Không tìm thấy sản phẩm.</p>";
         }
 
-
         ?>     
         <div class="detail-info-bottom">
             <div class="info-des">
-                <h2>Tính năng vượt trội:</h2>
-                <!-- Thêm các tính năng vượt trội của sản phẩm ở đây -->
+                <?php include "assets/des-product-plus.php";?>
             </div>
         </div>
+        
     </main>
+    <?php include "assets/footer.php";?>
 </body>
 
 <style>

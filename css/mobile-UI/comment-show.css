@@ -88,18 +88,30 @@
         border-radius: 0px 3px 3px 0px;
     }
 
-    .unique-radio-buttons {
-        position: absolute;
-        bottom: 0px;
-        left: 50%;
-        transform: translateX(-50%);
-        user-select: none;
-        transition: all ease-in-out 0.3s;
+    .radio-buttons-comment {
+        display: flex;
+        justify-content: center;
+        margin: 5px 0 10px 0;
     }
 
-    .unique-radio-buttons input[type="radio"]:checked+span {
-        background-color: #fff;
-        border-color: #007bff;
-        transition: all ease-in-out 0.3s;
+    .radio-buttons-comment input {
+        display: none;
+    }
+
+    .radio-buttons-comment label {
+        width: 5px;
+        height: 5px;
+        background-color: #ccc;
+        border-radius: 50%;
+        margin: 0px 5px 5px 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .radio-buttons-comment input:checked+label {
+        background-color: #007bff;
+        transform: scale(1.15);
+        box-shadow: 0 0 0 2px #007bff, 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 }
