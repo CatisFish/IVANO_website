@@ -30,7 +30,9 @@
         <?php
         include "assets/banner-news.php";
         ?>
-
+          <?php
+        include "php/flsale.php";
+        ?>
         <section class="container-outstanding">
         <div class="container-heading-oustanding">
             <h1>Sản Phẩm Nổi Bật</h1>
@@ -62,9 +64,15 @@
 
         <?php include "assets/footer.php"; ?>
 
+<<<<<<< HEAD
         <?php
         include "assets/popup.php";
         ?>
+=======
+         <?php
+            include "assets/popup.php";
+        ?> 
+>>>>>>> b247bce124afc00b7ec4149022fda5aa9bd10415
     </main>
 
     <style>

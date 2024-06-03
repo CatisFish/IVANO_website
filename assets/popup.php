@@ -297,6 +297,7 @@ $popup_title = "Popup Title";
 $popup_img = "default_popup_img.jpg";
 $popup_description = "Popup Description";
 
+<<<<<<< HEAD
 if ($result_popup && $result_popup->num_rows > 0) {
     $row_popup = $result_popup->fetch_assoc();
     $popup_title = $row_popup['popup_content'];
@@ -304,6 +305,15 @@ if ($result_popup && $result_popup->num_rows > 0) {
     $popup_description = $row_popup['popup_description'];
 }
 ?>
+=======
+    if ($result_popup && $result_popup->num_rows > 0) {
+        $row_popup = $result_popup->fetch_assoc();
+        $popup_title = $row_popup['popup_content'];
+        $popup_img = "admin/" . $row_popup['popup_img'];
+        $popup_description = $row_popup['popup_description'];
+    }
+    ?>
+>>>>>>> b247bce124afc00b7ec4149022fda5aa9bd10415
 
 <div class="overlay" id="overlay"></div>
 

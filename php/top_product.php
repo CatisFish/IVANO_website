@@ -5,15 +5,15 @@
 }
 
 .top-products-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    list-style: none;
+    padding: 0;
 }
 
 .product-item {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 10px;
+    margin-bottom: 20px;
     transition: transform 0.3s ease;
 }
 
@@ -24,10 +24,12 @@
 .product-link {
     text-decoration: none;
     color: inherit;
+    display: block;
 }
 
 .product-image {
     width: 100%;
+    max-width: 150px; /* Thêm đoạn này để giảm kích thước của ảnh */
     height: auto;
     border-radius: 5px;
 }
@@ -51,7 +53,7 @@
 }
 </style>
 
-<!-- top_product.php -->
+
 <?php
 // Bao gồm tệp kết nối đến cơ sở dữ liệu
 include '../php/conection.php';
@@ -73,16 +75,16 @@ $topProductsSql = "
     ORDER BY 
         p.clicks DESC
     LIMIT 
-        10"; // Lấy ra top 10 sản phẩm
+        5"; // Lấy ra top 5 sản phẩm
 $result = $conn->query($topProductsSql);
 
 // Hiển thị dữ liệu
 if ($result->num_rows > 0) {
     echo '<section class="container-top-products">';
     echo '<h2>Top Sản Phẩm</h2>';
-    echo '<div class="top-products-list">';
+    echo '<ul class="top-products-list">';
     while ($row = $result->fetch_assoc()) {
-        echo '<div class="product-item">';
+        echo '<li class="product-item">';
         echo '<a href="show-detail.php?product_id=' . $row['product_id'] . '" class="product-link">';
         // Hiển thị ảnh sản phẩm
         if ($row['path_image']) {
@@ -91,13 +93,13 @@ if ($result->num_rows > 0) {
             echo '<img src="placeholder.jpg" alt="' . $row['product_name'] . '" class="product-image">';
         }
         // Hiển thị thông tin sản phẩm
-        echo '<h3>' . $row['product_name'] . '</h3>';
-        echo '<p>Thương hiệu: ' . $row['brand_name'] . '</p>';
-        echo '<p>Số lượt nhấn: ' . $row['clicks'] . '</p>';
+        echo '<h3 class="product-name">' . $row['product_name'] . '</h3>';
+        echo '<p class="brand-name">Thương hiệu: ' . $row['brand_name'] . '</p>';
+        echo '<p class="clicks">Số lượt nhấn: ' . $row['clicks'] . '</p>';
         echo '</a>';
-        echo '</div>';
+        echo '</li>';
     }
-    echo '</div>';
+    echo '</ul>';
     echo '</section>';
 } else {
     echo "<p>Không có sản phẩm nào.</p>";
