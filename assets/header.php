@@ -11,8 +11,33 @@
     <link rel="stylesheet" href="css/global.css">
     <title>Document</title>
 </head>
-
+<!-- scroll to top -->
 <style>
+<<<<<<< HEAD
+=======
+    .top-page-btn {
+        z-index: 10;
+        background-color: rgb(74, 234, 220);
+        width: 50px;
+        height: 50px;
+        border: none;
+        transition: all 0.3s ease-in-out;
+        position: fixed;
+        right: 5px;
+        bottom: 5px;
+        color: #221F20;
+        z-index: 999;
+        opacity: 0;
+        cursor: pointer;
+        border-radius: 10px
+    }
+
+    .top-page-btn:hover {
+        transform: translateY(-5px);
+    }
+</style>
+<style>
+>>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
     .bar-mobile-btn,
     .close-bar-btn,
     .search-box-mobile {
@@ -140,6 +165,28 @@
         border-left: 1px solid #000;
     }
 
+<<<<<<< HEAD
+=======
+
+    /* header-fixed */
+    .fixed-header {
+        background: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 25%, rgba(252, 185, 0, 1) 50%, rgba(255, 105, 0, 1) 75%, rgb(74, 234, 220) 100%);
+        transition: transform 0.5s ease, top 0.5s ease;
+        position: fixed;
+        top: -100%;
+        left: 0;
+        width: 100%;
+        padding: 0px 5%;
+        z-index: 99;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .fixed-header.active {
+        top: 0;
+        transform: translateY(0);
+    }
+
+>>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
     @media only screen and (max-width: 600px) {
         .bar-mobile-btn {
             display: block;
@@ -154,7 +201,11 @@
             width: 90%;
             margin: 0px auto;
             justify-content: center;
+<<<<<<< HEAD
             padding: 10px 0;
+=======
+            padding: 5px 0;
+>>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
             align-items: center;
             color: #FFF;
         }
@@ -165,7 +216,11 @@
         }
 
         .header-bottom {
+<<<<<<< HEAD
             height: 50px;
+=======
+            height: 60px;
+>>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
             padding: 20px 0;
         }
 
@@ -290,6 +345,26 @@
             padding-left: 0;
             border-left: none;
         }
+<<<<<<< HEAD
+=======
+
+        .fixed-header {
+            background: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 25%, rgba(252, 185, 0, 1) 50%, rgba(255, 105, 0, 1) 75%, rgb(74, 234, 220) 100%);
+            transition: transform 0.5s ease, top 0.5s ease;
+            position: fixed;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            padding: 0px 5%;
+            z-index: 99;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .fixed-header.active {
+            top: 0;
+            transform: translateY(0);
+        }
+>>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
     }
 
     /* Styles for tablet */
@@ -511,8 +586,13 @@ if (!isset($searchQuery)) {
             </section>
         </div>
     </header>
+
+    <button class="top-page-btn">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
 </body>
 
+<!-- show-hide-bar-btn -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         if (window.matchMedia("(max-width: 600px)").matches) {
@@ -529,6 +609,55 @@ if (!isset($searchQuery)) {
             });
         }
     });
+<<<<<<< HEAD
+=======
+</script>
+
+<!-- fixed-header -->
+<script>
+    window.addEventListener('scroll', function () {
+        var headerBottom = document.querySelector('.header-bottom');
+        var scrollPosition = window.scrollY || window.pageYOffset;
+
+        if (scrollPosition > 10 && !headerBottom.classList.contains('fixed-header')) {
+            headerBottom.classList.add('fixed-header');
+            setTimeout(function () {
+                headerBottom.classList.add('active');
+            }, 10);
+        } else if (scrollPosition <= 10 && headerBottom.classList.contains('fixed-header')) {
+            headerBottom.classList.remove('active');
+            setTimeout(function () {
+                headerBottom.classList.remove('fixed-header');
+            }, 250);
+        }
+    });
+</script>
+
+<!-- scroll-to-top -->
+<script>
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+    var topButton = document.querySelector('.top-page-btn');
+
+    topButton.addEventListener('click', scrollToTop);
+
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 10) {
+            topButton.style.opacity = '1';
+            topButton.style.pointerEvents = 'auto';
+            topButton.classList.add('visible');
+        } else {
+            topButton.style.opacity = '0';
+            topButton.style.pointerEvents = 'none';
+            topButton.classList.remove('visible');
+        }
+    });
+>>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
 </script>
 
 </html>

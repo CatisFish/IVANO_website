@@ -36,7 +36,7 @@
 
     .certification-item {
         width: 25%;
-        box-shadow: 0 8px 10px 0 rgb(0 0 0 / 10%);
+        box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1), 0 8px 10px 0 rgba(0, 0, 0, 0.1);
         padding: 30px;
         border-radius: 20px;
 
@@ -58,4 +58,44 @@
     .content-certification {
         font-size: 13px;
     }
+</style>
+
+<style>
+    @media only screen and (max-width: 600px) {
+    .container-certification {
+        width: 95%;
+        margin: 5px auto;
+        display: flex;
+        flex-wrap: wrap;
+        text-align: center;
+        justify-content: space-between;
+        gap: 5px;
+    }
+
+   .certification-item {
+       width: 49%;
+       box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1), 0 8px 10px 0 rgba(0, 0, 0, 0.1);
+       padding: 10px;
+       border-radius: 10px;
+       margin: 5px 0;
+   }
+
+    .certification-item img {
+        width: 70px;
+        margin-bottom: 5px;
+    }
+
+    .title-certification {
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #DD9933;
+        font-size: 13px;
+        margin-bottom: 15px;
+    }
+
+    .content-certification {
+        font-size: 10px;
+        font-weight: 500;
+    }
+}
 </style>

@@ -1,18 +1,22 @@
 @media only screen and (max-width: 600px) {
-    .sales-container {
-        width: 95%;
-        margin: 0px auto;
-        margin-top: 15px;
+    .radio-buttons-sales {
+        display: block;
     }
 
+    .sales-container {
+        width: 95%;
+        margin: 20px auto;
+        box-shadow: none;
+    }
     .list-sales {
+        width: 100%;
         display: flex;
         gap: 10px;
         transition: transform 0.5s ease-in-out;
     }
 
     .sale-item {
-        width: calc(33.33% - 10px);
+        width: calc(20% - 10px);
         text-align: center;
     }
 
@@ -31,17 +35,17 @@
         overflow: hidden;
     }
 
-    .radio-buttons {
+    .radio-buttons-sales {
         display: flex;
         justify-content: center;
         margin-top: 10px;
     }
 
-    .radio-buttons input {
+    .radio-buttons-sales input {
         display: none;
     }
 
-    .radio-buttons label {
+    .radio-buttons-sales label {
         width: 5px;
         height: 5px;
         background-color: #ccc;
@@ -52,9 +56,8 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
-    .radio-buttons input:checked+label {
+    .radio-buttons-sales input:checked+label {
         background-color: #007bff;
-
         transform: scale(1.15);
         box-shadow: 0 0 0 2px #007bff, 0 2px 10px rgba(0, 0, 0, 0.2);
     }

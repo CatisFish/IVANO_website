@@ -1,18 +1,8 @@
-
 <section class="banner-page">
     <div id="banner-left" class="banner-left">
         <div class="container-banner-left">
             <?php
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "ivano_website";
-
-            $conn = new mysqli($servername, $username, $password, $dbname);
-
-            if ($conn->connect_error) {
-                die("Kết nối thất bại: " . $conn->connect_error);
-            }
+            include "php/conection.php";
 
             $sql_banner_left = "SELECT banner_title, banner_img FROM banners ORDER BY banner_id DESC LIMIT 3";
 
@@ -35,19 +25,9 @@
         <button class="next-banner-button"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
 
-    
     <div class="banner-right">
         <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "ivano_website";
-
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        if ($conn->connect_error) {
-            die("Kết nối thất bại: " . $conn->connect_error);
-        }
+        include "php/conection.php";
 
         $sql_right = "SELECT banner_img FROM banners ORDER BY RAND() LIMIT 2";
 
@@ -79,6 +59,7 @@
         width: 70%;
         overflow: hidden;
         position: relative;
+        transition: all ease-in-out 0.3s;
     }
 
     .container-banner-left {
@@ -100,16 +81,23 @@
         height: auto;
     }
 
+    .banner-left:hover .prev-banner-button,
+    .banner-left:hover .next-banner-button {
+        color: #fff;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
     .prev-banner-button,
     .next-banner-button {
         position: absolute;
+        background: none;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
+        color: #221F20;
         border: none;
-        padding: 20px 10px;
+        padding: 30px 10px;
         cursor: pointer;
+        transition: all ease-in-out 0.3s;
     }
 
     .prev-banner-button {

@@ -129,3 +129,82 @@ $conn->close();
         background-color: #FF8000;
     }
 </style>
+
+<style>
+    @media only screen and (max-width: 600px) {
+    .container-show-list-category {
+        width: 95%;
+        margin: 30px auto;
+        position: relative;
+    }
+
+    .container-show-list-category h1 {
+        text-align: center;
+        font-size: 22px;
+        position: relative;
+        z-index: 1;
+        color: #FC0000;
+        text-transform: uppercase;
+    }
+
+    .container-show-list-category h1::before,
+    .container-show-list-category h1::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 1px;
+        width: 23%;
+        background-color: #FC0000;
+    }
+
+    .container-show-list-category h1::before {
+        left: 0;
+    }
+
+    .container-show-list-category h1::after {
+        right: 0;
+    }
+
+    .category-item-container {
+        display: flex;
+        margin-top: 10px;
+        gap: 10px;
+    }
+
+    .category-item {
+        width: 50%;
+        position: relative;
+        transition: all ease-in-out 0.3s;
+    }
+
+    .category-item-img {
+        width: 100%;
+        height: auto;
+    }
+
+    .container-heading {
+        position: absolute;
+        top: 65%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 128, 0, 0.8);
+        padding: 10px;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        transition: all ease-in-out 0.3s;
+    }
+
+    .show-brand-name {
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .quantity-item {
+        font-size: 12px;
+    }
+}
+</style>

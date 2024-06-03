@@ -25,8 +25,8 @@
         include "assets/banner.php";
         ?>
 
-        <?php include "assets/sales.php";?>
-        
+        <?php include "assets/sales.php"; ?>
+
         <?php
         include "assets/banner-news.php";
         ?>
@@ -34,7 +34,13 @@
         include "php/flsale.php";
         ?>
         <section class="container-outstanding">
+        <div class="container-heading-oustanding">
             <h1>Sản Phẩm Nổi Bật</h1>
+
+            <button class="see-more">
+                <a href="#">Xem Thêm</a>
+            </button>
+        </div>
 
             <?php
             include "assets/outstanding.php";
@@ -43,25 +49,30 @@
 
         <section class="container-show-list-category">
             <h1>Thương Hiệu Nổi Bật</h1>
-
-            <?php 
-                include "assets/show-brand.php";
+            <?php
+            include "assets/show-brand.php";
             ?>
         </section>
 
         <?php
-            include "assets/certification.php";
+        include "assets/certification.php";
         ?>
 
         <?php
-            include "assets/comment-show.php";
+        include "assets/comment-show.php";
         ?>
 
-        <?php include "assets/footer.php";?>
+        <?php include "assets/footer.php"; ?>
 
+<<<<<<< HEAD
+        <?php
+        include "assets/popup.php";
+        ?>
+=======
          <?php
             include "assets/popup.php";
         ?> 
+>>>>>>> b247bce124afc00b7ec4149022fda5aa9bd10415
     </main>
 
     <style>
@@ -73,15 +84,15 @@
 
 <?php
 // Kết nối tới cơ sở dữ liệu;
-include './php/conection.php';
+include 'php/conection.php';
 
 // Lấy product_id từ URL
-if(isset($_GET['product_id'])) {
+if (isset($_GET['product_id'])) {
     $product_id = $_GET['product_id'];
-    
+
     // Tăng click_count trong bảng products_clicks
     $sql = "UPDATE products_clicks SET click_count = click_count + 1 WHERE product_id = $product_id";
-    
+
     if ($conn->query($sql) === TRUE) {
         echo "Click count updated successfully";
     } else {
