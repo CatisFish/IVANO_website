@@ -30,7 +30,6 @@ if ($result->num_rows > 0) {
     echo "Không có dữ liệu.";
 }
 
-$conn->close();
 ?>
 
 </body>

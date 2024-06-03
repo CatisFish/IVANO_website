@@ -1,12 +1,79 @@
 <?php
+// Kết nối đến cơ sở dữ liệu
 include 'php/conection.php';
 
-// Câu truy vấn SQL để lấy thông tin sản phẩm, hình ảnh và thương hiệu
-$sql = "SELECT p.*, i.path_image, b.brand_name 
+// Lấy nhãn hiệu, kích thước, sắp xếp và từ khóa tìm kiếm đã chọn từ biểu mẫu
+$selectedBrand = isset($_GET['brand']) ? $_GET['brand'] : '';
+$selectedSize = isset($_GET['size']) ? $_GET['size'] : '';
+$sortOrder = isset($_GET['sort']) ? $_GET['sort'] : '';
+$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Truy vấn SQL để lấy thông tin sản phẩm, hình ảnh và thương hiệu
+$sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
         FROM products p 
         LEFT JOIN product_images i ON p.product_id = i.product_id
-        LEFT JOIN brands b ON p.brand_id = b.brand_id";
-$result = $conn->query($sql);
+        INNER JOIN categories c ON p.category_id = c.category_id
+        INNER JOIN brands b ON p.brand_id = b.brand_id
+        INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
+        INNER JOIN product_size ps ON p.product_id = ps.product_id
+        INNER JOIN sizes s ON ps.size_id = s.size_id";
+
+// Xây dựng các điều kiện WHERE
+$whereConditions = array();
+
+if ($selectedBrand != '') {
+    $whereConditions[] = "p.brand_id = ?";
+}
+if ($selectedSize != '') {
+    $whereConditions[] = "s.size_id = ?";
+}
+if ($searchQuery != '') {
+    $whereConditions[] = "(p.product_name LIKE ? OR c.category_name LIKE ? OR b.brand_name LIKE ?)";
+}
+
+// Thêm các điều kiện WHERE vào truy vấn
+if (count($whereConditions) > 0) {
+    $sql .= " WHERE " . implode(" AND ", $whereConditions);
+}
+
+// Thêm điều kiện sắp xếp vào truy vấn
+if ($sortOrder == 'asc') {
+    $sql .= " ORDER BY ps.price ASC";
+} elseif ($sortOrder == 'desc') {
+    $sql .= " ORDER BY ps.price DESC";
+}
+
+$sql .= " GROUP BY p.product_id, ps.size_id";
+
+// Chuẩn bị và thực thi truy vấn
+$stmt = $conn->prepare($sql);
+
+// Liên kết các tham số nếu có
+$params = array();
+$types = "";
+
+if ($selectedBrand != '') {
+    $params[] = $selectedBrand;
+    $types .= "i";
+}
+if ($selectedSize != '') {
+    $params[] = $selectedSize;
+    $types .= "i";
+}
+if ($searchQuery != '') {
+    $searchParam = "%$searchQuery%";
+    $params[] = $searchParam;
+    $params[] = $searchParam;
+    $params[] = $searchParam;
+    $types .= "sss";
+}
+
+if (count($params) > 0) {
+    $stmt->bind_param($types, ...$params);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Hiển thị dữ liệu
 if ($result->num_rows > 0) {
@@ -25,7 +92,7 @@ if ($result->num_rows > 0) {
         echo '<p class="product-name-all-item">' . $row['product_name'] . '</p>';
 
         echo '<div class="product-action-all-item">';
-        echo '<div class="product-price-all-item">' . $row['product_price'] . '</div>';
+        echo '<div class="product-price">' . htmlspecialchars($row['price']) . '</div>';
         echo '</div>'; // Đóng product-action
         echo '</div>'; // Đóng product-info
         echo '</a>';
