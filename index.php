@@ -30,7 +30,9 @@
         <?php
         include "assets/banner-news.php";
         ?>
-
+          <?php
+        include "php/flsale.php";
+        ?>
         <section class="container-outstanding">
             <h1>Sản Phẩm Nổi Bật</h1>
 
@@ -57,9 +59,9 @@
 
         <?php include "assets/footer.php";?>
 
-        <!-- <?php
+         <?php
             include "assets/popup.php";
-        ?> -->
+        ?> 
     </main>
 
     <style>

@@ -1,5 +1,5 @@
 <?php
-
+include'php/conection.php';
 $sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
         FROM products p 
         LEFT JOIN product_images i ON p.product_id = i.product_id
@@ -47,7 +47,7 @@ if ($result->num_rows > 0) {
     echo "<p class='no-products'>Không có sản phẩm nào.</p>";
 }
 
-
+  
 ?>
 
 <style>
