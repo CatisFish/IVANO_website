@@ -1,19 +1,17 @@
 <?php
-<<<<<<< HEAD
-include "php/conection.php";
-
-=======
 include'php/conection.php';
->>>>>>> b247bce124afc00b7ec4149022fda5aa9bd10415
-$sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
+$sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, 
+               (SELECT i.path_image 
+                FROM product_images i 
+                WHERE i.product_id = p.product_id 
+                ORDER BY i.product_image_id LIMIT 1) as path_image
         FROM products p 
-        LEFT JOIN product_images i ON p.product_id = i.product_id
         INNER JOIN categories c ON p.category_id = c.category_id
         INNER JOIN brands b ON p.brand_id = b.brand_id
         INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
         INNER JOIN product_size ps ON p.product_id = ps.product_id
         INNER JOIN sizes s ON ps.size_id = s.size_id
-        GROUP BY p.product_id, ps.size_id";
+        GROUP BY p.product_id";
 
 $result = $conn->query($sql);
 
@@ -24,12 +22,11 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo '<div class="product-item">';
         echo '<a href="show-detail.php?product_id=' . $row['product_id'] . '" class="container-info">';
-        echo '<img class="product-img" src="admin/' . $row['path_image'] . '" alt="' . $row['product_name'] . '">';
+        echo '<img class="product-img" src="admin/' . htmlspecialchars($row['path_image'], ENT_QUOTES, 'UTF-8') . '" alt="' . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . '">';
 
         echo '<div class="product-info">';
-        echo '<p class="brand-name">' . 'SƠN ' . $row['brand_name'] . '</p>';
-        echo '<p class="product-name">' . $row['product_name'] . '</p>';
-
+        echo '<p class="brand-name">' . 'SƠN ' . htmlspecialchars($row['brand_name'], ENT_QUOTES, 'UTF-8') . '</p>';
+        echo '<p class="product-name">' . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . '</p>';
 
         echo '<div class="product-action">';
         echo '<div class="product-price">' . htmlspecialchars(number_format($row['price'], 0, ',', '.')) . ' VNĐ</div>';
@@ -51,6 +48,7 @@ if ($result->num_rows > 0) {
 } else {
     echo "<p class='no-products'>Không có sản phẩm nào.</p>";
 }
+
 
   
 ?>

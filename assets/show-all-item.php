@@ -14,6 +14,7 @@ $sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.p
         LEFT JOIN product_images i ON p.product_id = i.product_id
         INNER JOIN categories c ON p.category_id = c.category_id
         INNER JOIN brands b ON p.brand_id = b.brand_id
+
         INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
         INNER JOIN product_size ps ON p.product_id = ps.product_id
         INNER JOIN sizes s ON ps.size_id = s.size_id";
@@ -92,7 +93,7 @@ if ($result->num_rows > 0) {
         echo '<p class="product-name-all-item">' . $row['product_name'] . '</p>';
 
         echo '<div class="product-action-all-item">';
-        echo '<div class="product-price">' . htmlspecialchars($row['price']) . '</div>';
+        echo '<div class="product-price">' . htmlspecialchars(number_format($row['price'], 0, ',', '.')) . ' VNĐ</div>';
         echo '</div>'; // Đóng product-action
         echo '</div>'; // Đóng product-info
         echo '</a>';

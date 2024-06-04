@@ -15,10 +15,12 @@
     <?php
 include "assets/header.php";
 
+// Kiểm tra xem product_id có tồn tại trong URL không
 if (isset($_GET['product_id'])) {
     $productId = $_GET['product_id'];
     include 'php/conection.php';
 
+    // Kiểm tra xem product_id có tồn tại trong cơ sở dữ liệu không
     $checkProductSql = "SELECT * FROM products WHERE product_id = ?";
     $stmtCheck = $conn->prepare($checkProductSql);
     $stmtCheck->bind_param("s", $productId);
@@ -26,6 +28,7 @@ if (isset($_GET['product_id'])) {
     $resultCheck = $stmtCheck->get_result();
 
     if ($resultCheck->num_rows > 0) {
+        // Tăng số lượng click cho sản phẩm
         $updateClicksSql = "UPDATE products SET clicks = clicks + 1 WHERE product_id = ?";
         $stmtUpdate = $conn->prepare($updateClicksSql);
         $stmtUpdate->bind_param("s", $productId);
@@ -40,10 +43,7 @@ if (isset($_GET['product_id'])) {
     echo "Không có product ID được truyền qua URL";
 }
 
-<<<<<<< HEAD
 // Truy vấn chi tiết sản phẩm
-=======
->>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
 if (isset($_GET['product_id'])) {
     $productId = $_GET['product_id'];
 
@@ -66,9 +66,8 @@ if (isset($_GET['product_id'])) {
     $stmt->execute();
     $detailResult = $stmt->get_result();
 
-    if ($detailResult->num_rows > 0) {
+    if ($detailResult->num_rows > 0){
         $detailRow = $detailResult->fetch_assoc();
-
         echo '<div class="product-detail-container">';
         echo '<div class="product-detail-link">';
         echo '<a href="index.php">Trang Chủ</a> <i class="fa-solid fa-chevron-right"></i> ';
@@ -90,12 +89,12 @@ if (isset($_GET['product_id'])) {
         } else {
             echo '<div class="product-price">Giá không xác định</div>';
         }
-        
+    }
         echo '<div class="container-product-id-category">';
         echo '<p class="product-id">MSP: ' . htmlspecialchars($detailRow['product_id'], ENT_QUOTES, 'UTF-8') . '</p>';
         echo '<p class="list-category">Danh Mục: ' . htmlspecialchars($detailRow['brand_name'], ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($detailRow['category_name'], ENT_QUOTES, 'UTF-8') . '</p>';
         echo '</div>';
-
+    
        
         // Truy vấn để lấy danh sách kích thước của sản phẩm
         $sizeQuery = "SELECT ps.size_id, s.size_name FROM product_size ps INNER JOIN sizes s ON ps.size_id = s.size_id WHERE ps.product_id = ?";
@@ -109,8 +108,8 @@ if (isset($_GET['product_id'])) {
          echo '<p class="label-detail">Kích Thước:</p>';
          echo '<select name="size" id="size-select" onchange="updateProductDetail()">';
          echo '<option value="">Chọn kích thước</option>';
- 
-
+    
+    
         // Hiển thị danh sách kích thước trong dropdown
         if ($sizeResult->num_rows > 0) {
             while ($row = $sizeResult->fetch_assoc()) {
@@ -119,13 +118,13 @@ if (isset($_GET['product_id'])) {
         } else {
             echo "<option value=''>Không có kích thước</option>";
         }
-
+    
         echo '</select>';
         echo '</div>';
-
+    
         // Hiển thị thông tin chi tiết về kích thước sẽ được cập nhật bằng JavaScript
         echo '<div id="size-details"></div>';
-
+    
         echo '<div class="product-color">';
         echo '<p class="label-detail">Đuôi Màu:</p>';
         echo '<select name="color" id="color-select">';
@@ -164,57 +163,16 @@ if (isset($_GET['product_id'])) {
         echo '</div>';
     } else {
         echo "<p>Không tìm thấy sản phẩm.</p>";
-<<<<<<< HEAD
-    }
-    
-    $stmt->close();
-    $conn->close();
-} else {
-    echo "<p>Không tìm thấy sản phẩm.</p>";
-    }
-    ?>
-    
-    <div class="detail-info-bottom">
-        <div class="info-des">
-            <h2>Tính năng vượt trội:</h2>
-            <!-- Thêm các tính năng vượt trội của sản phẩm ở đây -->
-        </div>
-    </div>
-    </main>
-    </body>
-    </html>
-    <script>
-function updateProductDetail() {
-    var productId = "<?php echo $productId; ?>"; // Lấy product_id từ PHP
-    var selectedSize = document.getElementById("size-select").value;
-
-    // Gửi yêu cầu AJAX
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "update_product_detail.php?product_id=" + productId + "&size=" + selectedSize, true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            // Xử lý kết quả trả về
-            var response = xhr.responseText;
-            // Cập nhật thông tin sản phẩm trên trang
-            document.getElementById("size-details").innerHTML = response;
         }
-    };
-    xhr.send();
-}
-</script>
-   
+    
+        ?>    
+    
+ 
 
-<div class="detail-info-bottom">
-    <div class="info-des">
-        <h2>Tính năng vượt trội:</h2>
-        <!-- Thêm các tính năng vượt trội của sản phẩm ở đây -->
-    </div>
-</div>
-</main>
-=======
-        }
-
-        ?>     
+<?php
+include "assets/footer.php";
+?>
+ 
         <div class="detail-info-bottom">
             <div class="info-des">
                 <?php include "assets/des-product-plus.php";?>
@@ -223,13 +181,8 @@ function updateProductDetail() {
         
     </main>
     <?php include "assets/footer.php";?>
->>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
 </body>
 </html>
-
-   
-    
-
 
 
 <style>
@@ -367,3 +320,34 @@ function updateProductDetail() {
         background-color: #fb9c0d;
     }
 </style>
+
+<script>
+function updateProductDetail() {
+    const sizeSelect = document.getElementById('size-select');
+    const sizeId = sizeSelect.value;
+    const productId = "<?php echo $productId; ?>"; // Get product_id from PHP
+
+    if (sizeId) {
+        // Send AJAX request to get product information based on the selected size
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `get_product_detail.php?product_id=${productId}&size_id=${sizeId}`, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                const productDetail = JSON.parse(xhr.responseText);
+                if (productDetail.success) {
+                    // Format the price and update product information on the page
+                    const formattedPrice = Number(productDetail.data.price).toLocaleString('vi-VN');
+                    document.querySelector('.product-price').innerText = formattedPrice + ' VNĐ';
+                    
+                    const imagePath = '' + productDetail.data.full_image_path; // Use full_image_path instead of path_image
+                    const imageAlt = productDetail.data.product_name;
+                    document.querySelector('.detail-product-img').src = imagePath;
+                    document.querySelector('.detail-product-img').alt = imageAlt;
+                }
+            }
+        };
+        xhr.send();
+    }
+}
+</script>
+
