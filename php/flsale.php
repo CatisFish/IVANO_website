@@ -1,149 +1,33 @@
-<style>
-    .productfs-details {
-    display: none; /* Ban đầu ẩn đi */
-    position: fixed; /* Hiển thị ở giữa màn hình */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff; /* Màu nền trắng */
-    padding: 20px; /* Khoảng cách bên trong */
-    border-radius: 10px; /* Bo góc */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng */
-    z-index: 1000; /* Hiển thị trên cùng */
-    max-width: 90%;
-    max-height: 90%;
-    overflow-y: auto; /* Cuộn dọc nếu nội dung quá dài */
-}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-.productfs-details h3 {
-    margin-top: 0; /* Loại bỏ khoảng cách trên */
-}
-
-.productfs-details img {
-    max-width: 100%; /* Giới hạn chiều rộng tối đa */
-    height: auto; /* Giữ tỉ lệ ảnh */
-    margin-top: 10px; /* Khoảng cách trên */
-}
-
-.productfs-details .close-btn {
-    background-color: #f44336; /* Màu nền đỏ */
-    color: white; /* Màu chữ trắng */
-    border: none; /* Không viền */
-    padding: 10px 20px; /* Khoảng cách bên trong */
-    border-radius: 5px; /* Bo góc */
-    cursor: pointer; /* Thay đổi con trỏ chuột */
-    position: absolute; /* Vị trí tuyệt đối */
-    top: 10px; /* Cách trên 10px */
-    right: 10px; /* Cách phải 10px */
-}
-
-.productfs-details .close-btn:hover {
-    background-color: #d32f2f; /* Màu nền khi hover */
-}
-
-.productfs-details .product-info {
-    margin-bottom: 20px; /* Khoảng cách dưới */
-}
-
-.productfs-details .original-price {
-    text-decoration: line-through; /* Gạch ngang */
-    color: gray; /* Màu xám */
-}
-
-.productfs-details .discounted-price {
-    color: #f44336; /* Màu đỏ */
-    font-weight: bold; /* In đậm */
-}
-
-    .banner-container {
-    position: relative;
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-    border: 1px solid #ddd;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.original-price {
-        text-decoration: line-through;
-        color: gray;
-    }
-.banner {
-    display: flex;
-    transition: transform 0.5s ease;
-}
-
-.productfs-details{
-
-}
-.product {
-    min-width: 25%;
-    box-sizing: border-box;
-    padding: 10px;
-    text-align: center;
-}
-
-.product img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-}
-
-.prev, .next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-}
-
-.prev {
-    left: 0;
-}
-
-.next {
-    right: 0;
-}
-
-
-
-.original-price {
-    text-decoration: line-through;
-    opacity: 0.7; /* Độ mờ */
-}
-</style>
 <?php
-// Kết nối đến cơ sở dữ liệu
 include 'php/conection.php';
 
-// Truy vấn SQL để lấy danh sách sản phẩm flash sale
 $flashSaleSql = "
-    SELECT f.*, p.product_name, b.brand_name, ps.price, i.path_image, t.start_time, t.end_time
-    FROM time_flashsale t
-    INNER JOIN flashsale f ON t.flashsale_id = f.flashsale_id
-    INNER JOIN products p ON f.product_id = p.product_id
-    INNER JOIN brands b ON p.brand_id = b.brand_id
-    INNER JOIN product_size ps ON p.product_id = ps.product_id
-    LEFT JOIN product_images i ON p.product_id = i.product_id
-    GROUP BY p.product_id, ps.size_id";
+            SELECT f.*, p.product_name, b.brand_name, ps.price, i.path_image, t.start_time, t.end_time
+            FROM time_flashsale t
+            INNER JOIN flashsale f ON t.flashsale_id = f.flashsale_id
+            INNER JOIN products p ON f.product_id = p.product_id
+            INNER JOIN brands b ON p.brand_id = b.brand_id
+            INNER JOIN product_size ps ON p.product_id = ps.product_id
+            LEFT JOIN product_images i ON p.product_id = i.product_id
+            GROUP BY p.product_id, ps.size_id";
 
 $flashSaleResult = $conn->query($flashSaleSql);
 
-// Truy vấn SQL để lấy danh sách sản phẩm
 $productSql = "
-    SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
-    FROM products p 
-    LEFT JOIN product_images i ON p.product_id = i.product_id
-    INNER JOIN categories c ON p.category_id = c.category_id
-    INNER JOIN brands b ON p.brand_id = b.brand_id
-    INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
-    INNER JOIN product_size ps ON p.product_id = ps.product_id
-    INNER JOIN sizes s ON ps.size_id = s.size_id
-    GROUP BY p.product_id";
-    
+            SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
+            FROM products p 
+            LEFT JOIN product_images i ON p.product_id = i.product_id
+            INNER JOIN categories c ON p.category_id = c.category_id
+            INNER JOIN brands b ON p.brand_id = b.brand_id
+            INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
+            INNER JOIN product_size ps ON p.product_id = ps.product_id
+            INNER JOIN sizes s ON ps.size_id = s.size_id
+            GROUP BY p.product_id";
+
 $productResult = $conn->query($productSql);
 
 // Kiểm tra xem có dữ liệu được trả về không
@@ -194,50 +78,63 @@ if ($result_sizes->num_rows > 0) {
 $conn->close();
 ?>
 
-<h2>Flash Sale</h2>
 
-<div class="banner-container">
-    <div class="banner">
-        <?php 
-        $flashSaleResult->data_seek(0); // Reset pointer
-        while ($row = $flashSaleResult->fetch_assoc()) { 
+<h2 class="title-fsale">Flash Sale</h2>
+
+<div class="container-fsale">
+    <div class="container-item-fsale">
+        <?php
+        $flashSaleResult->data_seek(0);
+        while ($row = $flashSaleResult->fetch_assoc()) {
             $endTime = new DateTime($row['end_time']);
             $endTimeStr = $endTime->format('Y-m-d H:i:s');
             $originalPrice = $row['price'];
             $discount = $row['discount'];
             $discountedPrice = $originalPrice - ($originalPrice * $discount / 100);
             ?>
-            <div class="product">
-                <p>Giảm <?php echo $discount; ?>%</p>
-                <div>
+
+            <div class="fsale-product">
+                <p class="fsale-percent">- <?php echo $discount; ?>%</p>
+                <div class="container-img-fsale">
                     <?php if (!empty($row['path_image'])): ?>
-                        <img src="uploads/<?php echo $row['path_image']; ?>" alt="Product Image">
+                        <img class="fsale-product-img" src="uploads/<?php echo $row['path_image']; ?>" alt="Product Image">
                     <?php else: ?>
                         No Image
                     <?php endif; ?>
                 </div>
-                <p class="original-price"><?php echo number_format($originalPrice); ?>đ</p>
-                <p><?php echo number_format($discountedPrice); ?>đ</p>
-                <p id="time-<?php echo $row['product_id']; ?>" data-end-time="<?php echo $endTimeStr; ?>"></p>
-                <button onclick="showDetails(<?php echo htmlspecialchars(json_encode($row)); ?>)">Chi tiết</button>
-                <button onclick="addToCart(<?php echo $row['product_id']; ?>)">Thêm vào giỏ hàng</button>
+                <div class="container-fsale-price">
+                    <p class="original-price"><?php echo number_format($originalPrice); ?>đ</p>
+                    <p class="fsale-price-new"><?php echo number_format($discountedPrice); ?>đ</p>
+                </div>
+                <p id="time-<?php echo $row['product_id']; ?>" data-end-time="<?php echo $endTimeStr; ?>"
+                    class="time-fsale">
+                </p>
+                <div class="action-fsale">
+                    <button class="show-detail-fsale"
+                        onclick="showDetails(<?php echo htmlspecialchars(json_encode($row)); ?>)">Xem Chi Tiết</button>
+                    <button class="add-to-cart-fsale" onclick="addToCart(<?php echo $row['product_id']; ?>)"><i
+                            class="fa-solid fa-basket-shopping add-to-cart-icon"></i></button>
+                </div>
             </div>
         <?php } ?>
+
     </div>
-    <button class="prev" onclick="moveLeft()">&#10094;</button>
-    <button class="next" onclick="moveRight()">&#10095;</button>
+
+    <button class="prev-item-fsale"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="next-item-fsale"><i class="fa-solid fa-chevron-right"></i></button>
+
+    <div class="productfs-details" id="product-details" style="display: none;">
+        <h3>Chi tiết sản phẩm</h3>
+        <div id="details-content" class="product-info"></div>
+        <button class="close-btn" onclick="closeDetails()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
 </div>
 
-<div class="productfs-details" id="product-details" style="display: none;">
-    <h3>Chi tiết sản phẩm</h3>
-    <div id="details-content" class="product-info"></div>
-    <button class="close-btn" onclick="closeDetails()">Đóng</button>
-</div>
 
 <script>
     function updateTime() {
         const timeElements = document.querySelectorAll('[id^="time-"]');
-        timeElements.forEach(function(element) {
+        timeElements.forEach(function (element) {
             const endTimeStr = element.getAttribute('data-end-time');
             if (endTimeStr) {
                 const endTime = new Date(endTimeStr);
@@ -259,30 +156,6 @@ $conn->close();
 
     setInterval(updateTime, 1000); // Cập nhật mỗi giây
     window.onload = updateTime; // Cập nhật ngay khi tải trang
-
-    let bannerIndex = 0;
-
-    function moveRight() {
-        const banner = document.querySelector('.banner');
-        const products = document.querySelectorAll('.product');
-        const productWidth = products[0].offsetWidth;
-        bannerIndex++;
-        if (bannerIndex > products.length - 4) {
-            bannerIndex = 0;
-        }
-        banner.style.transform = `translateX(-${bannerIndex * productWidth}px)`;
-    }
-
-    function moveLeft() {
-        const banner = document.querySelector('.banner');
-        const products = document.querySelectorAll('.product');
-        const productWidth = products[0].offsetWidth;
-        bannerIndex--;
-        if (bannerIndex < 0) {
-            bannerIndex = products.length - 4;
-        }
-        banner.style.transform = `translateX(-${bannerIndex * productWidth}px)`;
-    }
 
     function showDetails(product) {
         const detailsContainer = document.getElementById('product-details');
@@ -309,18 +182,235 @@ $conn->close();
     function closeDetails() {
         document.getElementById('product-details').style.display = 'none';
     }
-
-    function addToCart(productId) {
-        // Gửi yêu cầu AJAX để thêm sản phẩm vào giỏ hàng
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'add_to_cart.php', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                alert('Sản phẩm đã được thêm vào giỏ hàng');
-            }
-        };
-        xhr.send('product_id=' + productId);
-    }
 </script>
 
+<style>
+
+    .title-fsale {
+        font-size: 30px;
+        text-align: center;
+        color: #FC0000;
+        margin: 10px 0 20px 0;
+    }
+
+    .prev-item-fsale,
+    .next-item-fsale {
+        position: absolute;
+        padding: 25px 10px;
+        border: none;
+        background-color: #221F20;
+        color: #fff;
+        cursor: pointer;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .prev-item-fsale {
+        left: 0;
+    }
+
+    .next-item-fsale {
+        right: 0;
+    }
+
+
+    .container-fsale {
+        position: relative;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        margin: auto;
+        overflow: hidden;
+        padding: 20px 10px;
+    }
+
+    .container-item-fsale {
+        display: flex;
+        gap: 15px;
+        position: relative;
+        padding: 15px;
+        overflow: hidden;
+        transition: transform 0.5s ease;
+
+    }
+
+    .fsale-product {
+        flex-shrink: 0;
+        width: calc(20% - 15px);
+        padding: 10px;
+        text-align: center;
+        position: relative;
+        padding: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+
+    .container-img-fsale {
+        display: flex;
+        height: 180px;
+        align-items: flex-end;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .fsale-product-img {
+        width: 150px;
+    }
+
+    .fsale-percent {
+        position: absolute;
+        right: 0;
+        top: 0px;
+        font-weight: 700;
+        color: #FFF;
+        background-color: #FC0000;
+        padding: 5px 5px;
+    }
+
+    .container-fsale-price {
+        display: flex;
+        justify-content: space-around;
+        margin: 5px 0 10px 0;
+        align-items: center;
+    }
+
+    .original-price {
+        text-decoration: line-through;
+        color: gray;
+        opacity: 0.7;
+    }
+
+    .fsale-price-new {
+        font-size: 19px;
+        color: #f44336;
+        font-weight: 700;
+    }
+
+    .time-fsale {
+        font-size: 12px;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    .action-fsale {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .show-detail-fsale {
+        padding: 10px 20px;
+        cursor: pointer;
+        border: none;
+        background-color: #FFD400;
+        color: #221F20;
+        font-weight: 600;
+        transition: all ease-in-out 0.3s;
+    }
+
+    .show-detail-fsale:hover {}
+
+    .add-to-cart-fsale {
+        padding: 10px;
+        cursor: pointer;
+        border: none;
+        background-color: #FFD400;
+        color: #221F20;
+        transition: all ease-in-out 0.3s;
+        border-radius: 5px;
+    }
+
+    .add-to-cart-fsale:hover {
+        background-color: #221F20;
+        color: #FFD400;
+    }
+</style>
+
+<style>
+    .productfs-details {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 150;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 600px;
+        height: 450px;
+    }
+
+    .productfs-details h3 {
+        margin-top: 0;
+        /* Loại bỏ khoảng cách trên */
+    }
+
+    .productfs-details img {
+        max-width: 100%;
+        /* Giới hạn chiều rộng tối đa */
+        height: auto;
+        /* Giữ tỉ lệ ảnh */
+        margin-top: 10px;
+        /* Khoảng cách trên */
+    }
+
+    .productfs-details .close-btn {
+        background-color: #f44336;
+
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .productfs-details .close-btn:hover {
+        background-color: #d32f2f;
+    }
+
+    .productfs-details .original-price {
+        text-decoration: line-through;
+        /* Gạch ngang */
+        color: gray;
+        /* Màu xám */
+    }
+
+    .productfs-details .discounted-price {
+        color: #f44336;
+        /* Màu đỏ */
+        font-weight: bold;
+        /* In đậm */
+    }
+
+
+    #details-content {
+        margin-top: 20px;
+        align-items: center;
+    }
+
+    .container-item-fsale {
+        display: flex;
+    }
+
+    .imgfs {
+        width: 450px;
+        align-items: center;
+    }
+
+    .container-price-fsale {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .new-price {
+        font-size: 20px;
+        color: #f44336;
+        font-weight: 700;
+    }
+</style>

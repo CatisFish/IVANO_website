@@ -16,7 +16,7 @@
             </span>
         </a>
 
-        <a href="#" class="news-item">
+        <a href="dai-ly.php" class="news-item">
             <img src="images/banner3.png" alt="">
             <span>
                 <h1>ĐĂNG KÝ</h1>

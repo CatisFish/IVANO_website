@@ -531,7 +531,7 @@
                         </form>
 
                         <li class="nav-item"><a href="all-item.php">Sản Phẩm</a></li>
-                        <li class="nav-item"><a href="">Đại Lý</a></li>
+                        <li class="nav-item"><a href="dai-ly.php">Đại Lý</a></li>
                         <li class="nav-item"><a href="">Bảng Màu</a></li>
                         <li class="nav-item"><a href="">Tuyển Dụng</a></li>
                     </ul>
