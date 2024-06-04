@@ -26,8 +26,9 @@ if ($result->num_rows > 0) {
         echo '<p class="brand-name">' . 'SƠN ' . $row['brand_name'] . '</p>';
         echo '<p class="product-name">' . $row['product_name'] . '</p>';
 
+
         echo '<div class="product-action">';
-        echo '<div class="product-price">' . htmlspecialchars($row['price']) . '</div>';
+        echo '<div class="product-price">' . htmlspecialchars(number_format($row['price'], 0, ',', '.')) . ' VNĐ</div>';
         echo '<div class="action-add">';
         echo '<button type="submit" class="view-product">';
         echo '<p>Xem Nhanh</p>';

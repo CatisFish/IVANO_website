@@ -35,6 +35,7 @@
     }
 </style>
 <style>
+
     .bar-mobile-btn,
     .close-bar-btn,
     .search-box-mobile {
@@ -195,7 +196,7 @@
             width: 90%;
             margin: 0px auto;
             justify-content: center;
-            padding: 5px 0;
+            padding: 10px 0;
             align-items: center;
             color: #FFF;
         }
@@ -500,6 +501,11 @@
     }
 } */
 </style>
+<?php
+if (!isset($searchQuery)) {
+    $searchQuery = '';
+}
+?>
 
 <body>
     <header id="header-page">
@@ -523,12 +529,13 @@
 
                     <ul class="container-nav-item">
 
-                        <form class="search-box-mobile" action="search.php" method="GET">
+                        <form class="search-box-mobile" action="../assets/search.php" method="GET">
                             <input type="text" class="search-text-mobile" placeholder="Nhập sản phẩm cần tìm..."
                                 name="search" required>
                             <button type="submit" class="search-btn-mobile"><i
                                     class="fa-solid fa-magnifying-glass"></i></button>
                         </form>
+
 
                         <li class="nav-item"><a href="all-item.php">Sản Phẩm</a></li>
                         <li class="nav-item"><a href="dai-ly.php">Đại Lý</a></li>
@@ -540,9 +547,8 @@
                 <a href="index.php" class="logo-page"><img src="images/logo.png" alt="LOGO"></a>
 
                 <nav class="nav-right">
-                    <form class="search-box" action="search.php" method="GET">
-                        <input type="text" class="search-text" placeholder="Nhập sản phẩm cần tìm..." name="search"
-                            required>
+                    <form class="search-box"  method="GET">
+                        <input type="text" name="search" placeholder="Nhập nội dung cần tìm..." class="search-text" id="search" value="<?php echo htmlspecialchars($searchQuery);?>">
                         <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
 
