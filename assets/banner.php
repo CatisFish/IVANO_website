@@ -53,6 +53,7 @@
         width: 90%;
         margin: 5px auto;
         overflow: hidden;
+        height: 350px;
     }
 
     .banner-left {
@@ -79,6 +80,7 @@
     .banner-left-item img {
         width: 100%;
         height: auto;
+        object-fit: cover;
     }
 
     .banner-left:hover .prev-banner-button,

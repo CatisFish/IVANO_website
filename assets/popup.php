@@ -14,23 +14,6 @@
         z-index: 1000;
     }
 
-    .popup-custom.show {
-        display: block;
-        animation: slideUp 0.5s ease-out forwards;
-    }
-
-    @keyframes slideUp {
-        from {
-            transform: translateY(100%) translateX(-50%);
-            opacity: 0;
-        }
-
-        to {
-            transform: translate(-50%, -50%);
-            opacity: 1;
-        }
-    }
-
     .popup-header-custom {
         position: absolute;
         top: 10px;
@@ -89,6 +72,38 @@
         letter-spacing: 1px;
         width: 100%;
         font-weight: 700;
+        -webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both 3.5s;
+        animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both 3.5s;
+    }
+
+    @-webkit-keyframes tracking-in-expand {
+        0% {
+            letter-spacing: -0.5em;
+            opacity: 0;
+        }
+
+        40% {
+            opacity: 0.6;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes tracking-in-expand {
+        0% {
+            letter-spacing: -0.5em;
+            opacity: 0;
+        }
+
+        40% {
+            opacity: 0.6;
+        }
+
+        100% {
+            opacity: 1;
+        }
     }
 
     .left-custom p {
@@ -96,6 +111,46 @@
         font-size: 16px;
         line-height: 1.5;
         width: 100%;
+        -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both 3.75s;
+        animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both 3.75s;
+    }
+
+    @-webkit-keyframes focus-in-contract-bck {
+        0% {
+            letter-spacing: 1em;
+            -webkit-transform: translateZ(300px);
+            transform: translateZ(300px);
+            -webkit-filter: blur(12px);
+            filter: blur(12px);
+            opacity: 0;
+        }
+
+        100% {
+            -webkit-transform: translateZ(12px);
+            transform: translateZ(12px);
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes focus-in-contract-bck {
+        0% {
+            letter-spacing: 1em;
+            -webkit-transform: translateZ(300px);
+            transform: translateZ(300px);
+            -webkit-filter: blur(12px);
+            filter: blur(12px);
+            opacity: 0;
+        }
+
+        100% {
+            -webkit-transform: translateZ(12px);
+            transform: translateZ(12px);
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
     }
 
     .signup-btn-custom {
@@ -109,6 +164,87 @@
         cursor: pointer;
         transition: background-color 0.3s ease;
         font-weight: 600;
+        -webkit-animation: shake-bottom 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both 4.5s;
+        animation: shake-bottom 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both 4.5s;
+    }
+
+    @-webkit-keyframes shake-bottom {
+        0%,
+        100% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+            -webkit-transform-origin: 50% 100%;
+            transform-origin: 50% 100%;
+        }
+
+        10% {
+            -webkit-transform: rotate(2deg);
+            transform: rotate(2deg);
+        }
+
+        20%,
+        40%,
+        60% {
+            -webkit-transform: rotate(-4deg);
+            transform: rotate(-4deg);
+        }
+
+        30%,
+        50%,
+        70% {
+            -webkit-transform: rotate(4deg);
+            transform: rotate(4deg);
+        }
+
+        80% {
+            -webkit-transform: rotate(-2deg);
+            transform: rotate(-2deg);
+        }
+
+        90% {
+            -webkit-transform: rotate(2deg);
+            transform: rotate(2deg);
+        }
+    }
+
+    @keyframes shake-bottom {
+
+        0%,
+        100% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+            -webkit-transform-origin: 50% 100%;
+            transform-origin: 50% 100%;
+        }
+
+        10% {
+            -webkit-transform: rotate(2deg);
+            transform: rotate(2deg);
+        }
+
+        20%,
+        40%,
+        60% {
+            -webkit-transform: rotate(-4deg);
+            transform: rotate(-4deg);
+        }
+
+        30%,
+        50%,
+        70% {
+            -webkit-transform: rotate(4deg);
+            transform: rotate(4deg);
+        }
+
+        80% {
+            -webkit-transform: rotate(-2deg);
+            transform: rotate(-2deg);
+        }
+
+        90% {
+            -webkit-transform: rotate(2deg);
+            transform: rotate(2deg);
+        }
     }
 
     .signup-btn-custom:hover {
@@ -241,42 +377,42 @@
 <style>
     @media only screen and (max-width: 600px) {
         .popup-custom {
-        opacity: 0;
-        width: 400px;
-        height: 400px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        overflow: hidden;
-        background-size: cover;
-        transition: all 0.3s ease-in-out;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        z-index: 1000;
-    }
-    .form-container-custom {
-        position: relative;
-        width: 100%;
-        background: #f9f9f9;
-        position: absolute;
-        right: 0;
-        top: 0;
-        height: 100%;
-        transform: translateX(100%);
-        transition: transform 0.3s ease-in-out;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        border-left: 1px solid #ccc;
-        z-index: 11;
-        font-weight: 600;
-    }
+            opacity: 0;
+            width: 400px;
+            height: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            background-size: cover;
+            transition: all 0.3s ease-in-out;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            z-index: 1000;
+        }
+
+        .form-container-custom {
+            position: relative;
+            width: 100%;
+            background: #f9f9f9;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-left: 1px solid #ccc;
+            z-index: 11;
+            font-weight: 600;
+        }
     }
 </style>
 
 <?php
-// Database connection
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -380,6 +516,7 @@ if ($result_popup && $result_popup->num_rows > 0) {
     function hidePopUpCustom() {
         document.getElementById('popup-custom').style.display = 'none';
         overlay.style.display = 'none';
+        document.getElementById('popup-custom').style.
     }
 
     function showFormCustom() {
@@ -392,29 +529,29 @@ if ($result_popup && $result_popup->num_rows > 0) {
         document.querySelector('.left-custom').style.width = "100%";
     }
 
-    function showSlideCustom(index) {
-        const carousel = document.getElementById('carousel-custom');
-        const slides = carousel.querySelectorAll('.slide-custom');
+    // function showSlideCustom(index) {
+    //     const carousel = document.getElementById('carousel-custom');
+    //     const slides = carousel.querySelectorAll('.slide-custom');
 
-        const totalSlides = slides.length;
+    //     const totalSlides = slides.length;
 
-        if (index >= totalSlides) {
-            index = 0;
-        } else if (index < 0) {
-            index = totalSlides - 1;
-        }
+    //     if (index >= totalSlides) {
+    //         index = 0;
+    //     } else if (index < 0) {
+    //         index = totalSlides - 1;
+    //     }
 
-        carousel.style.transform = `translateX(-${index * 100}%)`;
-        currentSlideCustom = index;
-    }
+    //     carousel.style.transform = `translateX(-${index * 100}%)`;
+    //     currentSlideCustom = index;
+    // }
 
-    function nextSlideCustom() {
-        showSlideCustom(currentSlideCustom + 1);
-    }
+    // function nextSlideCustom() {
+    //     showSlideCustom(currentSlideCustom + 1);
+    // }
 
-    function prevSlideCustom() {
-        showSlideCustom(currentSlideCustom - 1);
-    }
+    // function prevSlideCustom() {
+    //     showSlideCustom(currentSlideCustom - 1);
+    // }
 
     document.addEventListener("DOMContentLoaded", function () {
         setTimeout(function () {

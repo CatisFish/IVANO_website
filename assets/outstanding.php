@@ -20,7 +20,9 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo '<div class="product-item">';
         echo '<a href="show-detail.php?product_id=' . $row['product_id'] . '" class="container-info">';
-        echo '<img class="product-img" src="admin/' . $row['path_image'] . '" alt="' . $row['product_name'] . '">';
+        echo '<div class="container-img-outstanding">';
+            echo '<img class="product-img" src="admin/' . $row['path_image'] . '" alt="' . $row['product_name'] . '">';
+        echo '</div>';
 
         echo '<div class="product-info">';
         echo '<p class="brand-name">' . 'SƠN ' . $row['brand_name'] . '</p>';
@@ -114,11 +116,16 @@ if ($result->num_rows > 0) {
         border-radius: 20px;
     }
 
+    .container-img-outstanding{
+        display: flex;
+        height: 350px;
+        align-items: flex-end;
+    }
     .product-item img {
-        /* width: 100%;
-            height: auto; */
-        width: 280px;
-        height: 320px;
+        width: 100%;
+        height: auto;  
+        /* width: 280px;
+        height: 320px; */
     }
 
     .brand-name {

@@ -35,7 +35,6 @@
     }
 </style>
 <style>
-
     .bar-mobile-btn,
     .close-bar-btn,
     .search-box-mobile {
@@ -547,8 +546,9 @@ if (!isset($searchQuery)) {
                 <a href="index.php" class="logo-page"><img src="images/logo.png" alt="LOGO"></a>
 
                 <nav class="nav-right">
-                    <form class="search-box"  method="GET">
-                        <input type="text" name="search" placeholder="Nhập nội dung cần tìm..." class="search-text" id="search" value="<?php echo htmlspecialchars($searchQuery);?>">
+                    <form class="search-box" method="GET">
+                        <input type="text" name="search" placeholder="Nhập nội dung cần tìm..." class="search-text"
+                            id="search" value="<?php echo htmlspecialchars($searchQuery); ?>">
                         <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
 
@@ -639,5 +639,15 @@ if (!isset($searchQuery)) {
         }
     });
 </script>
+
+<!-- animtaion -->
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const header = document.getElementById('header-page');
+        if (header) {
+            header.classList.add('animate-slide-in-down');
+        }
+    });
+</script> -->
 
 </html>

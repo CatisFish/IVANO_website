@@ -8,6 +8,7 @@
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+        <link rel="stylesheet" href="css/animation.css">
     <link rel="stylesheet" href="css/custom-scroll.css">
     <link rel="stylesheet" href="css/global.css">
 
@@ -441,6 +442,37 @@
 });
 
 
+</script>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('one-introduce')) {
+                        entry.target.classList.add('animate-slide-in-up');
+                    } else if (entry.target.classList.contains('two-introduce')) {
+                        entry.target.classList.add('animate-slide-in-up');
+                    } else if (entry.target.classList.contains('three-introduce')) {
+                        entry.target.classList.add('animate-slide-in-right');
+                    } else if (entry.target.classList.contains('four-introduce') || entry.target.classList.contains('five-introduce')) {
+                        entry.target.classList.add('animate-slide-in-up');
+                    }
+                    observer.unobserve(entry.target); // Stop observing once animation is applied
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    });
 </script>
 
 </html>

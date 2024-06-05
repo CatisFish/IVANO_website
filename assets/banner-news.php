@@ -8,7 +8,7 @@
             </span>
         </a>
 
-        <a href="#" class="news-item">
+        <a href="gioi-thieu.php" class="news-item">
             <img src="images/banner2.png" alt="">
             <span>
                 <h1>GIỚI THIỆU</h1>
