@@ -1,5 +1,7 @@
 <?php
-include'php/conection.php';
+include 'php/conection.php';
+
+// Query to fetch product details along with related category, brand, and image
 $sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, 
                (SELECT i.path_image 
                 FROM product_images i 
@@ -15,13 +17,13 @@ $sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.p
 
 $result = $conn->query($sql);
 
-// Hiển thị dữ liệu
+// Displaying data
 if ($result->num_rows > 0) {
     echo '<section class="container-list-product">';
     echo '<div class="list-product">';
     while ($row = $result->fetch_assoc()) {
         echo '<div class="product-item">';
-        echo '<a href="show-detail.php?product_id=' . $row['product_id'] . '" class="container-info">';
+        echo '<a href="show-detail.php?product_id=' . htmlspecialchars($row['product_id'], ENT_QUOTES, 'UTF-8') . '" class="container-info">';
         echo '<img class="product-img" src="admin/' . htmlspecialchars($row['path_image'], ENT_QUOTES, 'UTF-8') . '" alt="' . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . '">';
 
         echo '<div class="product-info">';
@@ -49,9 +51,9 @@ if ($result->num_rows > 0) {
     echo "<p class='no-products'>Không có sản phẩm nào.</p>";
 }
 
-
-  
+$conn->close();
 ?>
+
 
 <style>
     .see-more {

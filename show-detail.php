@@ -89,13 +89,12 @@ if (isset($_GET['product_id'])) {
         } else {
             echo '<div class="product-price">Giá không xác định</div>';
         }
-    }
+
         echo '<div class="container-product-id-category">';
         echo '<p class="product-id">MSP: ' . htmlspecialchars($detailRow['product_id'], ENT_QUOTES, 'UTF-8') . '</p>';
         echo '<p class="list-category">Danh Mục: ' . htmlspecialchars($detailRow['brand_name'], ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($detailRow['category_name'], ENT_QUOTES, 'UTF-8') . '</p>';
         echo '</div>';
     
-       
         // Truy vấn để lấy danh sách kích thước của sản phẩm
         $sizeQuery = "SELECT ps.size_id, s.size_name FROM product_size ps INNER JOIN sizes s ON ps.size_id = s.size_id WHERE ps.product_id = ?";
         $stmtSize = $conn->prepare($sizeQuery);
@@ -103,12 +102,11 @@ if (isset($_GET['product_id'])) {
         $stmtSize->execute();
         $sizeResult = $stmtSize->get_result();
         
-         // Hiển thị danh sách kích thước của sản phẩm
-         echo '<div class="product-size">';
-         echo '<p class="label-detail">Kích Thước:</p>';
-         echo '<select name="size" id="size-select" onchange="updateProductDetail()">';
-         echo '<option value="">Chọn kích thước</option>';
-    
+        // Hiển thị danh sách kích thước của sản phẩm
+        echo '<div class="product-size">';
+        echo '<p class="label-detail">Kích Thước:</p>';
+        echo '<select name="size" id="size-select" onchange="updateProductDetail()">';
+        echo '<option value="">Chọn kích thước</option>';
     
         // Hiển thị danh sách kích thước trong dropdown
         if ($sizeResult->num_rows > 0) {
@@ -163,11 +161,110 @@ if (isset($_GET['product_id'])) {
         echo '</div>';
     } else {
         echo "<p>Không tìm thấy sản phẩm.</p>";
-        }
-    
-        ?>    
-    
- 
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
+
+<script>
+function updateProductDetail() {
+    const sizeSelect = document.getElementById('size-select');
+    const sizeId = sizeSelect.value;
+    const productId = "<?php echo $productId; ?>";
+
+    if (sizeId) {
+        fetch(`get_product_detail.php?product_id=${productId}&size_id=${sizeId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Lỗi mạng');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Cập nhật giá sản phẩm
+                    document.querySelector('.product-price').innerText = Number(data.data.price).toLocaleString('vi-VN') + ' VNĐ';
+
+                    // Cập nhật hình ảnh sản phẩm
+                    document.querySelector('.detail-product-img').src = data.data.full_image_path;
+                    document.querySelector('.detail-product-img').alt = data.data.product_name; // Cập nhật alt cho hình ảnh
+
+                } else {
+                    console.error('Lỗi khi cập nhật chi tiết sản phẩm:', data.message);
+                    // Xử lý lỗi hiển thị cho người dùng (nếu cần)
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi Fetch:', error);
+                //
+            });
+    } else {
+      // Xử lý trường hợp không có size nào được chọn 
+      document.querySelector('.product-price').innerText = "Vui lòng chọn size"; // Hoặc thông báo lỗi khác
+      document.querySelector('.detail-product-img').src = "đường_dẫn_hình_ảnh_mặc_định"; // Hiển thị hình ảnh mặc định
+    }
+}
+document.getElementById('color-select').addEventListener('change', function() {
+    var colorSuffix = this.value;
+    var currentPrice = parseFloat(document.querySelector('.product-price').innerText.replace(' VNĐ', '').replace(/\./g, '').replace(',', '.')); // Lấy giá hiện tại và chuyển đổi về số
+    var updatedPrice = currentPrice; // Giá mới sẽ được cập nhật
+
+    // Tính toán giá mới dựa trên đuôi màu được chọn
+    switch(colorSuffix) {
+        case 'T':
+            updatedPrice *= 1.1; // Tăng giá 10%
+            break;
+        case 'D':
+            updatedPrice *= 1.2; // Tăng giá 20%
+            break;
+        case 'A':
+            updatedPrice *= 1.3; // Tăng giá 30%
+            break;
+        default:
+            break;
+    }
+
+    // Cập nhật giá mới lên giao diện
+    document.querySelector('.product-price').innerText = updatedPrice.toLocaleString('vi-VN') + ' VNĐ';
+});
+
+// Lắng nghe sự kiện thay đổi số lượng sản phẩm
+document.querySelector('.product-quantity input').addEventListener('change', function() {
+    var quantity = parseInt(this.value); // Lấy số lượng sản phẩm
+    var currentPrice = parseFloat(document.querySelector('.product-price').innerText.replace(' VNĐ', '').replace(/\./g, '').replace(',', '.')); // Lấy giá hiện tại và chuyển đổi về số
+    var updatedPrice = currentPrice * quantity; // Giá mới sẽ được cập nhật dựa trên số lượng
+
+    // Cập nhật giá mới lên giao diện
+    document.querySelector('.product-price').innerText = updatedPrice.toLocaleString('vi-VN') + ' VNĐ';
+});
+
+
+// Lấy các phần tử nút tăng và giảm
+var plusButton = document.querySelector('.plus-quantity');
+var minusButton = document.querySelector('.minus-quantity');
+var quantityInput = document.querySelector('.product-quantity input');
+
+// Lắng nghe sự kiện click vào nút tăng
+plusButton.addEventListener('click', function() {
+    // Tăng số lượng sản phẩm lên 1
+    quantityInput.value = parseInt(quantityInput.value) + 1;
+    // Trigger sự kiện change để cập nhật giá
+    quantityInput.dispatchEvent(new Event('change'));
+});
+
+// Lắng nghe sự kiện click vào nút giảm
+minusButton.addEventListener('click', function() {
+    // Giảm số lượng sản phẩm đi 1, nhưng không được nhỏ hơn 1
+    if (parseInt(quantityInput.value) > 1) {
+        quantityInput.value = parseInt(quantityInput.value) - 1;
+        // Trigger sự kiện change để cập nhật giá
+        quantityInput.dispatchEvent(new Event('change'));
+    }
+});
+</script>
+
 
 <?php
 include "assets/footer.php";
@@ -321,33 +418,4 @@ include "assets/footer.php";
     }
 </style>
 
-<script>
-function updateProductDetail() {
-    const sizeSelect = document.getElementById('size-select');
-    const sizeId = sizeSelect.value;
-    const productId = "<?php echo $productId; ?>"; // Get product_id from PHP
-
-    if (sizeId) {
-        // Send AJAX request to get product information based on the selected size
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `get_product_detail.php?product_id=${productId}&size_id=${sizeId}`, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                const productDetail = JSON.parse(xhr.responseText);
-                if (productDetail.success) {
-                    // Format the price and update product information on the page
-                    const formattedPrice = Number(productDetail.data.price).toLocaleString('vi-VN');
-                    document.querySelector('.product-price').innerText = formattedPrice + ' VNĐ';
-                    
-                    const imagePath = '' + productDetail.data.full_image_path; // Use full_image_path instead of path_image
-                    const imageAlt = productDetail.data.product_name;
-                    document.querySelector('.detail-product-img').src = imagePath;
-                    document.querySelector('.detail-product-img').alt = imageAlt;
-                }
-            }
-        };
-        xhr.send();
-    }
-}
-</script>
 

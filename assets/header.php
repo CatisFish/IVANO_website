@@ -13,8 +13,6 @@
 </head>
 <!-- scroll to top -->
 <style>
-<<<<<<< HEAD
-=======
     .top-page-btn {
         z-index: 10;
         background-color: rgb(74, 234, 220);
@@ -37,7 +35,7 @@
     }
 </style>
 <style>
->>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
+
     .bar-mobile-btn,
     .close-bar-btn,
     .search-box-mobile {
@@ -165,8 +163,6 @@
         border-left: 1px solid #000;
     }
 
-<<<<<<< HEAD
-=======
 
     /* header-fixed */
     .fixed-header {
@@ -186,7 +182,6 @@
         transform: translateY(0);
     }
 
->>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
     @media only screen and (max-width: 600px) {
         .bar-mobile-btn {
             display: block;
@@ -201,11 +196,7 @@
             width: 90%;
             margin: 0px auto;
             justify-content: center;
-<<<<<<< HEAD
             padding: 10px 0;
-=======
-            padding: 5px 0;
->>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
             align-items: center;
             color: #FFF;
         }
@@ -216,11 +207,7 @@
         }
 
         .header-bottom {
-<<<<<<< HEAD
-            height: 50px;
-=======
             height: 60px;
->>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
             padding: 20px 0;
         }
 
@@ -345,8 +332,6 @@
             padding-left: 0;
             border-left: none;
         }
-<<<<<<< HEAD
-=======
 
         .fixed-header {
             background: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 25%, rgba(252, 185, 0, 1) 50%, rgba(255, 105, 0, 1) 75%, rgb(74, 234, 220) 100%);
@@ -364,7 +349,6 @@
             top: 0;
             transform: translateY(0);
         }
->>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
     }
 
     /* Styles for tablet */
@@ -554,8 +538,8 @@ if (!isset($searchQuery)) {
 
 
                         <li class="nav-item"><a href="all-item.php">Sản Phẩm</a></li>
-                        <li class="nav-item"><a href="">Đại Lý</a></li>
-                        <li class="nav-item"><a href="php/colors.php">Bảng Màu</a></li>
+                        <li class="nav-item"><a href="dai-ly.php">Đại Lý</a></li>
+                        <li class="nav-item"><a href="">Bảng Màu</a></li>
                         <li class="nav-item"><a href="">Tuyển Dụng</a></li>
                     </ul>
                 </nav>
@@ -564,8 +548,7 @@ if (!isset($searchQuery)) {
 
                 <nav class="nav-right">
                     <form class="search-box"  method="GET">
-                    <label for="search">Tìm kiếm:</label>
-                        <input type="text" name="search" id="search" value="<?php echo htmlspecialchars($searchQuery); ?>">
+                        <input type="text" name="search" placeholder="Nhập nội dung cần tìm..." class="search-text" id="search" value="<?php echo htmlspecialchars($searchQuery);?>">
                         <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
 
@@ -609,8 +592,6 @@ if (!isset($searchQuery)) {
             });
         }
     });
-<<<<<<< HEAD
-=======
 </script>
 
 <!-- fixed-header -->
@@ -657,7 +638,6 @@ if (!isset($searchQuery)) {
             topButton.classList.remove('visible');
         }
     });
->>>>>>> 599f20c321f076fe934f1a92cfcd2798aa066bdb
 </script>
 
 </html>

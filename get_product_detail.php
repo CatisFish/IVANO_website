@@ -1,38 +1,40 @@
 <?php
+// Lấy thông tin từ request
+$productId = $_GET['product_id'];
+$sizeId = $_GET['size_id'];
+
 include 'php/conection.php';
 
-if (isset($_GET['product_id']) && isset($_GET['size_id'])) {
-    $productId = $_GET['product_id'];
-    $sizeId = $_GET['size_id'];
+// Truy vấn chi tiết sản phẩm với kích thước cụ thể
+$detailQuery = "SELECT ps.price, i.path_image, p.product_name
+                FROM product_size ps 
+                INNER JOIN product_images i ON ps.product_image_id = i.product_image_id
+                INNER JOIN products p ON ps.product_id = p.product_id
+                WHERE ps.product_id = ? AND ps.size_id = ?";
+$stmt = $conn->prepare($detailQuery);
+$stmt->bind_param("ss", $productId, $sizeId);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    $detailSql = "SELECT p.*, ps.price, s.size_name, i.path_image 
-                  FROM products p 
-                  INNER JOIN product_size ps ON p.product_id = ps.product_id 
-                  INNER JOIN sizes s ON ps.size_id = s.size_id 
-                  LEFT JOIN product_images i ON p.product_id = i.product_id 
-                  WHERE p.product_id = ? AND s.size_id = ? 
-                  LIMIT 1";
+$response = array();
 
-    $stmt = $conn->prepare($detailSql);
-    $stmt->bind_param("ss", $productId, $sizeId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $productDetail = $result->fetch_assoc();
-        
-        // Xây dựng đường dẫn đầy đủ đến hình ảnh
-        $productDetail['full_image_path'] = 'uploads/' . $productDetail['path_image'];
-
-        echo json_encode(['success' => true, 'data' => $productDetail]);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Không tìm thấy sản phẩm']);
-    }
-
-    $stmt->close();
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $response['success'] = true;
+    $response['data'] = array(
+        'price' => $row['price'],
+        'full_image_path' => 'uploads/' . $row['path_image'],
+        'product_name' => $row['product_name']
+    );
 } else {
-    echo json_encode(['success' => false, 'message' => 'Thiếu tham số product_id hoặc size_id']);
+    $response['success'] = false;
+    $response['message'] = "Không tìm thấy thông tin sản phẩm.";
 }
 
+$stmt->close();
 $conn->close();
+
+// Trả về dữ liệu dưới dạng JSON
+header('Content-Type: application/json');
+echo json_encode($response);
 ?>
