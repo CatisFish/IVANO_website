@@ -23,7 +23,7 @@ $conn->close();
 ?>
 
 <div class="category-item-container">
-    <a class="category-item" href="">
+    <a class="category-item" href="all-item.php">
         <img src="images/MK9.3-18-681x800.png" alt="img" class="category-item-img">
 
         <div class="container-heading">
@@ -32,7 +32,7 @@ $conn->close();
         </div>
     </a>
 
-    <a class="category-item" href="#">
+    <a class="category-item" href="all-item.php">
         <img src="images/I9.28-18-681x800.png" alt="img" class="category-item-img">
 
         <div class="container-heading">

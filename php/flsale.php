@@ -92,16 +92,29 @@ $conn->close();
             $discount = $row['discount'];
             $discountedPrice = $originalPrice - ($originalPrice * $discount / 100);
             ?>
+<<<<<<< HEAD
+            <div class="product" id="product-<?php echo $row['product_id']; ?>">
+                <p>Giảm <?php echo $discount; ?>%</p>
+                <div>
+=======
 
             <div class="fsale-product">
                 <p class="fsale-percent">- <?php echo $discount; ?>%</p>
                 <div class="container-img-fsale">
+>>>>>>> 8fdbe7c37e544106448e305aabeef04f64ae7bdb
                     <?php if (!empty($row['path_image'])): ?>
                         <img class="fsale-product-img" src="uploads/<?php echo $row['path_image']; ?>" alt="Product Image">
                     <?php else: ?>
                         No Image
                     <?php endif; ?>
                 </div>
+<<<<<<< HEAD
+                <p class="original-price"><?php echo number_format($originalPrice); ?>đ</p>
+                <p><?php echo number_format($discountedPrice); ?>đ</p>
+                <p id="time-<?php echo $row['product_id']; ?>" data-end-time="<?php echo $endTimeStr; ?>" data-product-id="<?php echo $row['product_id']; ?>"></p>
+                <button onclick="showDetails(<?php echo htmlspecialchars(json_encode($row)); ?>)">Chi tiết</button>
+                <button onclick="addToCart(<?php echo $row['product_id']; ?>)">Thêm vào giỏ hàng</button>
+=======
                 <div class="container-fsale-price">
                     <p class="original-price"><?php echo number_format($originalPrice); ?>đ</p>
                     <p class="fsale-price-new"><?php echo number_format($discountedPrice); ?>đ</p>
@@ -115,6 +128,7 @@ $conn->close();
                     <button class="add-to-cart-fsale" onclick="addToCart(<?php echo $row['product_id']; ?>)"><i
                             class="fa-solid fa-basket-shopping add-to-cart-icon"></i></button>
                 </div>
+>>>>>>> 8fdbe7c37e544106448e305aabeef04f64ae7bdb
             </div>
         <?php } ?>
 
@@ -131,7 +145,19 @@ $conn->close();
 </div>
 
 
+
 <script>
+<<<<<<< HEAD
+   function updateTime() {
+    const timeElements = document.querySelectorAll('[id^="time-"]');
+    timeElements.forEach(function(element) {
+        const endTimeStr = element.getAttribute('data-end-time');
+        const productId = element.getAttribute('data-product-id'); // Lấy product ID
+        if (endTimeStr) {
+            const endTime = new Date(endTimeStr);
+            const currentTime = new Date();
+            const diff = endTime - currentTime;
+=======
     function updateTime() {
         const timeElements = document.querySelectorAll('[id^="time-"]');
         timeElements.forEach(function (element) {
@@ -140,20 +166,36 @@ $conn->close();
                 const endTime = new Date(endTimeStr);
                 const currentTime = new Date();
                 const diff = endTime - currentTime;
+>>>>>>> 8fdbe7c37e544106448e305aabeef04f64ae7bdb
 
-                if (diff > 0) {
-                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                    element.innerHTML = `${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây`;
-                } else {
-                    element.innerHTML = 'Flash Sale đã kết thúc';
-                }
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                element.innerHTML = `${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây`;
+            } else {
+                element.innerHTML = 'Flash Sale đã kết thúc';
+                removeProductFromFlashSale(productId); // Gọi hàm để xóa sản phẩm
             }
-        });
-    }
+        }
+    });
+}
 
+function removeProductFromFlashSale(productId) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "remove_from_flashsale.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            document.getElementById(`product-${productId}`).remove(); // Xóa sản phẩm khỏi giao diện
+        }
+    };
+    xhr.send("product_id=" + productId);
+}
+
+setInterval(updateTime, 1000); // Cập nhật mỗi giây
+window.onload = updateTime; // Cập nhật ngay khi tải trang
     setInterval(updateTime, 1000); // Cập nhật mỗi giây
     window.onload = updateTime; // Cập nhật ngay khi tải trang
 

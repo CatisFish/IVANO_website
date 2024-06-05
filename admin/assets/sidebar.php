@@ -132,10 +132,10 @@ $conn->close();
                     <li><a href="../php/products.php">Sản phẩm</a></li>
                 </ul>
             </li>
-            <li><a href="../php/manage_popups.php"><i class="fa-solid fa-photo-film"></i><span>Quản lý Popup</span></a></li>
-            <li <?php if ($hasChuaTuvan): ?>class="need-advice"<?php endif; ?>><a href="../php/tuvan_form.php"><i class="fa-solid fa-photo-film"></i><span>Cần Tư Vấn</span></a></li>
+            <li><a href="../assets/manage_popups.php"><i class="fa-solid fa-photo-film"></i><span>Quản lý Popup</span></a></li>
+            <li <?php if ($hasChuaTuvan): ?>class="need-advice"<?php endif; ?>><a href="../assets/tuvan_form.php"><i class="fa-solid fa-photo-film"></i><span>Cần Tư Vấn</span></a></li>
 
-            <li><a href="../php/manage_banners.php"><i class="fa-solid fa-bell"></i><span>Quản lý Banner</span></a></li>
+            <li><a href="../assets/manage_banners.php"><i class="fa-solid fa-bell"></i><span>Quản lý Banner</span></a></li>
             <li><a href="../php/manage_flashsale.php"><i class="fa-solid fa-user"></i><span>Quản lý Flashsale</span></a></li>
 
             <li><a href="../php/agency.php"><i class="fa fa-file-alt"></i><span>Các đại lý</span></a></li>

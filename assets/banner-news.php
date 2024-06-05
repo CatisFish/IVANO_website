@@ -1,23 +1,23 @@
 <div class="container-banner-news">
     <section class="banner-news">
         <a href="#" class="news-item">
-            <img src="images/banner1.png" alt="">
+            <img src="admin/uploads/tintuc.jpg" alt="">
             <span>
                 <h1>TIN TỨC</h1>
                 <p>Nổi Bật</p>
             </span>
         </a>
 
-        <a href="gioi-thieu.php" class="news-item">
-            <img src="images/banner2.png" alt="">
+        <a href="#" class="news-item">
+            <img src="admin/uploads/chungtoi.jpg" alt="">
             <span>
                 <h1>GIỚI THIỆU</h1>
                 <p>Về Chúng Tôi</p>
             </span>
         </a>
 
-        <a href="dai-ly.php" class="news-item">
-            <img src="images/banner3.png" alt="">
+        <a href="#" class="news-item">
+            <img src="admin/uploads/noibat.jpg" alt="">
             <span>
                 <h1>ĐĂNG KÝ</h1>
                 <p>Đại Lý</p>
