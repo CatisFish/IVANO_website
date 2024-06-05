@@ -1,72 +1,97 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gửi Tin Nhắn Zalo</title>
+    <title>Form Example</title>
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .submit-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h2>Gửi Tin Nhắn Zalo</h2>
-    <form action="" method="post">
-        <label for="phone">Số điện thoại Zalo:</label><br>
-        <input type="text" id="phone" name="phone" required><br><br>
-        <input type="submit" value="Gửi Tin Nhắn">
+    <form class="daily-form" id="daily-form">
+        <h2>Phiếu Đăng Ký</h2>
+        <div class="form-group">
+            <input type="text" id="name" name="daily-name" required placeholder=" ">
+            <label for="name">Họ tên</label>
+        </div>
+        <div class="form-group">
+            <input type="text" id="address" name="daily-address" required placeholder=" ">
+            <label for="address">Địa chỉ</label>
+        </div>
+        <div class="form-group">
+            <input type="tel" id="phone" name="daily-tel" required placeholder=" ">
+            <label for="phone">Số điện thoại</label>
+        </div>
+        <div class="form-group">
+            <textarea id="content" name="daily-note" required placeholder=" "></textarea>
+            <label for="content">Nội dung</label>
+        </div>
+        <button type="submit" class="submit-btn">Gửi</button>
     </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById('daily-form');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Ngăn chặn gửi form mặc định
+
+                // Thu thập dữ liệu từ form
+                const formData = new FormData(form);
+
+                // Gửi dữ liệu sử dụng Fetch API
+                fetch('submit-daily.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Kiểm tra phản hồi từ máy chủ
+                    if (data.success) {
+                        // Hiển thị thông báo SweetAlert khi form được gửi thành công
+                        Swal.fire({
+                            title: "Thành Công!",
+                            text: "Hãy đợi chúng tôi liên hệ với bạn qua thông tin trên!",
+                            icon: "success",
+                            allowOutsideClick: false // Ngăn chặn đóng cửa sổ khi nhấp vào bên ngoài
+                        });
+                    } else {
+                        // Xử lý lỗi (nếu có)
+                        Swal.fire({
+                            title: "Lỗi!",
+                            text: data.message,
+                            icon: "error",
+                            allowOutsideClick: false
+                        });
+                    }
+                })
+                .catch(error => {
+                    // Xử lý lỗi nếu có vấn đề khi gửi yêu cầu
+                    Swal.fire({
+                        title: "Lỗi!",
+                        text: "Đã xảy ra lỗi khi gửi dữ liệu. Vui lòng thử lại.",
+                        icon: "error",
+                        allowOutsideClick: false
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
-
-<?php
-
-$phone = $_POST['phone'];
-
-if (!empty($phone)) {
-    $zalo_api_url = 'https://openapi.zalo.me/v3.0/oa/message/cs';
-
-    $access_token = '';
-
-    $data = array(
-        'recipient' => array(
-            'user_id' => $phone
-        ),
-        'message' => array(
-            'attachment' => array(
-                'type' => 'template',
-                'payload' => array(
-                    'template_type' => 'media',
-                    'elements' => array(
-                        array(
-                            'media_type' => 'sticker',
-                            'attachment_id' => 'bfe458bf64fa8da4d4eb'
-                        )
-                    )
-                )
-            )
-        )
-    );
-
-    $json_data = json_encode($data);
-
-    $options = array(
-        'http' => array(
-            'method' => 'POST',
-            'header' => "Content-Type: application/json\r\n" .
-                        "access_token: $access_token\r\n",
-            'content' => $json_data
-        )
-    );
-
-    $context = stream_context_create($options);
-
-    $result = file_get_contents($zalo_api_url, false, $context);
-
-    if ($result !== FALSE) {
-        echo 'Tin nhắn đã được gửi thành công tới số điện thoại Zalo ' . $phone;
-    } else {
-        echo 'Đã có lỗi xảy ra khi gửi tin nhắn';
-        echo '<br>';
-        var_dump($result);
-    }
-} else {
-    echo 'Vui lòng nhập số điện thoại';
-}
-?>

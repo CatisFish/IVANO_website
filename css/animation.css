@@ -1,0 +1,68 @@
+    /* Animation từ trái sang phải */
+    @keyframes slide-in-left {
+        0% {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    /* Animation từ phải sang trái */
+    @keyframes slide-in-right {
+        0% {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    /* Animation từ trên xuống */
+    @keyframes slide-in-down {
+        0% {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Animation từ dưới lên */
+    @keyframes slide-in-up {
+        0% {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Apply CSS khi section xuất hiện trong view */
+    .animate-slide-in-left {
+        animation: slide-in-left 1s ease forwards;
+    }
+
+    .animate-slide-in-right {
+        animation: slide-in-right 1s ease forwards;
+    }
+
+    .animate-slide-in-down {
+        animation: slide-in-down 1s ease forwards;
+    }
+
+    .animate-slide-in-up {
+        animation: slide-in-up 1s ease forwards;
+    }

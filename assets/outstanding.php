@@ -118,11 +118,16 @@ $conn->close();
         border-radius: 20px;
     }
 
+    .container-img-outstanding{
+        display: flex;
+        height: 350px;
+        align-items: flex-end;
+    }
     .product-item img {
-        /* width: 100%;
-            height: auto; */
-        width: 280px;
-        height: 320px;
+        width: 100%;
+        height: auto;  
+        /* width: 280px;
+        height: 320px; */
     }
 
     .brand-name {

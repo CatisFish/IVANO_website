@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/custom-scroll.css">
     <title>Thông Tin Sản Phẩm | IVANO</title>
@@ -12,44 +14,44 @@
 
 <body>
     <main id="main-product-detail">
-    <?php
-include "assets/header.php";
+        <?php
+        include "assets/header.php";
 
-// Kiểm tra xem product_id có tồn tại trong URL không
-if (isset($_GET['product_id'])) {
-    $productId = $_GET['product_id'];
-    include 'php/conection.php';
+        // Kiểm tra xem product_id có tồn tại trong URL không
+        if (isset($_GET['product_id'])) {
+            $productId = $_GET['product_id'];
+            include 'php/conection.php';
 
-    // Kiểm tra xem product_id có tồn tại trong cơ sở dữ liệu không
-    $checkProductSql = "SELECT * FROM products WHERE product_id = ?";
-    $stmtCheck = $conn->prepare($checkProductSql);
-    $stmtCheck->bind_param("s", $productId);
-    $stmtCheck->execute();
-    $resultCheck = $stmtCheck->get_result();
+            // Kiểm tra xem product_id có tồn tại trong cơ sở dữ liệu không
+            $checkProductSql = "SELECT * FROM products WHERE product_id = ?";
+            $stmtCheck = $conn->prepare($checkProductSql);
+            $stmtCheck->bind_param("s", $productId);
+            $stmtCheck->execute();
+            $resultCheck = $stmtCheck->get_result();
 
-    if ($resultCheck->num_rows > 0) {
-        // Tăng số lượng click cho sản phẩm
-        $updateClicksSql = "UPDATE products SET clicks = clicks + 1 WHERE product_id = ?";
-        $stmtUpdate = $conn->prepare($updateClicksSql);
-        $stmtUpdate->bind_param("s", $productId);
-        $stmtUpdate->execute();
-        $stmtUpdate->close();
-    } else {
-        echo "Product ID không tồn tại";
-    }
+            if ($resultCheck->num_rows > 0) {
+                // Tăng số lượng click cho sản phẩm
+                $updateClicksSql = "UPDATE products SET clicks = clicks + 1 WHERE product_id = ?";
+                $stmtUpdate = $conn->prepare($updateClicksSql);
+                $stmtUpdate->bind_param("s", $productId);
+                $stmtUpdate->execute();
+                $stmtUpdate->close();
+            } else {
+                echo "Product ID không tồn tại";
+            }
 
-    $stmtCheck->close();
-} else {
-    echo "Không có product ID được truyền qua URL";
-}
+            $stmtCheck->close();
+        } else {
+            echo "Không có product ID được truyền qua URL";
+        }
 
-// Truy vấn chi tiết sản phẩm
-if (isset($_GET['product_id'])) {
-    $productId = $_GET['product_id'];
+        // Truy vấn chi tiết sản phẩm
+        if (isset($_GET['product_id'])) {
+            $productId = $_GET['product_id'];
 
-    include "php/conection.php";
+            include "php/conection.php";
 
-    $detailSql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
+            $detailSql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
             FROM products p 
             LEFT JOIN product_images i ON p.product_id = i.product_id
             INNER JOIN categories c ON p.category_id = c.category_id
@@ -61,224 +63,220 @@ if (isset($_GET['product_id'])) {
             GROUP BY p.product_id, ps.size_id
             LIMIT 3";
 
-    $stmt = $conn->prepare($detailSql);
-    $stmt->bind_param("s", $productId);
-    $stmt->execute();
-    $detailResult = $stmt->get_result();
+            $stmt = $conn->prepare($detailSql);
+            $stmt->bind_param("s", $productId);
+            $stmt->execute();
+            $detailResult = $stmt->get_result();
 
-    if ($detailResult->num_rows > 0){
-        $detailRow = $detailResult->fetch_assoc();
-        echo '<div class="product-detail-container">';
-        echo '<div class="product-detail-link">';
-        echo '<a href="index.php">Trang Chủ</a> <i class="fa-solid fa-chevron-right"></i> ';
-        echo '<a href="#">' . htmlspecialchars($detailRow['brand_name'], ENT_QUOTES, 'UTF-8') . '</a> <i class="fa-solid fa-chevron-right"></i> ';
-        echo '<a href="#">' . htmlspecialchars($detailRow['product_name'], ENT_QUOTES, 'UTF-8') . '</a>';
-        echo '</div>';
-        
-        echo '<div class="product-detail">';
-        echo '<div class="detail-left">';
-        echo "<img class='detail-product-img' src='uploads/" . htmlspecialchars($detailRow['path_image'], ENT_QUOTES, 'UTF-8') . "' alt='Hình ảnh " . htmlspecialchars($detailRow["product_name"], ENT_QUOTES, 'UTF-8') . "'>";
-        echo '</div>';
-        
-        echo '<div class="detail-right">';
-        echo '<div class="product-name">' . htmlspecialchars($detailRow['product_name'], ENT_QUOTES, 'UTF-8') . '</div>';
-        
-        // Hiển thị giá sản phẩm (nếu có)
-        if (isset($detailRow['price'])) {
-            echo '<div class="product-price">' . htmlspecialchars(number_format($detailRow['price'], 0, ',', '.')) . ' VNĐ</div>';
-        } else {
-            echo '<div class="product-price">Giá không xác định</div>';
-        }
+            if ($detailResult->num_rows > 0) {
+                $detailRow = $detailResult->fetch_assoc();
+                echo '<div class="product-detail-container">';
+                echo '<div class="product-detail-link">';
+                echo '<a href="index.php">Trang Chủ</a> <i class="fa-solid fa-chevron-right"></i> ';
+                echo '<a href="#">' . htmlspecialchars($detailRow['brand_name'], ENT_QUOTES, 'UTF-8') . '</a> <i class="fa-solid fa-chevron-right"></i> ';
+                echo '<a href="#">' . htmlspecialchars($detailRow['product_name'], ENT_QUOTES, 'UTF-8') . '</a>';
+                echo '</div>';
 
-        echo '<div class="container-product-id-category">';
-        echo '<p class="product-id">MSP: ' . htmlspecialchars($detailRow['product_id'], ENT_QUOTES, 'UTF-8') . '</p>';
-        echo '<p class="list-category">Danh Mục: ' . htmlspecialchars($detailRow['brand_name'], ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($detailRow['category_name'], ENT_QUOTES, 'UTF-8') . '</p>';
-        echo '</div>';
-    
-        // Truy vấn để lấy danh sách kích thước của sản phẩm
-        $sizeQuery = "SELECT ps.size_id, s.size_name FROM product_size ps INNER JOIN sizes s ON ps.size_id = s.size_id WHERE ps.product_id = ?";
-        $stmtSize = $conn->prepare($sizeQuery);
-        $stmtSize->bind_param("s", $productId);
-        $stmtSize->execute();
-        $sizeResult = $stmtSize->get_result();
-        
-        // Hiển thị danh sách kích thước của sản phẩm
-        echo '<div class="product-size">';
-        echo '<p class="label-detail">Kích Thước:</p>';
-        echo '<select name="size" id="size-select" onchange="updateProductDetail()">';
-        echo '<option value="">Chọn kích thước</option>';
-    
-        // Hiển thị danh sách kích thước trong dropdown
-        if ($sizeResult->num_rows > 0) {
-            while ($row = $sizeResult->fetch_assoc()) {
-                echo "<option value='" . htmlspecialchars($row['size_id'], ENT_QUOTES, 'UTF-8') . "'>" . htmlspecialchars($row['size_name'], ENT_QUOTES, 'UTF-8') . "</option>";
-            }
-        } else {
-            echo "<option value=''>Không có kích thước</option>";
-        }
-    
-        echo '</select>';
-        echo '</div>';
-    
-        // Hiển thị thông tin chi tiết về kích thước sẽ được cập nhật bằng JavaScript
-        echo '<div id="size-details"></div>';
-    
-        echo '<div class="product-color">';
-        echo '<p class="label-detail">Đuôi Màu:</p>';
-        echo '<select name="color" id="color-select">';
-        echo '<option value="">Chọn 1 đuôi màu</option>';
-        $colorSql = "SELECT * FROM colorsuffix";
-        $colorResult = $conn->query($colorSql);
-    
-        // Hiển thị danh sách color suffix trong dropdown
-        if ($colorResult->num_rows > 0) {
-            while ($row = $colorResult->fetch_assoc()) {
-                echo "<option value='" . htmlspecialchars($row['color_suffix_name'], ENT_QUOTES, 'UTF-8') . "'>" . htmlspecialchars($row['color_suffix_name'], ENT_QUOTES, 'UTF-8') . "</option>";
-            }
-        } else {
-            echo "<option value=''>Không có color suffix nào</option>";
-        }
-    
-        echo '</select>';
-        echo '</div>';
-        echo '<div class="product-quantity">';
-        echo '<button class="minus-quantity"><i class="fa-solid fa-minus"></i></button>';
-        echo '<input type="number" min="1" max="100" value="1">';
-        echo '<button class="plus-quantity"><i class="fa-solid fa-plus"></i></button>';
-        echo '</div>';
-        
-        echo '<div class="product-des">';
-        echo '<p>' . htmlspecialchars($detailRow['product_description'], ENT_QUOTES, 'UTF-8') . '</p>';
-        echo '</div>';
-        
-        echo '<p class="id-language">Mã: <span> N/A </span></p>';
-        
-        echo '<div class="container-btn-add">';
-        echo '<button type="submit" class="add-to-cart">Thêm Vào Giỏ Hàng</button>';
-        echo '</div>';
-        
-        echo '</div>';
-        echo '</div>';
-    } else {
-        echo "<p>Không tìm thấy sản phẩm.</p>";
-    }
+                echo '<div class="product-detail">';
+                echo '<div class="detail-left">';
+                echo "<img class='detail-product-img' src='uploads/" . htmlspecialchars($detailRow['path_image'], ENT_QUOTES, 'UTF-8') . "' alt='Hình ảnh " . htmlspecialchars($detailRow["product_name"], ENT_QUOTES, 'UTF-8') . "'>";
+                echo '</div>';
 
-    $stmt->close();
-    $conn->close();
-}
-?>
+                echo '<div class="detail-right">';
+                echo '<div class="product-name">' . htmlspecialchars($detailRow['product_name'], ENT_QUOTES, 'UTF-8') . '</div>';
 
-<script>
-function updateProductDetail() {
-    const sizeSelect = document.getElementById('size-select');
-    const sizeId = sizeSelect.value;
-    const productId = "<?php echo $productId; ?>";
-
-    if (sizeId) {
-        fetch(`get_product_detail.php?product_id=${productId}&size_id=${sizeId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Lỗi mạng');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    // Cập nhật giá sản phẩm
-                    document.querySelector('.product-price').innerText = Number(data.data.price).toLocaleString('vi-VN') + ' VNĐ';
-
-                    // Cập nhật hình ảnh sản phẩm
-                    document.querySelector('.detail-product-img').src = data.data.full_image_path;
-                    document.querySelector('.detail-product-img').alt = data.data.product_name; // Cập nhật alt cho hình ảnh
-
+                // Hiển thị giá sản phẩm (nếu có)
+                if (isset($detailRow['price'])) {
+                    echo '<div class="product-price">' . htmlspecialchars(number_format($detailRow['price'], 0, ',', '.')) . ' VNĐ</div>';
                 } else {
-                    console.error('Lỗi khi cập nhật chi tiết sản phẩm:', data.message);
-                    // Xử lý lỗi hiển thị cho người dùng (nếu cần)
+                    echo '<div class="product-price">Giá không xác định</div>';
                 }
-            })
-            .catch(error => {
-                console.error('Lỗi Fetch:', error);
-                //
+
+                echo '<div class="container-product-id-category">';
+                echo '<p class="product-id">MSP: ' . htmlspecialchars($detailRow['product_id'], ENT_QUOTES, 'UTF-8') . '</p>';
+                echo '<p class="list-category">Danh Mục: ' . htmlspecialchars($detailRow['brand_name'], ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($detailRow['category_name'], ENT_QUOTES, 'UTF-8') . '</p>';
+                echo '</div>';
+
+                // Truy vấn để lấy danh sách kích thước của sản phẩm
+                $sizeQuery = "SELECT ps.size_id, s.size_name FROM product_size ps INNER JOIN sizes s ON ps.size_id = s.size_id WHERE ps.product_id = ?";
+                $stmtSize = $conn->prepare($sizeQuery);
+                $stmtSize->bind_param("s", $productId);
+                $stmtSize->execute();
+                $sizeResult = $stmtSize->get_result();
+
+                // Hiển thị danh sách kích thước của sản phẩm
+                echo '<div class="product-size">';
+                echo '<p class="label-detail">Kích Thước:</p>';
+                echo '<select name="size" id="size-select" onchange="updateProductDetail()">';
+                echo '<option value="">Chọn kích thước</option>';
+
+                // Hiển thị danh sách kích thước trong dropdown
+                if ($sizeResult->num_rows > 0) {
+                    while ($row = $sizeResult->fetch_assoc()) {
+                        echo "<option value='" . htmlspecialchars($row['size_id'], ENT_QUOTES, 'UTF-8') . "'>" . htmlspecialchars($row['size_name'], ENT_QUOTES, 'UTF-8') . "</option>";
+                    }
+                } else {
+                    echo "<option value=''>Không có kích thước</option>";
+                }
+
+                echo '</select>';
+                echo '</div>';
+
+                // Hiển thị thông tin chi tiết về kích thước sẽ được cập nhật bằng JavaScript
+                echo '<div id="size-details"></div>';
+
+                echo '<div class="product-color">';
+                echo '<p class="label-detail">Đuôi Màu:</p>';
+                echo '<select name="color" id="color-select">';
+                echo '<option value="">Chọn 1 đuôi màu</option>';
+                $colorSql = "SELECT * FROM colorsuffix";
+                $colorResult = $conn->query($colorSql);
+
+                // Hiển thị danh sách color suffix trong dropdown
+                if ($colorResult->num_rows > 0) {
+                    while ($row = $colorResult->fetch_assoc()) {
+                        echo "<option value='" . htmlspecialchars($row['color_suffix_name'], ENT_QUOTES, 'UTF-8') . "'>" . htmlspecialchars($row['color_suffix_name'], ENT_QUOTES, 'UTF-8') . "</option>";
+                    }
+                } else {
+                    echo "<option value=''>Không có color suffix nào</option>";
+                }
+
+                echo '</select>';
+                echo '</div>';
+                echo '<div class="product-quantity">';
+                echo '<button class="minus-quantity"><i class="fa-solid fa-minus"></i></button>';
+                echo '<input type="number" min="1" max="100" value="1">';
+                echo '<button class="plus-quantity"><i class="fa-solid fa-plus"></i></button>';
+                echo '</div>';
+
+                echo '<div class="product-des">';
+                echo '<p>' . htmlspecialchars($detailRow['product_description'], ENT_QUOTES, 'UTF-8') . '</p>';
+                echo '</div>';
+
+                echo '<p class="id-language">Mã: <span> N/A </span></p>';
+
+                echo '<div class="container-btn-add">';
+                echo '<button type="submit" class="add-to-cart">Thêm Vào Giỏ Hàng</button>';
+                echo '</div>';
+
+                echo '</div>';
+                echo '</div>';
+            } else {
+                echo "<p>Không tìm thấy sản phẩm.</p>";
+            }
+
+            $stmt->close();
+            $conn->close();
+        }
+        ?>
+
+        <script>
+            function updateProductDetail() {
+                const sizeSelect = document.getElementById('size-select');
+                const sizeId = sizeSelect.value;
+                const productId = "<?php echo $productId; ?>";
+
+                if (sizeId) {
+                    fetch(`get_product_detail.php?product_id=${productId}&size_id=${sizeId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Lỗi mạng');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                // Cập nhật giá sản phẩm
+                                document.querySelector('.product-price').innerText = Number(data.data.price).toLocaleString('vi-VN') + ' VNĐ';
+
+                                // Cập nhật hình ảnh sản phẩm
+                                document.querySelector('.detail-product-img').src = data.data.full_image_path;
+                                document.querySelector('.detail-product-img').alt = data.data.product_name; // Cập nhật alt cho hình ảnh
+
+                            } else {
+                                console.error('Lỗi khi cập nhật chi tiết sản phẩm:', data.message);
+                                // Xử lý lỗi hiển thị cho người dùng (nếu cần)
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Lỗi Fetch:', error);
+                            //
+                        });
+                } else {
+                    // Xử lý trường hợp không có size nào được chọn 
+                    document.querySelector('.product-price').innerText = "Vui lòng chọn size"; // Hoặc thông báo lỗi khác
+                    document.querySelector('.detail-product-img').src = "đường_dẫn_hình_ảnh_mặc_định"; // Hiển thị hình ảnh mặc định
+                }
+            }
+            document.getElementById('color-select').addEventListener('change', function () {
+                var colorSuffix = this.value;
+                var currentPrice = parseFloat(document.querySelector('.product-price').innerText.replace(' VNĐ', '').replace(/\./g, '').replace(',', '.')); // Lấy giá hiện tại và chuyển đổi về số
+                var updatedPrice = currentPrice; // Giá mới sẽ được cập nhật
+
+                // Tính toán giá mới dựa trên đuôi màu được chọn
+                switch (colorSuffix) {
+                    case 'T':
+                        updatedPrice *= 1.1; // Tăng giá 10%
+                        break;
+                    case 'D':
+                        updatedPrice *= 1.2; // Tăng giá 20%
+                        break;
+                    case 'A':
+                        updatedPrice *= 1.3; // Tăng giá 30%
+                        break;
+                    default:
+                        break;
+                }
+
+                // Cập nhật giá mới lên giao diện
+                document.querySelector('.product-price').innerText = updatedPrice.toLocaleString('vi-VN') + ' VNĐ';
             });
-    } else {
-      // Xử lý trường hợp không có size nào được chọn 
-      document.querySelector('.product-price').innerText = "Vui lòng chọn size"; // Hoặc thông báo lỗi khác
-      document.querySelector('.detail-product-img').src = "đường_dẫn_hình_ảnh_mặc_định"; // Hiển thị hình ảnh mặc định
-    }
-}
-document.getElementById('color-select').addEventListener('change', function() {
-    var colorSuffix = this.value;
-    var currentPrice = parseFloat(document.querySelector('.product-price').innerText.replace(' VNĐ', '').replace(/\./g, '').replace(',', '.')); // Lấy giá hiện tại và chuyển đổi về số
-    var updatedPrice = currentPrice; // Giá mới sẽ được cập nhật
 
-    // Tính toán giá mới dựa trên đuôi màu được chọn
-    switch(colorSuffix) {
-        case 'T':
-            updatedPrice *= 1.1; // Tăng giá 10%
-            break;
-        case 'D':
-            updatedPrice *= 1.2; // Tăng giá 20%
-            break;
-        case 'A':
-            updatedPrice *= 1.3; // Tăng giá 30%
-            break;
-        default:
-            break;
-    }
+            // Lắng nghe sự kiện thay đổi số lượng sản phẩm
+            document.querySelector('.product-quantity input').addEventListener('change', function () {
+                var quantity = parseInt(this.value); // Lấy số lượng sản phẩm
+                var currentPrice = parseFloat(document.querySelector('.product-price').innerText.replace(' VNĐ', '').replace(/\./g, '').replace(',', '.')); // Lấy giá hiện tại và chuyển đổi về số
+                var updatedPrice = currentPrice * quantity; // Giá mới sẽ được cập nhật dựa trên số lượng
 
-    // Cập nhật giá mới lên giao diện
-    document.querySelector('.product-price').innerText = updatedPrice.toLocaleString('vi-VN') + ' VNĐ';
-});
-
-// Lắng nghe sự kiện thay đổi số lượng sản phẩm
-document.querySelector('.product-quantity input').addEventListener('change', function() {
-    var quantity = parseInt(this.value); // Lấy số lượng sản phẩm
-    var currentPrice = parseFloat(document.querySelector('.product-price').innerText.replace(' VNĐ', '').replace(/\./g, '').replace(',', '.')); // Lấy giá hiện tại và chuyển đổi về số
-    var updatedPrice = currentPrice * quantity; // Giá mới sẽ được cập nhật dựa trên số lượng
-
-    // Cập nhật giá mới lên giao diện
-    document.querySelector('.product-price').innerText = updatedPrice.toLocaleString('vi-VN') + ' VNĐ';
-});
+                // Cập nhật giá mới lên giao diện
+                document.querySelector('.product-price').innerText = updatedPrice.toLocaleString('vi-VN') + ' VNĐ';
+            });
 
 
-// Lấy các phần tử nút tăng và giảm
-var plusButton = document.querySelector('.plus-quantity');
-var minusButton = document.querySelector('.minus-quantity');
-var quantityInput = document.querySelector('.product-quantity input');
+            // Lấy các phần tử nút tăng và giảm
+            var plusButton = document.querySelector('.plus-quantity');
+            var minusButton = document.querySelector('.minus-quantity');
+            var quantityInput = document.querySelector('.product-quantity input');
 
-// Lắng nghe sự kiện click vào nút tăng
-plusButton.addEventListener('click', function() {
-    // Tăng số lượng sản phẩm lên 1
-    quantityInput.value = parseInt(quantityInput.value) + 1;
-    // Trigger sự kiện change để cập nhật giá
-    quantityInput.dispatchEvent(new Event('change'));
-});
+            // Lắng nghe sự kiện click vào nút tăng
+            plusButton.addEventListener('click', function () {
+                // Tăng số lượng sản phẩm lên 1
+                quantityInput.value = parseInt(quantityInput.value) + 1;
+                // Trigger sự kiện change để cập nhật giá
+                quantityInput.dispatchEvent(new Event('change'));
+            });
 
-// Lắng nghe sự kiện click vào nút giảm
-minusButton.addEventListener('click', function() {
-    // Giảm số lượng sản phẩm đi 1, nhưng không được nhỏ hơn 1
-    if (parseInt(quantityInput.value) > 1) {
-        quantityInput.value = parseInt(quantityInput.value) - 1;
-        // Trigger sự kiện change để cập nhật giá
-        quantityInput.dispatchEvent(new Event('change'));
-    }
-});
-</script>
+            // Lắng nghe sự kiện click vào nút giảm
+            minusButton.addEventListener('click', function () {
+                // Giảm số lượng sản phẩm đi 1, nhưng không được nhỏ hơn 1
+                if (parseInt(quantityInput.value) > 1) {
+                    quantityInput.value = parseInt(quantityInput.value) - 1;
+                    // Trigger sự kiện change để cập nhật giá
+                    quantityInput.dispatchEvent(new Event('change'));
+                }
+            });
+        </script>
 
-
-<?php
-include "assets/footer.php";
-?>
- 
         <div class="detail-info-bottom">
             <div class="info-des">
-                <?php include "assets/des-product-plus.php";?>
+                <?php include "assets/des-product-plus.php"; ?>
             </div>
         </div>
-        
+
     </main>
-    <?php include "assets/footer.php";?>
+    <?php include "assets/footer.php"; ?>
 </body>
+
 </html>
 
 
@@ -417,5 +415,3 @@ include "assets/footer.php";
         background-color: #fb9c0d;
     }
 </style>
-
-

@@ -93,7 +93,7 @@ if (isset($_GET['product_id'])) {
         echo "Error updating click count: " . $conn->error;
     }
 } else {
-    echo "Product ID not provided";
+   
 }
 
 $conn->close();

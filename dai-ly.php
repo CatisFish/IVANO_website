@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/custom-scroll.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Đại Lý | IVANO</title>
 </head>
 
@@ -110,51 +113,6 @@
     }
 </style>
 
-<?php
-include("php/conection.php");
-
-// Check if the request method is POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Escape the user input to prevent SQL injection attacks
-    $agency_name = $mysqli->real_escape_string($_POST["daily-name"]);
-    $agency_address = $mysqli->real_escape_string($_POST["daily-address"]);
-    $agency_phone = $mysqli->real_escape_string($_POST["daily-tel"]);
-    $agency_note = $mysqli->real_escape_string($_POST["daily-note"]);
-
-    // Prepare the query to select all rows from the agency table
-    if ($stmt = $mysqli->prepare("SELECT * FROM agency")) {
-        // Execute the query
-        $stmt->execute();
-
-        // Bind the result variables
-        $stmt->bind_result($col1, $col2, $col3, $col4);
-
-        // Fetch the results
-        while ($stmt->fetch()) {
-            // Do something with the fetched data
-        }
-
-        // Close the statement
-        $stmt->close();
-    }
-
-    // Prepare the query to insert data into the agency table
-    if ($stmt = $mysqli->prepare("INSERT INTO agency(agency_name, agency_address, agency_tel, agency_note) VALUES(?, ?, ?, ?)")) {
-        // Bind the parameters
-        $stmt->bind_param("ssss", $agency_name, $agency_address, $agency_phone, $agency_note);
-
-        // Execute the query
-        $stmt->execute();
-
-        // Close the statement
-        $stmt->close();
-    }
-
-    // Close the connection
-    $mysqli->close();
-}
-?>
-
 <body>
     <?php include "assets/header.php"; ?>
 
@@ -241,33 +199,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
 
-        <form class="daily-form" action="" method="POST">
+        <form class="daily-form" id="daily-form">
             <button class="close-btn-daily-form" onclick="closeDailyForm()" type="button"><i
                     class="fa-solid fa-xmark"></i></button>
-
             <h2>Phiếu Đăng Ký</h2>
             <div class="form-group">
                 <input type="text" id="name" name="daily-name" required placeholder=" ">
                 <label for="name">Họ tên</label>
             </div>
-
             <div class="form-group">
                 <input type="text" id="address" name="daily-address" required placeholder=" ">
                 <label for="address">Địa chỉ</label>
             </div>
-
             <div class="form-group">
-                <input type="tel" id="phone" name="daily-tel" required placeholder=" ">
+                <input type="tel" id="phone" name="daily-tell" required placeholder=" ">
                 <label for="phone">Số điện thoại</label>
             </div>
-
             <div class="form-group">
                 <textarea id="content" name="daily-note" required placeholder=" "></textarea>
                 <label for="content">Nội dung</label>
             </div>
-
             <button type="submit" class="submit-btn">Gửi</button>
-
         </form>
     </main>
 
@@ -287,6 +239,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         background-color: rgba(0, 0, 0, 0.5);
         z-index: 100;
     }
+
     .close-btn-daily-form {
         position: absolute;
         width: 30px;
@@ -302,7 +255,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     .daily-form {
         position: relative;
-        transform: translate(-50%, 50%);
+        transform: translate(-50%, 250%);
         transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
         background: #fff;
         padding: 20px 40px;
@@ -416,7 +369,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         closeDailyForm.addEventListener('click', function () {
             const daiLyForm = document.querySelector('.daily-form');
             daiLyForm.style.opacity = '0';
-            daiLyForm.style.transform = 'translate(-50%, 50%)';
+            daiLyForm.style.transform = 'translate(-50%, 250%)';
 
             const overlayDailyClose = document.getElementById('overlay-daily');
 
@@ -424,6 +377,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         });
     }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('daily-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+        const formData = new FormData(form);
+       
+        fetch('action/submit-daily.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+
+            if (data.success) {
+                Swal.fire({
+                    title: "Thành Công!",
+                    text: "Hãy đợi chúng tôi liên hệ với bạn qua thông tin trên!",
+                    icon: "success",
+                    allowOutsideClick: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        closeDailyForm();
+                    }
+                });
+                
+            } else {
+                Swal.fire({
+                    title: "Lỗi!",
+                    text: data.message,
+                    icon: "error",
+                    allowOutsideClick: false
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: "Lỗi!",
+                text: "Đã xảy ra lỗi khi gửi dữ liệu. Vui lòng thử lại.",
+                icon: "error",
+                allowOutsideClick: false
+            });
+        });
+    });
+});
+
+function closeDailyForm() {
+    const daiLyForm = document.querySelector('.daily-form');
+    daiLyForm.style.opacity = '0';
+
+    const overlayDailyClose = document.getElementById('overlay-daily');
+    overlayDailyClose.style.display = 'none';
+}
+
 </script>
 
 </html>
