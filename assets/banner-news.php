@@ -8,7 +8,7 @@
             </span>
         </a>
 
-        <a href="#" class="news-item">
+        <a href="gioi-thieu.php" class="news-item">
             <img src="admin/uploads/chungtoi.jpg" alt="">
             <span>
                 <h1>GIỚI THIỆU</h1>
@@ -16,7 +16,7 @@
             </span>
         </a>
 
-        <a href="#" class="news-item">
+        <a href="dai-ly.php" class="news-item">
             <img src="admin/uploads/noibat.jpg" alt="">
             <span>
                 <h1>ĐĂNG KÝ</h1>

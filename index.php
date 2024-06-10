@@ -63,10 +63,6 @@
         ?>
 
         <?php include "assets/footer.php"; ?>
-
-        <?php
-        include "assets/popup.php";
-        ?>
     </main>
 
     <style>

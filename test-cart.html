@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="css/global.css">
+    <title>Document</title>
+</head>
+
+<style>
+    .bar-mobile-btn,
+    .close-bar-btn,
+    .search-box-mobile {
+        display: none;
+    }
+
+    .wrapper-header-top {
+        background: linear-gradient(135deg, rgb(74, 234, 220) 0%, rgb(151, 120, 209) 20%, rgb(207, 42, 186) 40%, rgb(238, 44, 130) 60%, rgb(251, 105, 98) 80%, rgb(254, 248, 76) 100%);
+    }
+
+    .header-top {
+        width: 90%;
+        margin: 0px auto;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        align-items: center;
+        color: #FFF;
+    }
+
+    .header-top p {
+        text-align: center;
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    .header-top-right {
+        display: flex;
+        gap: 20px;
+    }
+
+    .wrapper-header-bottom {
+        background: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 25%, rgba(252, 185, 0, 1) 50%, rgba(255, 105, 0, 1) 75%, rgb(74, 234, 220) 100%);
+    }
+
+    .header-bottom {
+        width: 90%;
+        height: 90px;
+        margin: 0px auto;
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        padding: 30px 0;
+        align-items: center;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .logo-page {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .logo-page img {
+        width: 170px;
+        transition: all ease-in-out 0.3s;
+    }
+
+    .logo-page:hover img {
+        scale: 105%;
+    }
+
+    .container-nav-item {
+        display: flex;
+        gap: 20px;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .nav-item {
+        font-weight: 600;
+    }
+
+    .nav-item a {
+        transition: all ease-in-out 0.3s;
+    }
+
+    .nav-item:hover a {
+        color: #FFF;
+    }
+
+    .search-box {
+        background: #fff;
+        border: 1px solid #fff;
+        border-radius: 30px;
+        margin-right: 20px;
+        position: relative;
+    }
+
+    .search-text {
+        background: #fff;
+        border: none;
+        outline: none;
+        background: none;
+        width: 230px;
+        padding: 10px 10px 10px 20px;
+        transition: all 0.50s ease-in-out;
+        color: #221f20;
+    }
+
+    .search-btn {
+        background-color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 50%;
+        padding: 10px 15px;
+
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .container-nav-right-item {
+        display: flex;
+        margin-left: 20px;
+        gap: 30px;
+        font-size: 20px;
+    }
+
+    .view-orders {
+        padding-left: 40px;
+        border-left: 1px solid #000;
+    }
+</style>
+
+<body>
+    <header id="header-page">
+        <div class="wrapper-header-top">
+            <section class="header-top">
+                <p>ĐIỂM TÔ CUỘC SỐNG - TIẾP BƯỚC THÀNH CÔNG</p>
+            </section>
+        </div>
+
+        <div class="wrapper-header-bottom">
+            <section class="header-bottom">
+
+                <button class="bar-mobile-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <nav class="nav-left">
+                    <button class="close-bar-btn">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                    <ul class="container-nav-item">
+
+                        <form class="search-box-mobile" action="../assets/search.php" method="GET">
+                            <input type="text" class="search-text-mobile" placeholder="Nhập sản phẩm cần tìm..."
+                                name="search" required>
+                            <button type="submit" class="search-btn-mobile"><i
+                                    class="fa-solid fa-magnifying-glass"></i></button>
+                        </form>
+
+                        <li class="nav-item"><a href="all-item.php">Sản Phẩm</a></li>
+                        <li class="nav-item"><a href="dai-ly.php">Đại Lý</a></li>
+                        <li class="nav-item"><a href="">Bảng Màu</a></li>
+                        <li class="nav-item"><a href="">Tuyển Dụng</a></li>
+                    </ul>
+                </nav>
+
+                <a href="index.php" class="logo-page"><img src="images/logo.png" alt="LOGO"></a>
+
+                <nav class="nav-right">
+                    <form class="search-box" method="GET">
+                        <input type="text" name="search" placeholder="Nhập nội dung cần tìm..." class="search-text"
+                            id="search" value="<?php echo htmlspecialchars($searchQuery); ?>">
+                        <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
+
+                    <ul class="container-nav-right-item">
+                        <a href="" class="view-orders item-nav-right"><i class="fa-solid fa-headphones-simple"></i></a>
+
+                        <a href="login-register/index.html" class="login-link item-nav-right"><i
+                                class="fa-regular fa-user"></i></a>
+
+                        <div class="shopping-cart-page" onclick="showCart(event)">
+                            <a href="#">
+                                <i class="fa-solid fa-basket-shopping item-nav-right"></i>
+                                <span id="lenght-cart">0</span>
+                            </a>
+
+                            <div id="show-cart">
+                                <div id="my-cart">
+                                    <div class="top-cart">
+                                        <p>Giỏ Hàng</p>
+                                        <button type="button" class="close-cart-btn">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                    <p id="cart-items">
+                                        <!-- item here -->
+                                    </p>
+                                </div>
+
+                                <!-- <div id="checkout">
+                                    <p id="cart-total">Tổng tiền: <span> 0 đ</span></p>
+
+                                    <div class="container-clear-cart">
+                                        <button type="button" class="clear-cart-btn">
+                                            Clear Giỏ Hàng
+                                        </button>
+                                    </div>
+                                    <a id="view-cart-link" href="checkout.php">
+                                        Thanh Toán
+                                    </a>
+                                </div> -->
+                            </div>
+                        </div>
+                    </ul>
+                </nav>
+            </section>
+        </div>
+    </header>
+
+</body>
+
+<style>
+    #show-cart {
+        position: absolute;
+        width: 350px;
+        height: 90vh;
+        box-shadow: 0 8px 10px 0 rgb(0 0 0 / 10%);
+        right: -65px;
+        top: 0px;
+        background-color: #221F20;
+        border-radius: 10px;
+        transition: all ease-in-out 0.3s;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    #my-cart {
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #999 transparent;
+        overflow-x: hidden;
+        padding: 10px;
+    }
+
+    #show-cart.show {
+        opacity: 1;
+        right: 0px;
+        transition: all ease-in-out 0.3s;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    #lenght-cart {
+        font-size: 15px;
+        position: absolute;
+        top: 20%;
+        right: -10px;
+        color: #000;
+        font-weight: 600;
+        transition: all ease-in-out 0.3s;
+    }
+
+    .top-cart {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #464545;
+    }
+
+    .top-cart h3 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #FFF;
+    }
+
+    .close-cart-btn {
+        background-color: transparent;
+        border: none;
+        background-color: #fff;
+        color: #ff0000;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 5px 8px;
+    }
+
+    #cart-items {
+        margin-top: 10px;
+    }
+</style>
+
+<script src="js/test.js"></script>
+
+</html>

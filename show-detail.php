@@ -45,7 +45,6 @@
             echo "Không có product ID được truyền qua URL";
         }
 
-        // Truy vấn chi tiết sản phẩm
         if (isset($_GET['product_id'])) {
             $productId = $_GET['product_id'];
 
@@ -85,17 +84,17 @@
                 echo '<div class="detail-right">';
                 echo '<div class="product-name">' . htmlspecialchars($detailRow['product_name'], ENT_QUOTES, 'UTF-8') . '</div>';
 
+                echo '<div class="container-product-id-category">';
+                echo '<p class="product-id">MSP: ' . htmlspecialchars($detailRow['product_id'], ENT_QUOTES, 'UTF-8') . '</p>';
+                echo '<p class="list-category">Danh Mục: ' . htmlspecialchars($detailRow['brand_name'], ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($detailRow['category_name'], ENT_QUOTES, 'UTF-8') . '</p>';
+                echo '</div>';
+
                 // Hiển thị giá sản phẩm (nếu có)
                 if (isset($detailRow['price'])) {
                     echo '<div class="product-price">' . htmlspecialchars(number_format($detailRow['price'], 0, ',', '.')) . ' VNĐ</div>';
                 } else {
                     echo '<div class="product-price">Giá không xác định</div>';
                 }
-
-                echo '<div class="container-product-id-category">';
-                echo '<p class="product-id">MSP: ' . htmlspecialchars($detailRow['product_id'], ENT_QUOTES, 'UTF-8') . '</p>';
-                echo '<p class="list-category">Danh Mục: ' . htmlspecialchars($detailRow['brand_name'], ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($detailRow['category_name'], ENT_QUOTES, 'UTF-8') . '</p>';
-                echo '</div>';
 
                 // Truy vấn để lấy danh sách kích thước của sản phẩm
                 $sizeQuery = "SELECT ps.size_id, s.size_name FROM product_size ps INNER JOIN sizes s ON ps.size_id = s.size_id WHERE ps.product_id = ?";
@@ -104,6 +103,7 @@
                 $stmtSize->execute();
                 $sizeResult = $stmtSize->get_result();
 
+                echo '<div class="container-size-color">';
                 // Hiển thị danh sách kích thước của sản phẩm
                 echo '<div class="product-size">';
                 echo '<p class="label-detail">Kích Thước:</p>';
@@ -143,6 +143,8 @@
 
                 echo '</select>';
                 echo '</div>';
+                echo '</div>';
+
                 echo '<div class="product-quantity">';
                 echo '<button class="minus-quantity"><i class="fa-solid fa-minus"></i></button>';
                 echo '<input type="number" min="1" max="100" value="1">';
@@ -277,8 +279,11 @@
     <?php include "assets/footer.php"; ?>
 </body>
 
-</html>
+<script>
+    
+</script>
 
+</html>
 
 <style>
     .product-detail-container {
@@ -303,7 +308,7 @@
     }
 
     .product-detail {
-        width: 85%;
+        width: 100%;
         display: flex;
         justify-content: space-between;
         margin: 20px auto;
@@ -329,7 +334,7 @@
     .product-price {
         font-size: 20px;
         color: #ED1C24;
-        font-weight: 500;
+        font-weight: 600;
         margin-top: 20px;
     }
 
@@ -347,17 +352,49 @@
 
     }
 
+    .container-size-color {
+        display: flex;
+        gap: 10%;
+    }
+
     .product-size,
     .product-color {
         margin-top: 20px;
         font-size: 15px;
     }
 
+
     #size-select,
     #color-select {
-        margin-top: 10px;
+        margin-top: -5px;
         font-size: 15px;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 8px;
+        width: 200px;
+        cursor: pointer;
+        outline: none;
+        color: #333;
     }
+
+    #size-select:focus,
+    #color-select:focus {
+        border-color: #4caf50;
+    }
+
+
+    #size-select,
+    #color-select {
+        transition: all 0.3s ease;
+    }
+
+    #size-select:active,
+    #color-select:active {
+        border-color: #4caf50;
+    }
+
+
 
     .product-quantity {
         margin-top: 20px;

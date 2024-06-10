@@ -8,7 +8,7 @@
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-        <link rel="stylesheet" href="css/animation.css">
+    <link rel="stylesheet" href="css/animation.css">
     <link rel="stylesheet" href="css/custom-scroll.css">
     <link rel="stylesheet" href="css/global.css">
 
@@ -344,14 +344,14 @@
         position: relative;
     }
 
-    .item-five-content span{
+    .item-five-content span {
         text-align: center;
         font-size: 30px;
         color: #FFF;
         font-weight: 700;
     }
 
-    .item-five-content p{
+    .item-five-content p {
         color: #fff;
         font-size: 20px;
         padding: 0 20%;
@@ -387,65 +387,65 @@
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const content = document.querySelector(".content-five-introduce");
-    const items = document.querySelectorAll(".item-five-content");
-    const prevButton = document.querySelector(".prev-introduce-button");
-    const nextButton = document.querySelector(".next-introduce-button");
-    const radioButtons = document.querySelectorAll('[name="side-introduce"]');
-    const itemWidth = content.offsetWidth;
-    
-    let currentIndex = 0;
+    document.addEventListener("DOMContentLoaded", function () {
+        const content = document.querySelector(".content-five-introduce");
+        const items = document.querySelectorAll(".item-five-content");
+        const prevButton = document.querySelector(".prev-introduce-button");
+        const nextButton = document.querySelector(".next-introduce-button");
+        const radioButtons = document.querySelectorAll('[name="side-introduce"]');
+        const itemWidth = content.offsetWidth;
 
-    function updateSlide(index) {
-        content.style.transform = `translateX(-${index * 100}%)`;
-        radioButtons[currentIndex].checked = false;
-        radioButtons[index].checked = true;
-        currentIndex = index;
-    }
+        let currentIndex = 0;
 
-    prevButton.addEventListener('click', () => {
-        const lastItem = content.querySelector(".item-five-content:last-child");
-        content.insertBefore(lastItem, content.firstChild);
-        content.style.transition = "none";
-        content.style.transform = `translateX(-${itemWidth}px)`;
+        function updateSlide(index) {
+            content.style.transform = `translateX(-${index * 100}%)`;
+            radioButtons[currentIndex].checked = false;
+            radioButtons[index].checked = true;
+            currentIndex = index;
+        }
 
-        setTimeout(() => {
-            content.style.transition = "transform 0.5s ease-in-out";
-            content.style.transform = "translateX(0)";
-        }, 20);
-
-        currentIndex = (currentIndex - 1 + items.length) % items.length;
-        updateRadioButtons();
-    });
-
-    nextButton.addEventListener('click', () => {
-        const firstItem = content.querySelector(".item-five-content:first-child");
-        content.style.transition = "transform 0.5s ease-in-out";
-        content.style.transform = `translateX(-${itemWidth}px)`;
-
-        setTimeout(() => {
-            content.appendChild(firstItem);
+        prevButton.addEventListener('click', () => {
+            const lastItem = content.querySelector(".item-five-content:last-child");
+            content.insertBefore(lastItem, content.firstChild);
             content.style.transition = "none";
-            content.style.transform = "translateX(0)";
-        }, 500);
+            content.style.transform = `translateX(-${itemWidth}px)`;
 
-        currentIndex = (currentIndex + 1) % items.length;
-        updateRadioButtons();
-    });
+            setTimeout(() => {
+                content.style.transition = "transform 0.5s ease-in-out";
+                content.style.transform = "translateX(0)";
+            }, 20);
 
-    function updateRadioButtons() {
-        radioButtons.forEach((radioButton, index) => {
-            radioButton.checked = index === currentIndex;
+            currentIndex = (currentIndex - 1 + items.length) % items.length;
+            updateRadioButtons();
         });
-    }
-});
+
+        nextButton.addEventListener('click', () => {
+            const firstItem = content.querySelector(".item-five-content:first-child");
+            content.style.transition = "transform 0.5s ease-in-out";
+            content.style.transform = `translateX(-${itemWidth}px)`;
+
+            setTimeout(() => {
+                content.appendChild(firstItem);
+                content.style.transition = "none";
+                content.style.transform = "translateX(0)";
+            }, 500);
+
+            currentIndex = (currentIndex + 1) % items.length;
+            updateRadioButtons();
+        });
+
+        function updateRadioButtons() {
+            radioButtons.forEach((radioButton, index) => {
+                radioButton.checked = index === currentIndex;
+            });
+        }
+    });
 
 
 </script>
 
 <script>
-        document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
         const observerOptions = {
             root: null,
             rootMargin: '0px',

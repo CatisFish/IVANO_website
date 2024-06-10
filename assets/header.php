@@ -34,6 +34,7 @@
         transform: translateY(-5px);
     }
 </style>
+
 <style>
     .bar-mobile-btn,
     .close-bar-btn,
@@ -500,10 +501,111 @@
     }
 } */
 </style>
-<?php
-if (!isset($searchQuery)) {
+
+<!-- fix bootstrap -->
+<style>
+    .header-top p {
+        margin-bottom: 0;
+    }
+
+    .ft-bottom p {
+        margin-bottom: 0;
+    }
+</style>
+
+<!-- css-cart -->
+<style>
+    #show-cart {
+        position: absolute;
+        width: 400px;
+        height: 90vh;
+        box-shadow: 0 8px 10px 0 rgb(0 0 0 / 10%);
+        right: -65px;
+        top: 0px;
+        background-color: #221F20;
+        border-radius: 10px;
+        transition: all ease-in-out 0.3s;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    #my-cart {
+        /* overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #999 transparent;
+        overflow-x: hidden; */
+        padding: 10px;
+    }
+
+    #show-cart.show {
+        opacity: 1;
+        right: 0px;
+        transition: all ease-in-out 0.3s;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    #lenght-cart {
+        font-size: 15px;
+        position: absolute;
+        top: 20%;
+        right: -10px;
+        color: #000;
+        font-weight: 600;
+        transition: all ease-in-out 0.3s;
+    }
+
+    .top-cart {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #464545;
+    }
+
+    .top-cart p {
+        font-size: 20px;
+        font-weight: 600;
+        color: #FFF;
+        margin-bottom: 0;
+    }
+
+    .close-cart-btn {
+        background-color: transparent;
+        border: none;
+        background-color: #fff;
+        color: #ff0000;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 5px 8px;
+    }
+
+    #cart-items {
+        margin-top: 10px;
+        height: 440px;
+        max-height: 440px;
+        overflow-y: auto;
+        scrollbar-width: none;
+        overflow-x: hidden;
+    }
+
+    #cart-items::-webkit-scrollbar {
+        width: 0;
+    }
+
+    .title-none-cart {
+        text-align: center;
+        margin: 200px 0 175px 0;
+        font-weight: 700;
+        color: #FFF;
+    }
+</style>
+
+<?php 
+    if (!isset($searchQuery)) {
     $searchQuery = '';
-}
+    }
 ?>
 
 <body>
@@ -535,7 +637,6 @@ if (!isset($searchQuery)) {
                                     class="fa-solid fa-magnifying-glass"></i></button>
                         </form>
 
-
                         <li class="nav-item"><a href="all-item.php">Sản Phẩm</a></li>
                         <li class="nav-item"><a href="dai-ly.php">Đại Lý</a></li>
                         <li class="nav-item"><a href="">Bảng Màu</a></li>
@@ -555,14 +656,36 @@ if (!isset($searchQuery)) {
                     <ul class="container-nav-right-item">
                         <a href="" class="view-orders item-nav-right"><i class="fa-solid fa-headphones-simple"></i></a>
 
-                        <a href="login-register/index.html" class="login-link item-nav-right"><i
-                                class="fa-regular fa-user"></i></a>
+                        <a href="login.php" class="login-link item-nav-right"><i class="fa-regular fa-user"></i></a>
 
-                        <div class="shopping-cart-page" onclick="showCart(event)">
+                        <div class="shopping-cart-page">
                             <a href="#">
                                 <i class="fa-solid fa-basket-shopping item-nav-right"></i>
                                 <p id="lenght-cart"></p>
                             </a>
+
+                            <div id="show-cart">
+                                <div id="my-cart">
+                                    <div class="top-cart">
+                                        <p>Giỏ Hàng</p>
+                                        <button type="button" class="close-cart-btn">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                    <div id="cart-items">
+                                        <!-- item here -->
+                                    </div>
+
+                                    <div class="cart-bottom">
+                                        <p class="cart-total">Tổng tiền: <span>0</span></p>
+
+                                        <button class="clear-cart-btn" type="button">Clear giỏ hàng</button>
+                                        <button class="checkout-btn">
+                                            <a href="cart-page.php">Thanh Toán</a>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </ul>
                 </nav>
@@ -574,6 +697,146 @@ if (!isset($searchQuery)) {
         <i class="fa-solid fa-angle-up"></i>
     </button>
 </body>
+
+<!-- add-to-cart -->
+<script src="js/test.js">
+</script>
+
+<style>
+    .cart-item {
+        display: flex;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+        align-items: center;
+        position: relative;
+    }
+
+    .cart-item-image {
+        width: 100px;
+        height: 120px;
+        object-fit: cover;
+        margin-right: 5px;
+    }
+
+    .item-details {
+        flex: 1;
+    }
+
+    .item-name {
+        font-size: 15px;
+        color: #dd9933;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .item-price {
+        font-size: 14px;
+        color: #1E90FF;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+    .item-quantity {
+        font-size: 13px;
+        color: #fff;
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+
+    .item-size {
+        margin-top: 10px;
+        color: #FFF;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .item-color {
+        color: #FFF;
+        font-size: 14px;
+    }
+
+    .delete-cart-item {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        background-color: #d32f2f;
+        border: none;
+        color: #fff;
+    }
+
+    .cart-bottom {
+        margin-top: 10px;
+    }
+
+    .cart-total {
+        color: #1E90FF;
+        font-weight: 600;
+        text-align: right;
+        font-size: 14px;
+    }
+
+    .clear-cart-btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+        margin: 0 0 10px 0;
+        background-color: #d32f2f;
+        color: #fff;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all ease-in-out 0.3s;
+    }
+
+    .clear-cart-btn:hover {
+        transform: translateY(-5px);
+    }
+
+    .checkout-btn {
+        width: 100%;
+        padding: 7px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        background-color: rgb(13 167 109);
+        transition: all ease-in-out 0.3s;
+    }
+
+    .checkout-btn a {
+        font-size: 15px;
+        color: #fff;
+    }
+
+    .checkout-btn:hover {
+        background-color: rgb(0, 208, 130);
+    }
+</style>
+
+<!-- show-cart -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var cartIcon = document.querySelector('.fa-basket-shopping');
+        cartIcon.addEventListener('click', function (event) {
+            event.preventDefault();
+            var showCart = document.getElementById('show-cart');
+
+            if (!showCart.classList.contains('show')) {
+                showCart.classList.add('show');
+            }
+        });
+
+
+        var closeBtn = document.querySelector('.close-cart-btn');
+        closeBtn.addEventListener('click', function (event) {
+            event.preventDefault();
+            var showCart = document.getElementById('show-cart');
+            showCart.classList.remove('show');
+        });
+    });
+</script>
 
 <!-- show-hide-bar-btn -->
 <script>
@@ -614,6 +877,24 @@ if (!isset($searchQuery)) {
     });
 </script>
 
+<!-- Show lenght-cart khi có class fixed -->
+<script>
+    var cartLength = document.getElementById('lenght-cart');
+    var header = document.querySelector('.header-bottom');
+
+    function updateCartLengthPosition() {
+        if (header.classList.contains('fixed-header') && header.classList.contains('active')) {
+            cartLength.style.right = '4%';
+        } else {
+            cartLength.style.right = '-10px';
+        }
+    }
+
+    window.addEventListener('scroll', updateCartLengthPosition);
+
+    window.addEventListener('resize', updateCartLengthPosition);
+</script>
+
 <!-- scroll-to-top -->
 <script>
     function scrollToTop() {
@@ -640,14 +921,7 @@ if (!isset($searchQuery)) {
     });
 </script>
 
-<!-- animtaion -->
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const header = document.getElementById('header-page');
-        if (header) {
-            header.classList.add('animate-slide-in-down');
-        }
-    });
-</script> -->
+<!-- sweetalert library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </html>
