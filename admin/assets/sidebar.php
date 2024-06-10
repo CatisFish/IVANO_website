@@ -42,20 +42,19 @@
     .nav-icons ul li.active .fa-chevron-down {
         transform: rotate(180deg);
     }
-    
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const menuItems = document.querySelectorAll('.nav-icons .product');
 
-        menuItems.forEach(function(item) {
-            item.addEventListener('click', function(event) {
-               
+        menuItems.forEach(function (item) {
+            item.addEventListener('click', function (event) {
+
 
                 const isActive = this.classList.contains('active');
 
-                menuItems.forEach(function(item) {
+                menuItems.forEach(function (item) {
                     item.classList.remove('active');
                 });
 
@@ -70,15 +69,17 @@
 <?php
 // Kiểm tra xem có bất kỳ form tư vấn nào có trạng thái "chưa tư vấn" hay không
 // Hàm kiểm tra xem có bất kỳ form tư vấn nào có trạng thái "Chưa Tư Vấn" hay không
-function hasChuaTuvan($conn) {
+function hasChuaTuvan($conn)
+{
     $sql = "SELECT COUNT(*) AS count FROM tuvan_form WHERE TrangThai = '2'";
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        return $row['count'] > 0;
+        return $row['count'];
     }
-    return false;
+    return 0;
 }
+
 
 // Tạo kết nối đến cơ sở dữ liệu
 $servername = "localhost";
@@ -124,7 +125,8 @@ $conn->close();
     <div class="nav-icons">
         <ul>
             <li><a href="index.php"><i class="fa fa-home"></i><span>Trang Chủ</span></a></li>
-            <li class="product"><a><i class="fa-solid fa-store"></i><span>Cửa Hàng <i class="fa-solid fa-chevron-down"></i></span></a>
+            <li class="product"><a><i class="fa-solid fa-store"></i><span>Cửa Hàng <i
+                            class="fa-solid fa-chevron-down"></i></span></a>
                 <ul class="submenu-admin">
                     <li><a href="../php/categories.php">Loại sản phẩm</a></li>
                     <li><a href="../php/productCategory.php">Doanh mục loại sản phẩm</a></li>
@@ -132,16 +134,37 @@ $conn->close();
                     <li><a href="../php/products.php">Sản phẩm</a></li>
                 </ul>
             </li>
-            <li><a href="../assets/manage_popups.php"><i class="fa-solid fa-photo-film"></i><span>Quản lý Popup</span></a></li>
-            <li <?php if ($hasChuaTuvan): ?>class="need-advice"<?php endif; ?>><a href="../assets/tuvan_form.php"><i class="fa-solid fa-photo-film"></i><span>Cần Tư Vấn</span></a></li>
+            <li><a href="../assets/manage_popups.php"><i class="fa-solid fa-photo-film"></i><span>QuảnlýPopup</span></a></li>
+            
+            <li class="<?php echo $hasChuaTuvan > 0 ? 'need-advice' : ''; ?>">
+                <a href="../assets/tuvan_form.php">
+                    <i class="fa-solid fa-photo-film"></i>
+                    <span>Cần Tư Vấn</span>
+                    <?php if ($hasChuaTuvan > 0): ?>
+                        <i class="fa fa-bell" style="color: red; position: relative;">
+                            <span
+                                style="position: absolute; top: -10px; right: -10px; background: red; color: white; border-radius: 50%; padding: 2px 5px; font-size: 12px;">
+                                <?php echo $hasChuaTuvan; ?>
+                            </span>
+                        </i>
+                    <?php else: ?>
+                        <i class="fa fa-bell"></i>
+                    <?php endif; ?>
+                </a>
+            </li>
 
-            <li><a href="../assets/manage_banners.php"><i class="fa-solid fa-bell"></i><span>Quản lý Banner</span></a></li>
-            <li><a href="../php/manage_flashsale.php"><i class="fa-solid fa-user"></i><span>Quản lý Flashsale</span></a></li>
+
+
+            <li><a href="../assets/manage_banners.php"><i class="fa-solid fa-bell"></i><span>Quản lý Banner</span></a>
+            </li>
+            <li><a href="../php/manage_flashsale.php"><i class="fa-solid fa-user"></i><span>Quản lý Flashsale</span></a>
+            </li>
 
             <li><a href="../php/agency.php"><i class="fa fa-file-alt"></i><span>Các đại lý</span></a></li>
             <li><a href="../php/customer.php"><i class="fa-solid fa-user"></i><span>Quản lý khách hàng</span></a></li>
             <li><a href="../php/employee.php"><i class="fa-solid fa-users"></i><span>Quản lý nhân viên</span></a></li>
-            <li class="statistics"><a><i class="fa fa-chart-bar"></i><span>Thống kê <i class="fa-solid fa-chevron-down"></i></span></a>
+            <li class="statistics"><a><i class="fa fa-chart-bar"></i><span>Thống kê <i
+                            class="fa-solid fa-chevron-down"></i></span></a>
                 <ul class="submenu-admin">
                     <li><a href="../php/thongke/doanhthu_theohoadon.php">Doanh thu theo hóa đơn</a></li>
                     <li><a href="../php/thongke/donhang_theothang.php">Doanh thu theo thời gian</a></li>
@@ -197,9 +220,10 @@ $conn->close();
         border-bottom: 1px solid #fff;
     }
 
-    .nav-icons{
+    .nav-icons {
         margin: 50px 10px 0 10px;
     }
+
     .nav-icons ul {
         list-style: none;
         padding: 0;
@@ -248,10 +272,27 @@ $conn->close();
     .hidden .nav-icons ul li a span {
         transform: translateX(-100%);
     }
+
+
+    .need-advice .fa-bell {
+    position: relative;
+}
+
+.need-advice .fa-bell span {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 12px;
+}
+
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const toggleButton = document.getElementById("toggleButton");
         const sidebar = document.getElementById("sidebar");
         const content = document.getElementById("content");
@@ -262,18 +303,18 @@ $conn->close();
         const iconLink = document.querySelectorAll(".nav-icons ul li a i")
         const toggleIcon = document.querySelector("#toggleButton i");
 
-        toggleButton.addEventListener("click", function() {
+        toggleButton.addEventListener("click", function () {
             sidebar.classList.toggle("hidden");
             if (sidebar.classList.contains("hidden")) {
                 sidebar.style.width = "5%";
                 dashboardTitle.style.display = "none";
                 navIcons.style.width = "100%";
                 content.style.marginLeft = "5%";
-                navLinks.forEach(function(link) {
+                navLinks.forEach(function (link) {
                     link.style.display = "none";
                 });
 
-                iconLink.forEach(function(icon) {
+                iconLink.forEach(function (icon) {
                     icon.style.textAlign = "center";
                 });
 
@@ -284,7 +325,7 @@ $conn->close();
                 dashboardTitle.style.display = "block";
                 navIcons.style.width = "100%";
                 content.style.marginLeft = "18%";
-                navLinks.forEach(function(link) {
+                navLinks.forEach(function (link) {
                     link.style.display = "inline";
                 });
                 toggleIcon.classList.remove("fa-bars");

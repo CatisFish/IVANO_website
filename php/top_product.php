@@ -72,6 +72,7 @@ $topProductsSql = "
         brands b ON p.brand_id = b.brand_id
     LEFT JOIN 
         product_images i ON p.product_id = i.product_id
+    group by p.product_id
     ORDER BY 
         p.clicks DESC
     LIMIT 
@@ -85,7 +86,7 @@ if ($result->num_rows > 0) {
     echo '<ul class="top-products-list">';
     while ($row = $result->fetch_assoc()) {
         echo '<li class="product-item">';
-        echo '<a href="show-detail.php?product_id=' . $row['product_id'] . '" class="product-link">';
+        echo '<a href="../show-detail.php?product_id=' . $row['product_id'] . '" class="product-link">';
         // Hiển thị ảnh sản phẩm
         if ($row['path_image']) {
             echo '<img src="' . $row['path_image'] . '" alt="' . $row['product_name'] . '" class="product-image">';

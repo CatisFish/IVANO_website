@@ -5,7 +5,7 @@ include 'php/conection.php';
 $sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, 
                (SELECT i.path_image 
                 FROM product_images i 
-                WHERE i.product_id = p.product_id 
+                WHERE i.product_id = p.product_id
                 ORDER BY i.product_image_id LIMIT 1) as path_image
         FROM products p 
         INNER JOIN categories c ON p.category_id = c.category_id
@@ -13,7 +13,7 @@ $sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.p
         INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
         INNER JOIN product_size ps ON p.product_id = ps.product_id
         INNER JOIN sizes s ON ps.size_id = s.size_id
-        GROUP BY  ps.product_size_id";
+        GROUP BY  p.product_id  ";
 
 $result = $conn->query($sql);
 
@@ -118,16 +118,11 @@ $conn->close();
         border-radius: 20px;
     }
 
-    .container-img-outstanding{
-        display: flex;
-        height: 350px;
-        align-items: flex-end;
-    }
     .product-item img {
-        width: 100%;
-        height: auto;  
-        /* width: 280px;
-        height: 320px; */
+        /* width: 100%;
+            height: auto; */
+        width: 280px;
+        height: 320px;
     }
 
     .brand-name {

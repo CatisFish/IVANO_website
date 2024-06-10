@@ -1,7 +1,7 @@
 <?php
 include "php/conection.php";
 
-$sql_mekong = "SELECT COUNT(*) AS quantity_mekong FROM products WHERE brand_id = (SELECT brand_id FROM brands WHERE brand_name = 'MEKONG')";
+$sql_mekong = "SELECT COUNT(DISTINCT product_id) AS quantity_mekong FROM products WHERE brand_id = (SELECT brand_id FROM brands WHERE brand_name = 'MEKONG')";
 
 $result_mekong = $conn->query($sql_mekong);
 if ($result_mekong === false) {
@@ -10,7 +10,9 @@ if ($result_mekong === false) {
 $row_mekong = $result_mekong->fetch_assoc();
 $quantity_mekong = $row_mekong["quantity_mekong"];
 
-$sql_ivano = "SELECT COUNT(*) AS quantity_ivano FROM products WHERE brand_id = (SELECT brand_id FROM brands WHERE brand_name = 'IVANO')";
+$sql_ivano = "SELECT COUNT(DISTINCT product_id) AS quantity_ivano 
+              FROM products 
+              WHERE brand_id = (SELECT brand_id FROM brands WHERE brand_name = 'IVANO')";
 
 $result_ivano = $conn->query($sql_ivano);
 if ($result_ivano === false) {
