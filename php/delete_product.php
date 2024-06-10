@@ -12,45 +12,71 @@ $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
 }
-
+// Kiểm tra xem đã nhận ID sản phẩm cần xóa chưa
 if (isset($_GET['id'])) {
-    $delete_product_id = $_GET['id'];
+    $delete_id = $_GET['id'];
 
-    // Bắt đầu giao dịch
-    $conn->begin_transaction();
+    // Lấy thông tin sản phẩm để xóa ảnh
+    $stmt_product = $conn->prepare("SELECT * FROM products WHERE id_sanpham = ?");
+    $stmt_product->bind_param("i", $delete_id);
+    $stmt_product->execute();
+    $result_product = $stmt_product->get_result();
+    $product = $result_product->fetch_assoc();
 
-    try {
-        // Xóa ảnh sản phẩm từ bảng product_images
-        $stmt_delete_images = $conn->prepare("DELETE FROM product_images WHERE product_id = ?");
-        $stmt_delete_images->bind_param("s", $delete_product_id);
-        $stmt_delete_images->execute();
+    if ($product) {
+        // Xóa dữ liệu từ bảng product_size dựa trên id_sanpham
+        $sql_delete_product_size = "DELETE FROM product_size WHERE id_sanpham = ?";
+        $stmt_delete_product_size = $conn->prepare($sql_delete_product_size);
+        $stmt_delete_product_size->bind_param("i", $delete_id);
 
-        // Xóa kích thước sản phẩm từ bảng product_size
-        $stmt_delete_sizes = $conn->prepare("DELETE FROM product_size WHERE product_id = ?");
-        $stmt_delete_sizes->bind_param("s", $delete_product_id);
-        $stmt_delete_sizes->execute();
+        if ($stmt_delete_product_size->execute()) {
+            // Tiếp tục xóa dữ liệu từ bảng product_images dựa trên id_sanpham
+            $sql_delete_product_images = "DELETE FROM product_images WHERE id_sanpham = ?";
+            $stmt_delete_product_images = $conn->prepare($sql_delete_product_images);
+            $stmt_delete_product_images->bind_param("i", $delete_id);
 
-        // Xóa sản phẩm từ bảng products
-        $stmt_delete_product = $conn->prepare("DELETE FROM products WHERE product_id = ?");
-        $stmt_delete_product->bind_param("s", $delete_product_id);
-        $stmt_delete_product->execute();
+            // Lấy đường dẫn của thư mục chứa hình ảnh
+            $upload_directory = "../admin/uploads/";
 
-        // Xác nhận giao dịch
-        $conn->commit();
-        echo "Xóa sản phẩm thành công!";
-    } catch (Exception $e) {
-        // Rollback giao dịch nếu có lỗi
-        $conn->rollback();
-        echo "Lỗi khi xóa sản phẩm: " . $e->getMessage();
+            // Xóa ảnh từ thư mục
+            $stmt_delete_images = $conn->prepare("SELECT path_image FROM product_images WHERE id_sanpham = ?");
+            $stmt_delete_images->bind_param("i", $delete_id);
+            $stmt_delete_images->execute();
+            $result_delete_images = $stmt_delete_images->get_result();
+
+            while ($row = $result_delete_images->fetch_assoc()) {
+                $image_path = $row['path_image'];
+                if (file_exists($image_path)) {
+                    unlink($image_path);
+                }
+            }
+            if ($stmt_delete_product_images->execute()) {
+                // Tiếp tục xóa sản phẩm từ bảng products
+                $sql_delete_product = "DELETE FROM products WHERE id_sanpham = ?";
+                $stmt_delete_product = $conn->prepare($sql_delete_product);
+                $stmt_delete_product->bind_param("i", $delete_id);
+
+                if ($stmt_delete_product->execute()) {
+                    // Xóa thành công, chuyển hướng về trang products.php
+                    header("Location: products.php");
+                    exit();
+                } else {
+                    // Lỗi khi xóa sản phẩm từ bảng products
+                    echo "Lỗi khi xóa sản phẩm từ bảng products: " . $stmt_delete_product->error;
+                }
+            } else {
+                // Lỗi khi xóa dữ liệu từ bảng product_images
+                echo "Lỗi khi xóa dữ liệu từ bảng product_images: " . $stmt_delete_product_images->error;
+            }
+        } else {
+            // Lỗi khi xóa dữ liệu từ bảng product_size
+            echo "Lỗi khi xóa dữ liệu từ bảng product_size: " . $stmt_delete_product_size->error;
+        }
+    } else {
+        // Không tìm thấy sản phẩm để xóa
+        echo "Sản phẩm không tồn tại!";
     }
 } else {
+    // Không nhận được ID sản phẩm cần xóa
     echo "ID sản phẩm không hợp lệ!";
 }
-
-// Đóng kết nối
-$conn->close();
-
-// Chuyển hướng về trang chính sau khi xóa
-header("Location: products.php");
-exit();
-?>
