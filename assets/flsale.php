@@ -24,8 +24,6 @@ $conn->close();
 
 <?php
 if ($flashSaleResult->num_rows > 0) {
-    echo '<h2 class="title-fsale">Flash Sale</h2>';
-    echo '<div class="container-fsale">';
     echo '<div class="container-item-fsale">';
 
     while ($row = $flashSaleResult->fetch_assoc()) {
@@ -58,9 +56,6 @@ if ($flashSaleResult->num_rows > 0) {
 
     echo '</div>';
 
-    echo '<button class="prev-item-fsale"><i class="fa-solid fa-chevron-left"></i></button>';
-    echo '<button class="next-item-fsale"><i class="fa-solid fa-chevron-right"></i></button>';
-
     echo '<div class="product-detail-fsale" id="product-detail-fsale">';
     echo '<h3>Chi tiết sản phẩm</h3>';
     echo '<div id="detail-fsale-content" class="product-info-fsale"></div>';
@@ -74,15 +69,56 @@ if ($flashSaleResult->num_rows > 0) {
 ?>
 
 <style>
+    .container-heading-fsale {
+        display: flex;
+        justify-content: space-between;
+    }
+
     .title-fsale {
         font-size: 30px;
-        text-align: center;
         color: #FC0000;
         margin: 10px 0 50px 0;
     }
 
+    .see-more-fsale {
+        background-color: #ffffff;
+        border: 2px solid #FC0000;
+        border-radius: 6px;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        position: relative;
+        height: min-content;
+    }
+
+    .see-more-fsale::before {
+        content: "\f061";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        position: absolute;
+        left: -80px;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0;
+        transition: left 0.5s, opacity 0.5s;
+        font-size: 25px;
+    }
+
+    .see-more-fsale:hover a {
+        color: #FC0000;
+        transition: transform ease-in-out 0.3s;
+    }
+
+    .see-more-fsale:hover::before {
+        left: -40px;
+        opacity: 1;
+        color: #FC0000;
+    }
+
     .container-fsale {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         width: 90%;
         margin: 0px auto;
         position: relative;
@@ -111,7 +147,7 @@ if ($flashSaleResult->num_rows > 0) {
     }
 
     .fsale-product-img {
-        width: 150px;
+        width: 160px;
     }
 
     .fsale-percent {
@@ -171,15 +207,85 @@ if ($flashSaleResult->num_rows > 0) {
         padding: 10px;
         cursor: pointer;
         border: none;
-        background-color: #FFD400;
-        color: #221F20;
+        background-color: #55D5D2;
+        color: #FFF;
         transition: all ease-in-out 0.3s;
         border-radius: 5px;
+        -webkit-animation: heartbeat 3s ease-in-out infinite both;
+	        animation: heartbeat 3s ease-in-out infinite both;
     }
 
+    @-webkit-keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-transform-origin: center center;
+            transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  10% {
+    -webkit-transform: scale(0.91);
+            transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  17% {
+    -webkit-transform: scale(0.98);
+            transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  33% {
+    -webkit-transform: scale(0.87);
+            transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  45% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+@keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-transform-origin: center center;
+            transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  10% {
+    -webkit-transform: scale(0.91);
+            transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  17% {
+    -webkit-transform: scale(0.98);
+            transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  33% {
+    -webkit-transform: scale(0.87);
+            transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  45% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+
     .add-to-cart-fsale:hover {
-        background-color: #221F20;
-        color: #FFD400;
+        background-color: #F58F5D;
     }
 
     .prev-item-fsale,
@@ -218,6 +324,7 @@ if ($flashSaleResult->num_rows > 0) {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         width: 600px;
         height: 450px;
+        visibility: hidden;
     }
 
     .product-detail-fsale h3 {
@@ -233,8 +340,8 @@ if ($flashSaleResult->num_rows > 0) {
     }
 
     .close-btn-detail-fsale {
-        background-color: #f44336;
-        color: white;
+        background-color: #55D5D2;
+        color: #fff;
         border: none;
         padding: 10px 20px;
         border-radius: 5px;
@@ -242,10 +349,11 @@ if ($flashSaleResult->num_rows > 0) {
         position: absolute;
         top: 10px;
         right: 10px;
+        transition: all ease-in-out 0.3s;
     }
 
     .close-btn-detail-fsale:hover {
-        background-color: #d32f2f;
+        background-color: #F58F5D;
     }
 
     .container-detail-fsale {
@@ -264,7 +372,7 @@ if ($flashSaleResult->num_rows > 0) {
         font-weight: 700;
         font-size: 20px;
         margin-bottom: 25px;
-        color: #dd9933;
+        color: #F58F5D;
     }
 
     .container-price-fsale {
@@ -345,29 +453,30 @@ if ($flashSaleResult->num_rows > 0) {
         const discountedPrice = originalPrice - (originalPrice * discount / 100);
 
         detailsContent.innerHTML = `
-        <div class="container-detail-fsale">
-            <div class="imgfs">
-                <img class="imgfs" src="uploads/${product.path_image}" alt="Product Image" style="max-width: 100%;">
-            </div>
-
-            <div class="container-right-detail-fsale">
-                <p class="name-fsale">${product.product_name}</p>
-                <p class="brand-fsale">Thương hiệu: ${product.brand_name}</p>
-
-                <div class="container-price-fsale">
-                    <p><span class="original-price">${originalPrice.toLocaleString()}đ</span></p>
-                    <p class="price-new-fsale">${discountedPrice.toLocaleString()}đ</p>
+            <div class="container-detail-fsale">
+                <div class="imgfs">
+                    <img class="imgfs" src="uploads/${product.path_image}" alt="Product Image" style="max-width: 100%;">
                 </div>
-                <p class="end-time">Kết thúc sales: <span>${endTimeStr}</span></p>
-            </div>
 
-            <div class="overlay"></div>
-        </div>
-    `;
+                <div class="container-right-detail-fsale">
+                    <p class="name-fsale">${product.product_name}</p>
+                    <p class="brand-fsale">Thương hiệu: ${product.brand_name}</p>
+
+                    <div class="container-price-fsale">
+                        <p><span class="original-price">${originalPrice.toLocaleString()}đ</span></p>
+                        <p class="price-new-fsale">${discountedPrice.toLocaleString()}đ</p>
+                    </div>
+                    <p class="end-time">Kết thúc sales: <span>${endTimeStr}</span></p>
+                </div>
+
+                <div class="overlay"></div>
+            </div>
+        `;
 
         detailsContainer.style.transform = 'translate(-50%, -50%)';
         detailsContainer.style.opacity = '1';
         overlayFsale.style.display = 'block';
+        detailsContainer.style.visibility = 'visible';
     }
 
 

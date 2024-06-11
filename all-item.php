@@ -16,6 +16,70 @@
     <title>Sản Phẩm | IVANO</title>
 </head>
 
+<style>
+    .form-show-all-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+form label {   
+    text-align: left;
+    margin-top: 10px;
+}
+
+form select,
+form button {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+form select:focus,
+form button:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+form select,
+form button {
+    cursor: pointer;
+}
+
+.selected-filters {
+    margin-top: 40px;
+}
+
+.selected-filters p{
+    text-align: center;
+    font-size: 17px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.list-selected-filter{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.selected-filter-item{
+    background-color: #55D5D2;
+    color: #FFF;
+    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+
+</style>
+
 <body>
     <?php
     include "assets/header.php";
@@ -41,7 +105,7 @@
         <section class="content-all-item">
             <div class="left-content-all-item">
                 <div class="container-brands-all-item">
-                    <h3>DANH MỤC</h3>
+                    <h3>Bộ Lọc</h3>
 
                     <?php
                     // Kết nối đến cơ sở dữ liệu
@@ -73,7 +137,7 @@
                     $sortOrder = isset($_GET['sort']) ? $_GET['sort'] : '';
                     ?>
 
-                    <form method="GET" action="">
+                    <form method="GET" action="" class="form-show-all-item">
                         <label for="brand">Chọn thương hiệu:</label>
                         <select class="option_brand" name="brand" id="brand">
                             <option value="">Tất cả</option>
@@ -96,21 +160,19 @@
                             <?php endforeach; ?>
                         </select>
 
-
-                        <button class="option_size" type="submit">Lọc</button>
+                        <button class="option_size_brand_btn" type="submit">Lọc</button>
                     </form>
 
-
                     <div class="selected-filters">
-                        <p>Bạn đã chọn:</p>
-                        <ul>
+                        <p>Đang lọc theo</p>
+                        <ul class="list-selected-filter">
                             <?php if ($selectedBrand != ''): ?>
-                                <li>Thương hiệu:
+                                <li class="selected-filter-item">
                                     <?php echo $brands[array_search($selectedBrand, array_column($brands, 'brand_id'))]['brand_name']; ?>
                                 </li>
                             <?php endif; ?>
                             <?php if ($selectedSize != ''): ?>
-                                <li>Kích thước:
+                                <li class="selected-filter-item">
                                     <?php echo $sizes[array_search($selectedSize, array_column($sizes, 'size_id'))]['size_name']; ?>
                                 </li>
                             <?php endif; ?>
@@ -121,7 +183,6 @@
                             <?php endif; ?>
                         </ul>
                     </div>
-
                 </div>
             </div>
 
@@ -130,10 +191,11 @@
             </div>
         </section>
     </main>
+
+    <?php include "assets/footer.php";?>
 </body>
 
 </html>
-
 
 <style>
     #main-all-item {
@@ -142,14 +204,25 @@
         font-size: 20px;
     }
 
-    .option_size {
-        font-size: 20px;
+    .option_size, .option_brand {
+        font-size: 16px;
+        margin-top: 5px;
     }
 
-    .option_brand {
-        font-size: 20px;
+    .option_size_brand_btn{
+        width: 100%;
+        border: none;
+        color: #FFF;
+        background-color: #55D5D2;
+        font-weight: 600;
+        transition: all ease-in-out 0.3s;
+        margin-top: 20px;
     }
 
+    .option_size_brand_btn:hover{
+        background-color: #DD9933;
+    }
+   
     .header-all-item {
         display: flex;
         justify-content: space-between;
@@ -168,6 +241,7 @@
     .content-all-item {
         display: flex;
         position: relative;
+        margin-bottom: 50px;
     }
 
     .container-filter-btn {
@@ -202,12 +276,10 @@
     }
 </style>
 
-
-
 <style>
     .left-content-all-item {
         width: 20%;
-        position: fixed;
+        position: absolute;
         background-color: #f4f4f4;
         border: 1px solid #ccc;
         padding: 10px;
@@ -220,7 +292,4 @@
         text-align: center;
     }
 </style>
-
-
-
 </html>

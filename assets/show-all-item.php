@@ -1,14 +1,16 @@
 <?php
-// Kết nối đến cơ sở dữ liệu
 include 'php/conection.php';
 
-// Lấy nhãn hiệu, kích thước, sắp xếp và từ khóa tìm kiếm đã chọn từ biểu mẫu
+$productsPerPage = 9;
+
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$offset = ($current_page - 1) * $productsPerPage;
+
 $selectedBrand = isset($_GET['brand']) ? $_GET['brand'] : '';
 $selectedSize = isset($_GET['size']) ? $_GET['size'] : '';
 $sortOrder = isset($_GET['sort']) ? $_GET['sort'] : '';
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
-// Truy vấn SQL để lấy thông tin sản phẩm, hình ảnh và thương hiệu
 $sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
         FROM products p 
         LEFT JOIN product_images i ON p.product_id = i.product_id
@@ -19,7 +21,6 @@ $sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.p
         INNER JOIN product_size ps ON p.product_id = ps.product_id
         INNER JOIN sizes s ON ps.size_id = s.size_id";
 
-// Xây dựng các điều kiện WHERE
 $whereConditions = array();
 
 if ($selectedBrand != '') {
@@ -32,12 +33,10 @@ if ($searchQuery != '') {
     $whereConditions[] = "(p.product_name LIKE ? OR c.category_name LIKE ? OR b.brand_name LIKE ?)";
 }
 
-// Thêm các điều kiện WHERE vào truy vấn
 if (count($whereConditions) > 0) {
     $sql .= " WHERE " . implode(" AND ", $whereConditions);
 }
 
-// Thêm điều kiện sắp xếp vào truy vấn
 if ($sortOrder == 'asc') {
     $sql .= " ORDER BY ps.price ASC";
 } elseif ($sortOrder == 'desc') {
@@ -46,10 +45,10 @@ if ($sortOrder == 'asc') {
 
 $sql .= " GROUP BY p.product_id, ps.size_id";
 
-// Chuẩn bị và thực thi truy vấn
+$sql .= " LIMIT $productsPerPage OFFSET $offset";
+
 $stmt = $conn->prepare($sql);
 
-// Liên kết các tham số nếu có
 $params = array();
 $types = "";
 
@@ -76,7 +75,6 @@ if (count($params) > 0) {
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Hiển thị dữ liệu
 if ($result->num_rows > 0) {
     echo '<section class="container-list-all-product">';
     echo '<div class="list-all-product">';
@@ -84,54 +82,17 @@ if ($result->num_rows > 0) {
         echo '<div class="product-item-all-item">';
         echo '<a href="show-detail.php?product_id=' . $row['product_id'] . '" class="container-info-all-item">';
 
-        // Kiểm tra xem có hình ảnh không
-        $imagePath = !empty($row['path_image']) ? 'admin/' . $row['path_image'] : 'path/to/default/image.jpg';
-        echo '<img class="product-img-all-item" src="' . $imagePath . '" alt="' . $row['product_name'] . '">';
+        echo '<div class="container-img-all-item">';
+        echo '<img class="product-img-all-item" src="admin/' . htmlspecialchars($row['path_image'], ENT_QUOTES, 'UTF-8') . '" alt="' . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . '">';
+        echo '</div>';
 
         echo '<div class="product-info-all-item">';
-        echo '<p class="brand-name-all-item">' . 'SƠN ' . $row['brand_name'] . '</p>';
-        echo '<p class="product-name-all-item">' . $row['product_name'] . '</p>';
+        echo '<p class="brand-name-all-item">' . 'SƠN ' . htmlspecialchars($row['brand_name'], ENT_QUOTES, 'UTF-8') . '</p>';
+        echo '<p class="product-name-all-item">' . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . '</p>';
 
-        echo '<div class="product-action-all-item">';
-        echo '<div class="product-price">' . htmlspecialchars(number_format($row['price'], 0, ',', '.')) . ' VNĐ</div>';
-        echo '</div>'; // Đóng product-action
-        echo '</div>'; // Đóng product-info
+        echo '<div class="product-price-item"><span>' . htmlspecialchars(number_format($row['price'], 0, ',', '.')) . ' VNĐ </span><i class="fa-solid fa-arrow-right"></i></div>';
+        echo '</div>';
         echo '</a>';
-
-        echo '<div class="container-product-color-add-to-cart">';
-
-        //size
-        echo '<select name="" id="color-select-all-item">';
-        echo '<option value="">Chọn 1 đuôi màu</option>';
-        $colorSql = "SELECT * FROM colorsuffix";
-        $colorResult = $conn->query($colorSql);
-
-        if ($colorResult->num_rows > 0) {
-            while ($colorRow = $colorResult->fetch_assoc()) {
-                echo "<option value='" . $colorRow['color_suffix_name'] . "'>" . $colorRow['color_suffix_name'] . "</option>";
-            }
-        } else {
-            echo "<option value=''>Không có color suffix nào</option>";
-        }
-        echo '</select>';
-
-        //add-to-cart
-        echo '<button type="button" class="add-to-cart-all-item"><i class="fa-solid fa-cart-plus"></i></button>';
-        echo '</div>';
-
-        //màu
-        echo '<div class="product-size-all-item">';
-        $sizeSql = "SELECT * FROM sizes";
-        $sizeResult = $conn->query($sizeSql);
-
-        if ($sizeResult->num_rows > 0) {
-            while ($sizeRow = $sizeResult->fetch_assoc()) {
-                echo "<p class='size-item-all-item'>" . $sizeRow['size_name'] . "</p>";
-            }
-        } else {
-            echo "<p class='no-sizes'>Không có size nào</p>";
-        }
-        echo '</div>';
         echo '</div>'; // Đóng product-item
     }
     echo '</div>'; // Đóng list-all-product
@@ -140,31 +101,126 @@ if ($result->num_rows > 0) {
     echo "<p class='no-products'>Không có sản phẩm nào.</p>";
 }
 
+$totalProductsSQL = "SELECT COUNT(*) AS total FROM products";
+$totalProductsResult = $conn->query($totalProductsSQL);
+$totalProductsRow = $totalProductsResult->fetch_assoc();
+$totalProducts = $totalProductsRow['total'];
+$totalPages = ceil($totalProducts / $productsPerPage);
+
+echo '<div class="pagination">';
+
+if ($current_page > 1) {
+    echo "<a href='?page=" . ($current_page - 1) . "'><i class='fa-solid fa-angles-left'></i> Previous</a> ";
+}
+
+for ($i = 1; $i <= $totalPages; $i++) {
+    $activeClass = ($i == $current_page) ? 'active' : '';
+    echo "<a href='?page=$i' class='$activeClass'>$i</a> ";
+}
+
+if ($current_page < $totalPages) {
+    echo "<a href='?page=" . ($current_page + 1) . "'>Next <i class='fa-solid fa-angles-right'></i></a>";
+}
+
+echo '</div>';
+
 $conn->close();
 ?>
+
+<style>
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .pagination a {
+        font-size: 15px;
+        display: inline-block;
+        padding: 10px 15px;
+        margin: 0 5px;
+        background-color: #55D5D2;
+        color: #FFF;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all ease-in-out 0.3s;
+    }
+
+    .pagination a:hover {
+        background-color: #F58F5D;
+    }
+
+    .pagination .active {
+        background-color: #F58F5D;
+    }
+</style>
 
 <style>
     .list-all-product {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 20px;
     }
 
     .product-item-all-item {
-        width: calc(25% - 10px);
-        box-shadow: 0 5px 5px 0 rgb(0 0 0 / 10%);
+        width: calc(33% - 15px);
         border-radius: 20px;
         box-sizing: border-box;
         margin-bottom: 30px;
         position: relative;
+        padding: 0 10px;
+        transition: transform ease-in-out 0.3s;
+        -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
+
+    @-webkit-keyframes shadow-drop-center {
+        0% {
+            -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+
+        100% {
+            -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+        }
+    }
+
+    @keyframes shadow-drop-center {
+        0% {
+            -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+
+        100% {
+            -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+        }
+    }
+
+    .product-item-all-item:hover .container-img-all-item .product-img-all-item {
+        transform: translateY(-35px);
+    }
+
+    .product-item-all-item:hover .product-name-all-item {
+        color: #F58F5D;
+    }
+
+    .container-img-all-item {
+        height: 350px;
+        display: flex;
+        align-items: flex-end;
     }
 
     .product-img-all-item {
         width: 100%;
+        height: auto;
+        transition: transform ease-in-out 0.3s;
     }
 
     .product-info-all-item {
-        padding: 0px 10px 10px 10px;
+        padding: 0 5px;
+        margin-top: -10px;
     }
 
     .brand-name-all-item {
@@ -181,6 +237,7 @@ $conn->close();
     }
 
     .product-name-all-item {
+        margin-bottom: 20px;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
@@ -188,72 +245,35 @@ $conn->close();
         -webkit-box-orient: vertical;
         max-height: 45px;
         font-weight: 700;
-        color: #1e73be;
-        font-size: 17px;
+        color: #221F20;
+        font-size: 16px;
+        transition: color ease-in-out 0.3s;
     }
 
-    .product-price-all-item {
-        color: #f80000;
+    .product-price-item {
+        display: flex;
+        color: #FFF;
         font-weight: 600;
         margin: 10px 0 10px 0;
-    }
-
-    .container-product-color-add-to-cart {
-        display: flex;
-        padding: 0 10px;
         justify-content: space-between;
-        margin-bottom: 15px;
+        padding: 15px 15px;
+        background-color: #55D5D2;
+        border-radius: 25px;
+        align-items: center;
+        transition: all ease-in-out 0.3s;
     }
 
-    .container-product-color-add-to-cart select {
-        width: 80%;
-        padding: 8px 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 16px;
-        cursor: pointer;
+    .product-item-all-item:hover .product-price-item {
+        background-color: #F58F5D;
     }
 
-    .container-product-color-add-to-cart select:focus {
-        outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    .product-price-item i {
+        display: inline-block;
+        transform: rotate(315deg);
+        transition: transform 0.3s ease;
     }
 
-    .add-to-cart-all-item {
-        padding: 8px 12px;
-        cursor: pointer;
-        border: none;
-        background-color: #E91E63;
-        color: #fff;
-        border-radius: 5px;
-        font-size: 14px;
-        transition: background-color 0.3s;
-    }
-
-    .add-to-cart-all-item:hover {
-        background-color: #C2185B;
-    }
-
-    .product-size-all-item {
-        position: absolute;
-        width: 150px;
-        background-color: #C2185B;
-        text-align: center;
-        right: 0;
-        bottom: 30%;
-        opacity: 0;
-    }
-
-    .size-item-all-item {
-        padding: 10px 0;
-        font-weight: 600;
-        color: #fff;
-        cursor: pointer;
-    }
-
-    .size-item-all-item:hover {
-        background-color: #f80000;
+    .product-item-all-item:hover .product-price-item i {
+        transform: rotate(0deg);
     }
 </style>
-

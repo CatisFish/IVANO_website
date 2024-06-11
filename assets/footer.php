@@ -102,6 +102,9 @@
 </footer>
 
 <style>
+    #footer-page{
+        z-index: 100;
+    }
     .ft-top {
         background: linear-gradient(to bottom right, #555e63, #849396, #c7c3c0, #e2cdaf, #ecdbbf);
         padding: 30px 0;

@@ -1,7 +1,6 @@
 <?php
 include 'php/conection.php';
 
-// Query to fetch product details along with related category, brand, and image
 $sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, 
                (SELECT i.path_image 
                 FROM product_images i 
@@ -13,11 +12,11 @@ $sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.p
         INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
         INNER JOIN product_size ps ON p.product_id = ps.product_id
         INNER JOIN sizes s ON ps.size_id = s.size_id
-        GROUP BY  p.product_id  ";
+        GROUP BY  p.product_id
+        LIMIT 4";
 
 $result = $conn->query($sql);
 
-// Displaying data
 if ($result->num_rows > 0) {
     echo '<section class="container-list-product">';
     echo '<div class="list-product">';
@@ -31,12 +30,7 @@ if ($result->num_rows > 0) {
         echo '<p class="product-name">' . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . '</p>';
 
         echo '<div class="product-action">';
-        echo '<div class="product-price">' . htmlspecialchars(number_format($row['price'], 0, ',', '.')) . ' VNĐ</div>';
-        echo '<div class="action-add">';
-        echo '<button type="submit" class="view-product">';
-        echo '<p>Xem Nhanh</p>';
-        echo '</button>';
-        echo '</div>';
+        echo '<div class="product-price"><span>' . htmlspecialchars(number_format($row['price'], 0, ',', '.')) . ' VNĐ </span><i class="fa-solid fa-arrow-right"></i></div>';
 
         echo '</div>';
         echo '</div>';
@@ -44,8 +38,6 @@ if ($result->num_rows > 0) {
         echo '</div>';
     }
     echo '</div>';
-    echo '<button class="prev-button"><i class="fa-solid fa-chevron-left"></i></button>';
-    echo '<button class="next-button"><i class="fa-solid fa-chevron-right"></i></button>';
     echo '</section>';
 } else {
     echo "<p class='no-products'>Không có sản phẩm nào.</p>";
@@ -56,18 +48,20 @@ $conn->close();
 
 
 <style>
-    .see-more {
-        display: none;
-    }
-
     .container-outstanding {
-        width: 80%;
+        width: 90%;
         margin: 0 auto;
         position: relative;
     }
 
-    .container-outstanding h1 {
-        text-align: center;
+    .container-heading-oustanding {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .container-heading-oustanding h1 {
+        text-align: left;
         font-size: 30px;
         position: relative;
         z-index: 1;
@@ -75,54 +69,112 @@ $conn->close();
         text-transform: uppercase;
     }
 
-    .container-outstanding h1::before,
-    .container-outstanding h1::after {
-        content: "";
+    .see-more {
+        background-color: #ffffff;
+        border: 2px solid #FC0000;
+        border-radius: 6px;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        position: relative;
+    }
+
+    .see-more::before {
+        content: "\f061";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         position: absolute;
+        left: -80px;
         top: 50%;
         transform: translateY(-50%);
-        height: 1px;
-        /* background-color: rgba(252, 185, 0, 1); */
-        width: 35%;
-        background-color: #FC0000;
+        opacity: 0;
+        transition: left 0.5s, opacity 0.5s;
+        font-size: 25px;
     }
 
-    .container-outstanding h1::before {
-        left: 0;
+    .see-more:hover a {
+        color: #FC0000;
+        transition: transform ease-in-out 0.3s;
     }
 
-    .container-outstanding h1::after {
-        right: 0;
+    .see-more:hover::before {
+        left: -40px;
+        opacity: 1;
+        color: #FC0000;
     }
 
     .container-list-product {
         position: relative;
-        overflow: hidden;
-        width: 100%;
-        max-width: 1200px;
-        margin: auto;
         margin: 30px 0;
     }
 
     .list-product {
+        max-width: 100%;
+        gap: 20px;
         display: flex;
-        transition: transform 0.5s ease-in-out;
     }
 
     .product-item {
-        min-width: 25%;
-        box-sizing: border-box;
         padding: 0 10px;
+        width: 25%;
         position: relative;
-        /* box-shadow: 0 5px 5px 0 rgb(0 0 0 / 10%); */
         border-radius: 20px;
+        -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
+
+    .product-item:hover .product-img {
+        transform: translateY(-35px);
+    }
+
+    .product-item:hover .product-name {
+        color: #F58F5D;
+        transition: all ease-in-out 0.3s;
+    }
+
+    .product-item:hover .product-price {
+        background-color: #F58F5D;
+        transition: all ease-in-out 0.3s;
+    }
+
+    @-webkit-keyframes shadow-drop-center {
+        0% {
+            -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+
+        100% {
+            -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+        }
+    }
+
+    @keyframes shadow-drop-center {
+        0% {
+            -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+
+        100% {
+            -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+        }
     }
 
     .product-item img {
-        /* width: 100%;
-            height: auto; */
-        width: 280px;
-        height: 320px;
+        width: 100%;
+        height: auto;
+        /* width: 280px;
+        height: 320px; */
+        transition: transform ease-in-out 0.3s;
+    }
+
+    .product-info {
+        padding: 0 5px;
+        margin-top: -10px;
     }
 
     .brand-name {
@@ -146,72 +198,30 @@ $conn->close();
         -webkit-box-orient: vertical;
         max-height: 45px;
         font-weight: 700;
-        color: #1e73be;
+        color: #221F20;
         font-size: 17px;
     }
 
     .product-price {
-        color: #f80000;
+        display: flex;
+        color: #FFF;
         font-weight: 600;
         margin: 10px 0 10px 0;
+        justify-content: space-between;
+        padding: 15px 15px;
+        background-color: #55D5D2;
+        border-radius: 25px;
+        align-items: center;
     }
 
-    .prev-button,
-    .next-button {
-        position: absolute;
-        top: 50%;
-        background: none;
-        transform: translateY(-50%);
-        border: 1px solid #221F20;
-        color: #333;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        padding: 5px 10px;
-        border-radius: 50%;
-        color: #221F20;
-        transition: all ease-in-out 0.3s;
-
+    .product-price i {
+        display: inline-block;
+        transform: rotate(315deg);
+        transition: transform 0.3s ease;
     }
 
-    .prev-button {
-        left: 0px;
-    }
-
-    .next-button {
-        right: 0px;
-    }
-
-    .prev-button:hover,
-    .next-button:hover {
-        background-color: #ff6900;
-        color: #fff;
-        border: 1px solid #ff6900;
-
-    }
-</style>
-
-<style>
-    .product-action .action-add .view-product {
-        opacity: 0;
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%) translateY(-250%);
-        background-color: #ff6900;
-        border: none;
-        padding: 10px 20px;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-        width: 100%;
-        color: #fff;
-        font-weight: 600;
-        text-transform: uppercase;
-        cursor: pointer;
-    }
-
-    .product-item:hover .product-action .action-add .view-product {
-        transform: translateX(-50%) translateY(-125px);
-        opacity: 1;
+    .product-item:hover .product-price i {
+        transform: rotate(0deg);
     }
 </style>
 
@@ -221,15 +231,6 @@ $conn->close();
             display: block;
         }
 
-        .prev-button,
-        .next-button {
-            display: none;
-        }
-
-        .container-outstanding h1::before,
-        .container-outstanding h1::after {
-            display: none;
-        }
 
         .container-outstanding {
             width: 95%;
@@ -334,45 +335,6 @@ $conn->close();
         }
     }
 </style>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const productContainer = document.querySelector('.list-product');
-        const productItems = document.querySelectorAll('.product-item');
-        const prevButton = document.querySelector('.prev-button');
-        const nextButton = document.querySelector('.next-button');
-
-        let currentIndex = 0;
-        const itemsToShow = 4;
-        const additionalItems = 2;
-        const totalItems = productItems.length / 2 + additionalItems;
-
-        prevButton.addEventListener('click', () => {
-            currentIndex--;
-            if (currentIndex < 0) {
-                currentIndex = totalItems - 1;
-            }
-            updateCarousel();
-        });
-
-        nextButton.addEventListener('click', () => {
-            currentIndex += additionalItems;
-            if (currentIndex >= totalItems) {
-                currentIndex = 0;
-            }
-            updateCarousel();
-        });
-
-        function updateCarousel() {
-            let newIndex = currentIndex % totalItems;
-            if (newIndex < 0) newIndex += totalItems;
-
-            const newTransformValue = -(newIndex * 100 / itemsToShow) + '%';
-            productContainer.style.transform = `translateX(${newTransformValue})`;
-        }
-    });
-</script>
 
 <script>
     if (window.matchMedia("(max-width: 600px)").matches) {
