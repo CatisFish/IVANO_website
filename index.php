@@ -17,50 +17,49 @@
 
 <body>
     <main id="main-page">
-        <?php
-        include "assets/header.php";
-        ?>
+        <?php include "assets/header.php"; ?>
 
-        <?php
-        include "assets/banner.php";
-        ?>
+        <?php include "assets/banner-test.php"; ?>
 
         <?php include "assets/sales.php"; ?>
 
-        <?php include "assets/flsale.php";?>
+        <section class="container-fsale">
+            <div class="container-heading-fsale">
+                <h2 class="title-fsale">Flash Sale</h2>
+                <button class="see-more-fsale">
+                    <a href="">Xem Thêm</a>
+                </button>
+            </div>
+           
 
-        <?php
-        include "assets/banner-news.php";
-        ?>
+            <?php include "assets/flsale.php"; ?>
+        </section>
+
+
+
+
+        <?php include "assets/banner-news.php"; ?>
 
         <section class="container-outstanding">
-        <div class="container-heading-oustanding">
-            <h1>Sản Phẩm Nổi Bật</h1>
+            <div class="container-heading-oustanding">
+                <h1>Sản Phẩm Nổi Bật</h1>
 
-            <button class="see-more">
-                <a href="#">Xem Thêm</a>
-            </button>
-        </div>
+                <button class="see-more">
+                    <a href="all-item.php">Xem Thêm</a>
+                </button>
+            </div>
 
-            <?php
-            include "assets/outstanding.php";
-            ?>
+            <?php include "assets/outstanding.php"; ?>
         </section>
 
         <section class="container-show-list-category">
             <h1>Thương Hiệu Nổi Bật</h1>
-            <?php
-            include "assets/show-brand.php";
-            ?>
+            <?php include "assets/show-brand.php"; ?>
         </section>
 
-        <?php
-        include "assets/certification.php";
-        ?>
+        <?php include "assets/certification.php"; ?>
 
-        <?php
-        include "assets/comment-show.php";
-        ?>
+        <?php include "assets/comment-show.php"; ?>
 
         <?php include "assets/footer.php"; ?>
     </main>
@@ -89,7 +88,7 @@ if (isset($_GET['product_id'])) {
         echo "Error updating click count: " . $conn->error;
     }
 } else {
-   
+
 }
 
 $conn->close();

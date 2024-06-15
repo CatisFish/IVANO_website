@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/custom-scroll.css">
     <title>Thông Tin Sản Phẩm | IVANO</title>
@@ -173,114 +174,109 @@
         }
         ?>
 
-<script>
-    function updateProductDetail() {
-        const sizeSelect = document.getElementById('size-select');
-        const sizeId = sizeSelect.value;
-        const productId = "<?php echo $productId; ?>";
+        <script>
+            function updateProductDetail() {
+                const sizeSelect = document.getElementById('size-select');
+                const sizeId = sizeSelect.value;
+                const productId = "<?php echo $productId; ?>";
 
-        if (sizeId) {
-            fetch(`get_product_detail.php?product_id=${productId}&size_id=${sizeId}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Lỗi mạng');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        // Cập nhật giá sản phẩm
-                        document.querySelector('.product-price').innerText = Number(data.data.price).toLocaleString('vi-VN') + ' VNĐ';
-                        document.querySelector('.product-price').dataset.basePrice = data.data.price; // Cập nhật giá cơ bản
+                if (sizeId) {
+                    fetch(`get_product_detail.php?product_id=${productId}&size_id=${sizeId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Lỗi mạng');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                // Cập nhật giá sản phẩm
+                                document.querySelector('.product-price').innerText = Number(data.data.price).toLocaleString('vi-VN') + ' VNĐ';
+                                document.querySelector('.product-price').dataset.basePrice = data.data.price; // Cập nhật giá cơ bản
 
-                        // Cập nhật hình ảnh sản phẩm
-                        document.querySelector('.detail-product-img').src = data.data.full_image_path;
-                        document.querySelector('.detail-product-img').alt = data.data.product_name; // Cập nhật alt cho hình ảnh
+                                // Cập nhật hình ảnh sản phẩm
+                                document.querySelector('.detail-product-img').src = data.data.full_image_path;
+                                document.querySelector('.detail-product-img').alt = data.data.product_name; // Cập nhật alt cho hình ảnh
 
-                    } else {
-                        console.error('Lỗi khi cập nhật chi tiết sản phẩm:', data.message);
-                        // Xử lý lỗi hiển thị cho người dùng (nếu cần)
-                    }
-                })
-                .catch(error => {
-                    console.error('Lỗi Fetch:', error);
-                    //
-                });
-        } else {
-            // Xử lý trường hợp không có size nào được chọn 
-            document.querySelector('.product-price').innerText = "Vui lòng chọn size"; // Hoặc thông báo lỗi khác
-            document.querySelector('.detail-product-img').src = "đường_dẫn_hình_ảnh_mặc_định"; // Hiển thị hình ảnh mặc định
-        }
-    }
+                            } else {
+                                console.error('Lỗi khi cập nhật chi tiết sản phẩm:', data.message);
+                                // Xử lý lỗi hiển thị cho người dùng (nếu cần)
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Lỗi Fetch:', error);
+                            //
+                        });
+                } else {
+                    // Xử lý trường hợp không có size nào được chọn 
+                    document.querySelector('.product-price').innerText = "Vui lòng chọn size"; // Hoặc thông báo lỗi khác
+                    document.querySelector('.detail-product-img').src = "đường_dẫn_hình_ảnh_mặc_định"; // Hiển thị hình ảnh mặc định
+                }
+            }
 
-    document.getElementById('color-select').addEventListener('change', function () {
-        updatePrice();
-    });
+            document.getElementById('color-select').addEventListener('change', function () {
+                updatePrice();
+            });
 
-    document.querySelector('.product-quantity input').addEventListener('change', function () {
-        updatePrice();
-    });
+            document.querySelector('.product-quantity input').addEventListener('change', function () {
+                updatePrice();
+            });
 
-    // Lấy các phần tử nút tăng và giảm
-    var plusButton = document.querySelector('.plus-quantity');
-    var minusButton = document.querySelector('.minus-quantity');
-    var quantityInput = document.querySelector('.product-quantity input');
+            // Lấy các phần tử nút tăng và giảm
+            var plusButton = document.querySelector('.plus-quantity');
+            var minusButton = document.querySelector('.minus-quantity');
+            var quantityInput = document.querySelector('.product-quantity input');
 
-    // Lắng nghe sự kiện click vào nút tăng
-    plusButton.addEventListener('click', function () {
-        quantityInput.value = parseInt(quantityInput.value) + 1;
-        quantityInput.dispatchEvent(new Event('change'));
-    });
+            // Lắng nghe sự kiện click vào nút tăng
+            plusButton.addEventListener('click', function () {
+                quantityInput.value = parseInt(quantityInput.value) + 1;
+                quantityInput.dispatchEvent(new Event('change'));
+            });
 
-    // Lắng nghe sự kiện click vào nút giảm
-    minusButton.addEventListener('click', function () {
-        if (parseInt(quantityInput.value) > 1) {
-            quantityInput.value = parseInt(quantityInput.value) - 1;
-            quantityInput.dispatchEvent(new Event('change'));
-        }
-    });
+            // Lắng nghe sự kiện click vào nút giảm
+            minusButton.addEventListener('click', function () {
+                if (parseInt(quantityInput.value) > 1) {
+                    quantityInput.value = parseInt(quantityInput.value) - 1;
+                    quantityInput.dispatchEvent(new Event('change'));
+                }
+            });
 
-    function updatePrice() {
-        var colorSuffix = document.getElementById('color-select').value;
-        var basePrice = parseFloat(document.querySelector('.product-price').dataset.basePrice);
-        var quantity = parseInt(document.querySelector('.product-quantity input').value);
+            function updatePrice() {
+                var colorSuffix = document.getElementById('color-select').value;
+                var basePrice = parseFloat(document.querySelector('.product-price').dataset.basePrice);
+                var quantity = parseInt(document.querySelector('.product-quantity input').value);
 
-        var updatedPrice = basePrice;
+                var updatedPrice = basePrice;
 
-        switch (colorSuffix) {
-            case 'T':
-                updatedPrice *= 1.1;
-                break;
-            case 'D':
-                updatedPrice *= 1.2;
-                break;
-            case 'A':
-                updatedPrice *= 1.3;
-                break;
-            default:
-                break;
-        }
+                switch (colorSuffix) {
+                    case 'T':
+                        updatedPrice *= 1.1;
+                        break;
+                    case 'D':
+                        updatedPrice *= 1.2;
+                        break;
+                    case 'A':
+                        updatedPrice *= 1.3;
+                        break;
+                    default:
+                        break;
+                }
 
-        updatedPrice *= quantity;
+                updatedPrice *= quantity;
 
-        document.querySelector('.product-price').innerText = updatedPrice.toLocaleString('vi-VN') + ' VNĐ';
-    }
-</script>
-
+                document.querySelector('.product-price').innerText = updatedPrice.toLocaleString('vi-VN') + ' VNĐ';
+            }
+        </script>
 
         <div class="detail-info-bottom">
             <div class="info-des">
-                <?php include "assets/des-product-plus.php"; ?>
+                <?php include "assets/show-des-plus.php";?>
             </div>
         </div>
 
     </main>
     <?php include "assets/footer.php"; ?>
 </body>
-
-<script>
-    
-</script>
 
 </html>
 
@@ -313,10 +309,18 @@
         margin: 20px auto;
     }
 
-    .detail-left img {
-        width: 510px;
-        height: 612px;
+    .detail-left{
+         width: 500px;
+        height: 500px;
         margin-right: 20px;
+        display: flex;
+    align-items: flex-end; 
+    justify-content: center; 
+    border-right: 1px solid #000;
+
+    }
+    .detail-left img {
+        width: 450px;
     }
 
     .detail-right {
@@ -348,7 +352,7 @@
 
     .label-detail {
         font-weight: 600;
-
+        margin-bottom: 15px;
     }
 
     .container-size-color {
@@ -393,8 +397,6 @@
         border-color: #4caf50;
     }
 
-
-
     .product-quantity {
         margin-top: 20px;
     }
@@ -412,14 +414,14 @@
         height: 30px;
         cursor: pointer;
         border: none;
-        background-color: #dd9933;
         color: #fff;
         transition: all ease-in-out 0.3s;
+        background-color: #55D5D2;
     }
 
     .minus-quantity:hover,
     .plus-quantity:hover {
-        background-color: #fb9c0d;
+        background-color: #F58F5D;
     }
 
     .product-des {
@@ -434,20 +436,22 @@
 
     .container-btn-add {
         margin-top: 20px;
+        text-align: center;
     }
 
     .add-to-cart {
         padding: 20px 70px;
-        background-color: #dd9933;
+        background-color: #55D5D2;
         color: #fff;
         border: none;
         font-weight: 700;
         cursor: pointer;
         text-transform: uppercase;
         transition: all ease-in-out 0.3s;
+        border-radius: 20px;
     }
 
     .add-to-cart:hover {
-        background-color: #fb9c0d;
+        background-color: #F58F5D;
     }
 </style>
