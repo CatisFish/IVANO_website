@@ -2,7 +2,7 @@
     integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<?php
+    <?php
 include 'php/conection.php';
 
 $flashSaleSql = "
@@ -81,7 +81,9 @@ $conn->close();
 
 <h2 class="title-fsale">Flash Sale</h2>
 
-<div class="container-fsale">
+<button id="toggle-fsale-btn" onclick="toggleFlashSale()">Bật/Tắt Flash Sale</button>
+
+<div class="container-fsale" id="flashsale-container">
     <div class="container-item-fsale">
         <?php
         $flashSaleResult->data_seek(0);
@@ -92,43 +94,20 @@ $conn->close();
             $discount = $row['discount'];
             $discountedPrice = $originalPrice - ($originalPrice * $discount / 100);
             ?>
-<<<<<<< HEAD
             <div class="product" id="product-<?php echo $row['product_id']; ?>">
                 <p>Giảm <?php echo $discount; ?>%</p>
                 <div>
-=======
-
-            <div class="fsale-product">
-                <p class="fsale-percent">- <?php echo $discount; ?>%</p>
-                <div class="container-img-fsale">
->>>>>>> 8fdbe7c37e544106448e305aabeef04f64ae7bdb
                     <?php if (!empty($row['path_image'])): ?>
                         <img class="fsale-product-img" src="uploads/<?php echo $row['path_image']; ?>" alt="Product Image">
                     <?php else: ?>
                         No Image
                     <?php endif; ?>
                 </div>
-<<<<<<< HEAD
                 <p class="original-price"><?php echo number_format($originalPrice); ?>đ</p>
                 <p><?php echo number_format($discountedPrice); ?>đ</p>
                 <p id="time-<?php echo $row['product_id']; ?>" data-end-time="<?php echo $endTimeStr; ?>" data-product-id="<?php echo $row['product_id']; ?>"></p>
                 <button onclick="showDetails(<?php echo htmlspecialchars(json_encode($row)); ?>)">Chi tiết</button>
                 <button onclick="addToCart(<?php echo $row['product_id']; ?>)">Thêm vào giỏ hàng</button>
-=======
-                <div class="container-fsale-price">
-                    <p class="original-price"><?php echo number_format($originalPrice); ?>đ</p>
-                    <p class="fsale-price-new"><?php echo number_format($discountedPrice); ?>đ</p>
-                </div>
-                <p id="time-<?php echo $row['product_id']; ?>" data-end-time="<?php echo $endTimeStr; ?>"
-                    class="time-fsale">
-                </p>
-                <div class="action-fsale">
-                    <button class="show-detail-fsale"
-                        onclick="showDetails(<?php echo htmlspecialchars(json_encode($row)); ?>)">Xem Chi Tiết</button>
-                    <button class="add-to-cart-fsale" onclick="addToCart(<?php echo $row['product_id']; ?>)"><i
-                            class="fa-solid fa-basket-shopping add-to-cart-icon"></i></button>
-                </div>
->>>>>>> 8fdbe7c37e544106448e305aabeef04f64ae7bdb
             </div>
         <?php } ?>
 
@@ -147,7 +126,6 @@ $conn->close();
 
 
 <script>
-<<<<<<< HEAD
    function updateTime() {
     const timeElements = document.querySelectorAll('[id^="time-"]');
     timeElements.forEach(function(element) {
@@ -155,18 +133,8 @@ $conn->close();
         const productId = element.getAttribute('data-product-id'); // Lấy product ID
         if (endTimeStr) {
             const endTime = new Date(endTimeStr);
-            const currentTime = new Date();
+            const currentTime= new Date();
             const diff = endTime - currentTime;
-=======
-    function updateTime() {
-        const timeElements = document.querySelectorAll('[id^="time-"]');
-        timeElements.forEach(function (element) {
-            const endTimeStr = element.getAttribute('data-end-time');
-            if (endTimeStr) {
-                const endTime = new Date(endTimeStr);
-                const currentTime = new Date();
-                const diff = endTime - currentTime;
->>>>>>> 8fdbe7c37e544106448e305aabeef04f64ae7bdb
 
             if (diff > 0) {
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -196,35 +164,48 @@ function removeProductFromFlashSale(productId) {
 
 setInterval(updateTime, 1000); // Cập nhật mỗi giây
 window.onload = updateTime; // Cập nhật ngay khi tải trang
-    setInterval(updateTime, 1000); // Cập nhật mỗi giây
-    window.onload = updateTime; // Cập nhật ngay khi tải trang
 
-    function showDetails(product) {
-        const detailsContainer = document.getElementById('product-details');
-        const detailsContent = document.getElementById('details-content');
-        const endTime = new Date(product.end_time);
-        const endTimeStr = endTime.toLocaleString();
-        const originalPrice = product.price;
-        const discount = product.discount;
-        const discountedPrice = originalPrice - (originalPrice * discount / 100);
+function showDetails(product) {
+    const detailsContainer = document.getElementById('product-details');
+    const detailsContent = document.getElementById('details-content');
+    const endTime = new Date(product.end_time);
+    const endTimeStr = endTime.toLocaleString();
+    const originalPrice = product.price;
+    const discount = product.discount;
+    const discountedPrice = originalPrice - (originalPrice * discount / 100);
 
-        detailsContent.innerHTML = `
-            <p>Tên sản phẩm: ${product.product_name}</p>
-            <p>Thương hiệu: ${product.brand_name}</p>
-            <p>Giá gốc: <span class="original-price">${originalPrice.toLocaleString()}đ</span></p>
-            <p>Giá khuyến mãi: ${discountedPrice.toLocaleString()}đ</p>
-            <p>Thời gian kết thúc: ${endTimeStr}</p>
-            <div class="imgfs">
-                <img src="uploads/${product.path_image}" alt="Product Image" style="max-width: 100%;">
-            </div>
-        `;
-        detailsContainer.style.display = 'block';
+    detailsContent.innerHTML = `
+        <p>Tên sản phẩm: ${product.product_name}</p>
+        <p>Thương hiệu: ${product.brand_name}</p>
+        <p>Giá gốc: <span class="original-price">${originalPrice.toLocaleString()}đ</span></p>
+        <p>Giá khuyến mãi: ${discountedPrice.toLocaleString()}đ</p>
+        <p>Thời gian kết thúc: ${endTimeStr}</p>
+        <div class="imgfs">
+            <img src="uploads/${product.path_image}" alt="Product Image" style="max-width: 100%;">
+        </div>
+    `;
+    detailsContainer.style.display = 'block';
+}
+
+function closeDetails() {
+    document.getElementById('product-details').style.display = 'none';
+}
+
+function toggleFlashSale() {
+    var flashsaleContainer = document.getElementById('flashsale-container');
+    var toggleBtn = document.getElementById('toggle-fsale-btn');
+    
+    if (flashsaleContainer.style.display === 'none') {
+        flashsaleContainer.style.display = 'block';
+        toggleBtn.textContent = 'Tắt Flash Sale';
+    } else {
+        flashsaleContainer.style.display = 'none';
+        toggleBtn.textContent = 'Bật Flash Sale';
     }
-
-    function closeDetails() {
-        document.getElementById('product-details').style.display = 'none';
-    }
+}
 </script>
+
+
 
 <style>
 

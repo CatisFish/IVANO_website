@@ -42,29 +42,23 @@
     .nav-icons ul li.active .fa-chevron-down {
         transform: rotate(180deg);
     }
+    /* Define animation */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    10%, 90% { transform: translateX(-5px); }
+    20%, 80% { transform: translateX(5px); }
+    30%, 50%, 70% { transform: translateX(-5px); }
+    40%, 60% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+
+/* Apply animation to the bell icon */
+.fa.fa-bell {
+    animation: shake 1.2s infinite;
+}
 </style>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuItems = document.querySelectorAll('.nav-icons .product');
 
-        menuItems.forEach(function (item) {
-            item.addEventListener('click', function (event) {
-
-
-                const isActive = this.classList.contains('active');
-
-                menuItems.forEach(function (item) {
-                    item.classList.remove('active');
-                });
-
-                if (!isActive) {
-                    this.classList.add('active');
-                }
-            });
-        });
-    });
-</script>
 
 <?php
 // Kiểm tra xem có bất kỳ form tư vấn nào có trạng thái "chưa tư vấn" hay không
@@ -72,6 +66,17 @@
 function hasChuaTuvan($conn)
 {
     $sql = "SELECT COUNT(*) AS count FROM tuvan_form WHERE TrangThai = '2'";
+    $result = $conn->query($sql);
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    }
+    return 0;
+}
+
+
+function hasCauTuvan($conn) {
+    $sql = "SELECT COUNT(*) AS count FROM agency WHERE TrangThai = '2'";
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -97,6 +102,7 @@ if ($conn->connect_error) {
 
 // Kiểm tra có form tư vấn nào có trạng thái "chưa tư vấn" hay không
 $hasChuaTuvan = hasChuaTuvan($conn);
+$hasCauTuvan = hasCauTuvan($conn);
 
 // Đóng kết nối
 $conn->close();
@@ -111,7 +117,7 @@ $conn->close();
     <!-- Add your CSS styles here -->
     <style>
         .need-advice {
-            color: red;
+            color:red;
         }
     </style>
 </head>
@@ -125,8 +131,8 @@ $conn->close();
     <div class="nav-icons">
         <ul>
             <li><a href="index.php"><i class="fa fa-home"></i><span>Trang Chủ</span></a></li>
-            <li class="product"><a><i class="fa-solid fa-store"></i><span>Cửa Hàng <i
-                            class="fa-solid fa-chevron-down"></i></span></a>
+            <li class="product">
+                <a><i class="fa-solid fa-store"></i><span>Cửa Hàng <i class="fa-solid fa-chevron-down"></i></span></a>
                 <ul class="submenu-admin">
                     <li><a href="../php/categories.php">Loại sản phẩm</a></li>
                     <li><a href="../php/productCategory.php">Doanh mục loại sản phẩm</a></li>
@@ -134,37 +140,24 @@ $conn->close();
                     <li><a href="../php/products.php">Sản phẩm</a></li>
                 </ul>
             </li>
-            <li><a href="../assets/manage_popups.php"><i class="fa-solid fa-photo-film"></i><span>QuảnlýPopup</span></a></li>
-            
-            <li class="<?php echo $hasChuaTuvan > 0 ? 'need-advice' : ''; ?>">
+            <li><a href="../assets/manage_popups.php"><i class="fa-solid fa-photo-film"></i><span>Quản lý Popup</span></a></li>
+            <li <?php if ($hasChuaTuvan > 0 || $hasCauTuvan > 0): ?>class="need-advice"<?php endif; ?>>
                 <a href="../assets/tuvan_form.php">
                     <i class="fa-solid fa-photo-film"></i>
                     <span>Cần Tư Vấn</span>
-                    <?php if ($hasChuaTuvan > 0): ?>
-                        <i class="fa fa-bell" style="color: red; position: relative;">
-                            <span
-                                style="position: absolute; top: -10px; right: -10px; background: red; color: white; border-radius: 50%; padding: 2px 5px; font-size: 12px;">
-                                <?php echo $hasChuaTuvan; ?>
-                            </span>
-                        </i>
-                    <?php else: ?>
-                        <i class="fa fa-bell"></i>
+                    <?php if ($hasChuaTuvan > 0 || $hasCauTuvan > 0): ?>
+                        <i class="fa fa-bell" style="color:  #ffd400; "></i>
+                        <span class="badge"><?php echo $hasChuaTuvan + $hasCauTuvan; ?></span>
                     <?php endif; ?>
                 </a>
             </li>
-
-
-
-            <li><a href="../assets/manage_banners.php"><i class="fa-solid fa-bell"></i><span>Quản lý Banner</span></a>
-            </li>
-            <li><a href="../php/manage_flashsale.php"><i class="fa-solid fa-user"></i><span>Quản lý Flashsale</span></a>
-            </li>
-
-            <li><a href="../php/agency.php"><i class="fa fa-file-alt"></i><span>Các đại lý</span></a></li>
+            <li><a href="../assets/manage_banners.php"><i class="fa-solid fa-bell"></i><span>Quản lý Banner</span></a></li>
+            <li><a href="../php/manage_flashsale.php"><i class="fa-solid fa-user"></i><span>Quản lý Flashsale</span></a></li>
+            <li><a href="../php/manage_agency.php"><i class="fa fa-file-alt"></i><span>Các đại lý</span></a></li>
             <li><a href="../php/customer.php"><i class="fa-solid fa-user"></i><span>Quản lý khách hàng</span></a></li>
             <li><a href="../php/employee.php"><i class="fa-solid fa-users"></i><span>Quản lý nhân viên</span></a></li>
-            <li class="statistics"><a><i class="fa fa-chart-bar"></i><span>Thống kê <i
-                            class="fa-solid fa-chevron-down"></i></span></a>
+            <li class="statistics">
+                <a><i class="fa fa-chart-bar"></i><span>Thống kê <i class="fa-solid fa-chevron-down"></i></span></a>
                 <ul class="submenu-admin">
                     <li><a href="../php/thongke/doanhthu_theohoadon.php">Doanh thu theo hóa đơn</a></li>
                     <li><a href="../php/thongke/donhang_theothang.php">Doanh thu theo thời gian</a></li>
@@ -275,6 +268,7 @@ $conn->close();
 
 
     .need-advice .fa-bell {
+    margin-left: 10px;
     position: relative;
 }
 
@@ -288,7 +282,33 @@ $conn->close();
     padding: 2px 5px;
     font-size: 12px;
 }
+.need-advice {
+            color: red;
+            font-size: 20px;
+        }
 
+        .submenu-admin {
+            display: none;
+        }
+
+        .submenu-admin.active {
+            display: block;
+        }
+
+        .nav-icons ul li a .badge {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            position: relative;
+            top: -10px;
+            right: 30px;
+        }
+
+        .nav-icons ul li.active > a > .fa-chevron-down {
+            transform: rotate(180deg);
+        }
 </style>
 
 <script>
@@ -300,9 +320,10 @@ $conn->close();
         const navIcons = document.querySelector(".nav-icons");
         const dashboardTitle = document.querySelector(".top-sidebar h2");
         const navLinks = document.querySelectorAll(".nav-icons ul li a span");
-        const iconLink = document.querySelectorAll(".nav-icons ul li a i")
+        const iconLink = document.querySelectorAll(".nav-icons ul li a i");
         const toggleIcon = document.querySelector("#toggleButton i");
 
+        // Toggle sidebar visibility
         toggleButton.addEventListener("click", function () {
             sidebar.classList.toggle("hidden");
             if (sidebar.classList.contains("hidden")) {
@@ -313,11 +334,9 @@ $conn->close();
                 navLinks.forEach(function (link) {
                     link.style.display = "none";
                 });
-
                 iconLink.forEach(function (icon) {
                     icon.style.textAlign = "center";
                 });
-
                 toggleIcon.classList.remove("fa-xmark");
                 toggleIcon.classList.add("fa-bars");
             } else {
@@ -331,6 +350,22 @@ $conn->close();
                 toggleIcon.classList.remove("fa-bars");
                 toggleIcon.classList.add("fa-xmark");
             }
+        });
+
+        // Toggle submenu visibility
+        const menuItems = document.querySelectorAll('.nav-icons .product, .nav-icons .statistics');
+        menuItems.forEach(function (item) {
+            item.addEventListener('click', function () {
+                const isActive = this.classList.contains('active');
+                menuItems.forEach(function (item) {
+                    item.classList.remove('active');
+                    item.querySelector('.submenu-admin').classList.remove('active');
+                });
+                if (!isActive) {
+                    this.classList.add('active');
+                    this.querySelector('.submenu-admin').classList.add('active');
+                }
+            });
         });
     });
 </script>

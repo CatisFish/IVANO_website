@@ -77,31 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Truy vấn SQL để lấy danh sách sản phẩm flash sale
 $flashSaleSql = "
-    SELECT f.flashsale_id, f.product_id, f.discount, t.start_time, t.end_time, p.product_name, b.brand_name
+    SELECT f.flashsale_id, f.discount, f.product_id AS id_sanpham, p.product_name, b.brand_name
     FROM flashsale f
     INNER JOIN products p ON f.product_id = p.product_id
-    INNER JOIN brands b ON p.brand_id = b.brand_id
-    INNER JOIN time_flashsale t ON f.flashsale_id = t.flashsale_id";
+    INNER JOIN brands b ON p.brand_id = b.brand_id";
 $flashSaleResult = $conn->query($flashSaleSql);
-
-// Truy vấn SQL để lấy danh sách sản phẩm
-$productSql = "
-    SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
-    FROM products p 
-    LEFT JOIN product_images i ON p.product_id = i.product_id
-    INNER JOIN categories c ON p.category_id = c.category_id
-    INNER JOIN brands b ON p.brand_id = b.brand_id
-    INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
-    INNER JOIN product_size ps ON p.product_id = ps.product_id
-    INNER JOIN sizes s ON ps.size_id = s.size_id
-    GROUP BY p.product_id";
-$productResult = $conn->query($productSql);
-
-// Truy vấn SQL để lấy danh sách các thương hiệu
-$brandsSql = "SELECT * FROM brands";
-$brandsResult = $conn->query($brandsSql);
-
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -121,34 +101,30 @@ $conn->close();
         <label for="product_id">Product ID:</label>
         <input type="text" id="product_id" name="product_id" required>
         <labelfor="discount">Discount:</label>
-<input type="number" id="discount" name="discount" step="0.01" required>
-<label for="start_time">Start Time:</label>
-<input type="datetime-local" id="start_time" name="start_time" required>
-<label for="end_time">End Time:</label>
-<input type="datetime-local" id="end_time" name="end_time" required>
-<button type="submit">Thêm</button>
-</form>
-<h2>Danh Sách Sản Phẩm Flash Sale</h2>
+        <input type="number" id="discount" name="discount" step="0.01" required>
+        <label for="start_time">Start Time:</label>
+        <input type="datetime-local" id="start_time" name="start_time" required>
+        <label for="end_time">End Time:</label>
+        <input type="datetime-local" id="end_time" name="end_time" required>
+        <button type="submit">Thêm</button>
+        </form>
+        <h2>Danh Sách Sản Phẩm Flash Sale</h2>
 <table border="1">
     <tr>
-        <th>ID</th>
-        <th>Product ID</th>
+        <th>Flash Sale ID</th>
+        <th>Discount</th>
+        <th>ID Sản Phẩm</th>
         <th>Product Name</th>
         <th>Brand</th>
-        <th>Discount</th>
-        <th>Start Time</th>
-        <th>End Time</th>
         <th>Actions</th>
     </tr>
     <?php while ($row = $flashSaleResult->fetch_assoc()) { ?>
         <tr>
             <td><?php echo $row['flashsale_id']; ?></td>
-            <td><?php echo $row['product_id']; ?></td>
+            <td><?php echo $row['discount']; ?></td>
+            <td><?php echo $row['id_sanpham']; ?></td>
             <td><?php echo $row['product_name']; ?></td>
             <td><?php echo $row['brand_name']; ?></td>
-            <td><?php echo $row['discount']; ?></td>
-            <td><?php echo $row['start_time']; ?></td>
-            <td><?php echo $row['end_time']; ?></td>
             <td>
                 <form action="manage_flashsale.php" method="POST" style="display:inline-block;">
                     <input type="hidden" name="flashsale_id" value="<?php echo $row['flashsale_id']; ?>">
@@ -175,9 +151,19 @@ $conn->close();
     <input type="datetime-local" id="edit_end_time" name="end_time" required>
     <button type="submit">Cập Nhật</button>
 </form>
+</body>
+</html>
 
-
-
+<script>
+    function editFlashSale(flashsale) {
+        document.getElementById('updateForm').style.display = 'block';
+        document.getElementById('flashsale_id').value = flashsale.flashsale_id;
+        document.getElementById('edit_product_id').value = flashsale.id_sanpham;
+        document.getElementById('edit_discount').value = flashsale.discount;
+        document.getElementById('edit_start_time').value = flashsale.start_time;
+        document.getElementById('edit_end_time').value = flashsale.end_time;
+    }
+</script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     var productItems = document.querySelectorAll(".product-item");
@@ -204,6 +190,8 @@ function showPage(page) {
     }
 }
 });
+
+
 
 function editFlashSale(data) {
 document.getElementById('flashsale_id').value = data.flashsale_id;

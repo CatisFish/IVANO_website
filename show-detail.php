@@ -97,15 +97,6 @@
                     echo '<div class="product-price" data-base-price="0">Giá không xác định</div>';
                 }
 
-<<<<<<< HEAD
-=======
-
-                echo '<div class="container-product-id-category">';
-                echo '<p class="product-id">MSP: ' . htmlspecialchars($detailRow['product_id'], ENT_QUOTES, 'UTF-8') . '</p>';
-                echo '<p class="list-category">Danh Mục: ' . htmlspecialchars($detailRow['brand_name'], ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($detailRow['category_name'], ENT_QUOTES, 'UTF-8') . '</p>';
-                echo '</div>';
-
->>>>>>> 700d8304146af39ab6f5c1e8b091f50d457a617a
                 // Truy vấn để lấy danh sách kích thước của sản phẩm
                 $sizeQuery = "SELECT ps.size_id, s.size_name FROM product_size ps INNER JOIN sizes s ON ps.size_id = s.size_id WHERE ps.product_id = ?";
                 $stmtSize = $conn->prepare($sizeQuery);
