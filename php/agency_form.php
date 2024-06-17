@@ -14,27 +14,26 @@ if ($conn->connect_error) {
 }
 
 // Định nghĩa hàm kiểm tra xem có form tư vấn nào có trạng thái "Chưa Tư Vấn" hay không
-function hasChuaTuvan($conn) {
-    $sql = "SELECT COUNT(*) AS count FROM tuvan_form WHERE TrangThai = '2'";
+function hasCauTuvan($conn) {
+    $sql = "SELECT COUNT(*) AS count FROM agency WHERE TrangThai = '2'";
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        return $row['count'] > 0;
+        return $row['count'];
     }
-    return false;
+    return 0;
 }
 
-$hasChuaTuvan = hasChuaTuvan($conn);
 
-
+$hasCauTuvan = hasCauTuvan($conn);
 // Kiểm tra xem form đã được gửi chưa
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Lấy dữ liệu từ form
     $id = $_POST['id'];
     $trangthai = $_POST['trangthai'];
 
-    // Cập nhật trạng thái vào bảng tuvan_form
-    $sql_update = "UPDATE tuvan_form SET TrangThai = ? WHERE id = ?";
+    // Cập nhật trạng thái vào bảng agency
+    $sql_update = "UPDATE agency SET TrangThai = ? WHERE agency_id = ?";
     $stmt_update = $conn->prepare($sql_update);
     $stmt_update->bind_param("ss", $trangthai, $id);
 
@@ -49,18 +48,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt_update->close();
 }
 
-// Lấy thông tin từ bảng tuvan_form và bảng trangthai
-$sql = "SELECT tuvan_form.id, tuvan_form.ten, tuvan_form.so_dien_thoai, tuvan_form.ngay_gui, trangthai.ten_tt 
-        FROM tuvan_form 
-        LEFT JOIN trangthai ON tuvan_form.TrangThai = trangthai.id_tt
-        ORDER BY tuvan_form.ngay_gui DESC";
+// Lấy thông tin từ bảng agency và bảng trangthai
+$sql = "SELECT agency.agency_id, agency.agency_name, agency.agency_tell, agency.agency_address, trangthai.ten_tt 
+        FROM agency 
+        LEFT JOIN trangthai ON agency.TrangThai = trangthai.id_tt
+        ORDER BY agency.agency_id DESC";
 $result = $conn->query($sql);
 
-// Mảng chứa dữ liệu từ bảng tuvan_form
-$tuvan_list = [];
+// Mảng chứa dữ liệu từ bảng agency
+$agency_list = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $tuvan_list[] = $row;
+        $agency_list[] = $row;
     }
 }
 
@@ -86,12 +85,8 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh Sách Tư Vấn</title>
-    <!-- Add your CSS styles here -->
+    <title>Danh Sách Đại Lý</title>
     <style>
-        .need-advice {
-            color: red;
-        }
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -167,39 +162,38 @@ $conn->close();
 </head>
 
 <body>
-    <h2>Danh Sách Tư Vấn</h2>
+    <h2>Danh Sách Đại Lý</h2>
     <?php if (isset($success_message)): ?>
-        <p style="color: green;"><?php echo $success_message; ?></p>
+        <p class="message success"><?php echo $success_message; ?></p>
     <?php endif; ?>
     <?php if (isset($error_message)): ?>
-        <p style="color: red;"><?php echo $error_message; ?></p>
+        <p class="message error"><?php echo $error_message; ?></p>
     <?php endif; ?>
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Họ Tên</th>
+                <th>Tên Đại Lý</th>
                 <th>Số Điện Thoại</th>
-                <th>Ngày Gửi</th>
+                <th>Địa Chỉ</th>
                 <th>Trạng Thái</th>
                 <th>Chọn Trạng Thái</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($tuvan_list as $tuvan): ?>
+            <?php foreach ($agency_list as $agency): ?>
                 <tr>
-                    <td><?php echo $tuvan['id']; ?></td>
-                    <td><?php echo $tuvan['ten']; ?></td>
-                    <td><?php echo $tuvan['so_dien_thoai']; ?></td>
-                    <td><?php echo $tuvan['ngay_gui']; ?></td>
-                    <td><?php echo isset($tuvan['ten_tt']) ? $tuvan['ten_tt'] : ''; ?></td>
+                    <td><?php echo $agency['agency_id']; ?></td>
+                    <td><?php echo $agency['agency_name']; ?></td>
+                    <td><?php echo $agency['agency_tell']; ?></td>
+                    <td><?php echo $agency['agency_address']; ?></td>
+                    <td><?php echo isset($agency['ten_tt']) ? $agency['ten_tt'] : ''; ?></td>
                     <td>
                         <form method="POST" action="">
-                            <input type="hidden" name="id" value="<?php echo $tuvan['id']; ?>">
+                            <input type="hidden" name="id" value="<?php echo $agency['agency_id']; ?>">
                             <select name="trangthai">
                                 <?php foreach ($trangthai_list as $trangthai): ?>
-                                    <option value="<?php echo $trangthai['id_tt']; ?>" <?php if (isset($tuvan['TrangThai']) && $tuvan['TrangThai'] == $trangthai['id_tt'])
-                                        echo 'selected'; ?>>
+                                    <option value="<?php echo $trangthai['id_tt']; ?>" <?php if (isset($agency['TrangThai']) && $agency['TrangThai'] == $trangthai['id_tt']) echo 'selected'; ?>>
                                         <?php echo $trangthai['ten_tt']; ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -209,12 +203,8 @@ $conn->close();
                     </td>
                 </tr>
             <?php endforeach; ?>
-
         </tbody>
     </table>
-    <!-- Add your scripts here -->
 </body>
-<?php
-include'../php/agency_form.php';
-?>
 </html>
+

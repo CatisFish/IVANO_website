@@ -6,87 +6,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý agency</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        
-        h2 {
-            text-align: center;
-            color: #333;
-            padding: 20px 0;
-        }
-        
-        .form-container,
-        .search-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        table {
-            width: 100%;
-            margin: 20px auto;
-            border-collapse: collapse;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        th,
-        td {
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-        
-        th {
-            background-color: #f8f8f8;
-            color: #333;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        
-        input[type="text"],
-        input[type="email"],
-        input[type="file"] {
-            padding: 8px;
-            width: calc(100% - 16px);
-            margin-bottom: 10px;
-        }
-        
-        input[type="submit"] {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-        
-        .message {
-            text-align: center;
-            font-size: 16px;
-            margin: 10px 0;
-        }
-        
-        .message.success {
-            color: green;
-        }
-        
-        .message.error {
-            color: red;
-        }
+       body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    padding: 20px 0;
+}
+
+.form-container,
+.search-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Thanh tìm kiếm */
+.search-container {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.search-container input[type="text"] {
+    width: calc(100% - 120px);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.search-container input[type="submit"] {
+    width: 100px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-container input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Bảng */
+table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Các form */
+form {
+    width: 300px;
+    margin: 0 auto;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="file"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+form input[type="submit"],
+.toggle-button {
+    width: 30%;
+    margin: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover,
+.toggle-button:hover {
+    background-color: #45a049;
+}
+
+/* Thông báo */
+.message {
+    text-align: center;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.message.success {
+    color: green;
+}
+
+.message.error {
+    color: red;
+}
+
     </style>
 </head>
 
@@ -95,7 +136,6 @@
 
     <?php
     include '../php/conection.php';
-    include '../php/search_agency.php';
 
     // Thêm agency mới
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add"])) {
@@ -105,7 +145,6 @@
         $address = $_POST["address"];
         $note = $_POST["note"];
 
-        // Upload ảnh vào thư mục
         $target_dir = "../admin/upload_agency/";
         $target_file = $target_dir . basename($_FILES["path"]["name"]);
         $uploadOk = 1;
@@ -170,6 +209,8 @@
         }
     }
 
+    // Định nghĩa biến $target_dir
+    $target_dir = "../admin/upload_agency/";
     // Chỉnh sửa thông tin agency
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit"])) {
         $id = $_POST["id"];
@@ -180,13 +221,16 @@
         $note = $_POST["note"];
         $path = $_POST["path"];
         
-        if ($_FILES["new_path"]["name"] != '') {
-            $new_target_file = $target_dir . basename($_FILES["new_path"]["name"]);
-            
-            unlink($path);
-            move_uploaded_file($_FILES["new_path"]["tmp_name"], $new_target_file);
-            $path = $new_target_file;
-        }
+       // Kiểm tra xem có tệp hình ảnh mới được chọn hay không
+if ($_FILES["new_path"]["name"] != '') {
+    // Nếu có tệp mới, thực hiện di chuyển và cập nhật đường dẫn
+    $new_target_file = $target_dir . basename($_FILES["new_path"]["name"]);
+    
+    unlink($path); // Xóa tệp cũ
+    move_uploaded_file($_FILES["new_path"]["tmp_name"], $new_target_file); // Di chuyển tệp mới
+    $path = $new_target_file; // Cập nhật đường dẫn mới
+}
+
         
         $sql = "UPDATE agency SET agency_name='$name', agency_mail='$mail', agency_tell='$tell', agency_address='$address', agency_note='$note', agency_path='$path' WHERE agency_id='$id'";
         if ($conn->query($sql) === TRUE) {
@@ -201,16 +245,43 @@
         $searchKeyword = $_GET["search"];
     }
 
-    $sql = "SELECT agency_id, agency_name, agency_mail, agency_tell, agency_address, agency_note, agency_path FROM agency WHERE agency_name LIKE '%$searchKeyword%'";
+    $sql = "SELECT agency_id, agency_name, agency_mail, agency_tell, agency_address, agency_note, agency_path FROM agency";
+    if ($searchKeyword != "") {
+        $sql .= " WHERE agency_name LIKE '%$searchKeyword%'";
+    }
     $result = $conn->query($sql);
 
     ?>
 
     <div class="search-container">
-        <form method="get" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <input type="text" name="search" placeholder="Tìm kiếm đại lý..." value="<?php echo $searchKeyword; ?>">
-            <input type="submit" value="Tìm kiếm">
-        </form>
+        <button class="toggle-button" onclick="toggleForm('search-form')">Tìm kiếm đại lý</button>
+        <div id="search-form" style="display:none;">
+            <form method="get" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <input type="text" name="search" placeholder="Tìm kiếm đại lý..." value="<?php echo $searchKeyword; ?>">
+                <input type="submit" value="Tìm kiếm">
+            </form>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <button class="toggle-button" onclick="toggleForm('add-form')">Thêm đại lý mới</button>
+        <div id="add-form" style="display:none;">
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
+                <label for="name">Tên đại lý:</label><br>
+                <input type="text" id="name" name="name"><br>
+                <label for="mail">Email:</label><br>
+                <input type="email" id="mail" name="mail"><br>
+                <label for="tell">Số điện thoại:</label><br>
+                <input type="text" id="tell" name="tell"><br>
+                <label for="address">Địa chỉ:</label><br>
+                <input type="text" id="address" name="address"><br>
+                <label for="note">Ghi chú:</label><br>
+                <input type="text" id="note" name="note"><br>
+                <label for="path">Hình ảnh:</label><br>
+                <input type="file" id="path" name="path"><br><br>
+                <input type="submit" name="add" value="Thêm đại lý">
+            </form>
+        </div>
     </div>
 
     <?php
@@ -234,30 +305,22 @@
         }
         echo "</table>";
     } else {
-        echo "0 results";
+        echo "<p class='message error'>Không tìm thấy kết quả</p>";
     }
 
     $conn->close();
     ?>
 
-    <div class="form-container">
-        <h3>Thêm đại lý mới</h3>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
-            <label for="name">Tên đại lý:</label><br>
-            <input type="text" id="name" name="name"><br>
-            <label for="mail">Email:</label><br>
-            <input type="email" id="mail" name="mail"><br>
-            <label for="tell">Số điện thoại:</label><br>
-            <input type="text" id="tell" name="tell"><br>
-            <label for="address">Địa chỉ:</label><br>
-            <input type="text" id="address" name="address"><br>
-            <label for="note">Ghi chú:</label><br>
-            <input type="text" id="note" name="note"><br>
-            <label for="path">Hình ảnh:</label><br>
-            <input type="file" id="path" name="path"><br><br>
-            <input type="submit" name="add" value="Thêm đại lý">
-        </form>
-    </div>
+    <script>
+        function toggleForm(formId) {
+            var form = document.getElementById(formId);
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+    </script>
 </body>
 
 </html>

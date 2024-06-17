@@ -57,3 +57,53 @@ if ($max_id_product) {
 
 $conn->close();
 ?>
+
+
+<style>
+    .product,
+    .statistics {
+        position: relative;
+    }
+
+
+    .nav-icons {
+        overflow-y: auto;
+    }
+
+    .nav-icons::-webkit-scrollbar {
+        width: 0;
+    }
+
+    .nav-icons li {
+        cursor: pointer;
+    }
+
+    .submenu-admin {
+        display: none;
+        padding: 10px 0;
+        z-index: 1000;
+    }
+
+    .submenu-admin li {
+        padding: 10px 10px;
+    }
+
+    .nav-icons ul li.active .submenu-admin {
+        display: block;
+    }
+
+    .nav-icons ul li {
+        position: relative;
+    }
+
+    .nav-icons ul li .fa-chevron-down {
+        transition: transform 0.4s ease;
+    }
+
+    .nav-icons ul li.active .fa-chevron-down {
+        transform: rotate(180deg);
+    }
+</style>
+
+
+
