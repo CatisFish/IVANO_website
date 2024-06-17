@@ -1,117 +1,88 @@
+<?php
+session_start();
+
+if (isset($_SESSION['username'])) {
+    $loggedInUsername = $_SESSION['username'];
+
+    if (isset($loggedInUsername)) {
+        $initial = substr($loggedInUsername, 0, 1);
+    } else {
+        echo "Không có tên người dùng đăng nhập";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="css/custom-scroll.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/global-style-ad.css">
+    <title>Trang Quản trị | IVANO</title>
 </head>
 
+<style>
+    .main-admin-page {
+        margin-left: 18%;
+        border-left: 1px solid #fff;
+        width: 82%;
+        transition: all ease-in-out 0.3s;
+    }
+</style>
+
 <body>
-    <div class="sidebar" id="sidebar">
-        <?php
-        include "assets/sidebar.php";
-        ?>
+    <div class="container-admin-page">
+
+        <?php include "assets/sidebar-new.php"; ?>
+
+        <main class="main-admin-page">
+            <section class="main-top-admin-page">
+                <div class="main-top-left-admin-page">
+                    <a href="">Trang Quản Trị</a>
+                </div>
+
+                <?php include "assets/hello-user.php"; ?>
+            </section>
+        </main>
     </div>
-
-    <div class="content" id="content">
-        <div class="container-heading-admin-page">
-            <h1>Wellcom to IVANO</h1>
-
-            <?php
-            include "assets/hello-user.php";
-            ?>
-        </div>
-
-        <fieldset class="content-top-page">
-            <legend class="title-content-top-page">Thông Tin Chính</legend>
-            <?php
-            include "statistical/daily.php";
-            ?>
-
-            <?php
-            include "statistical/product.php";
-            ?>
-
-            <?php
-            include "statistical/order.php";
-            ?>
-
-            <?php
-            include "statistical/tongdoanhthu.php";
-            ?>
-            </legend>
-        </fieldset>
-
-        <div class="container-total-orders">
-            <h2>Thống Kê Đơn Hàng</h2>
-            <div class="statistic-month-year">
-                <?php include "statistical/thongke_donhang.php"; ?>
-            </div>
-        </div>
-
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: "Montserrat", sans-serif;
-            }
-
-            .container-heading-admin-page {
-                padding: 10px 20px;
-                background: linear-gradient(135deg, rgb(74, 234, 220) 0%, rgb(151, 120, 209) 20%, rgb(207, 42, 186) 40%, rgb(238, 44, 130) 60%, rgb(251, 105, 98) 80%, rgb(254, 248, 76) 100%);
-            }
-
-            .container-heading-admin-page h1 {
-                color: #fff;
-            }
-
-            .content {
-                margin-left: 18%;
-                padding: 20px;
-                transition: margin-left 0.3s ease;
-            }
-
-            .content-top-page {
-                border: 2px solid #ccc;
-                border-radius: 8px;
-                padding: 20px;
-                margin: 20px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 20px;
-            }
-
-            legend {
-                font-size: 25px;
-                font-weight: 700;
-                color: #333;
-                padding: 0 15px;
-                text-align: center;
-
-            }
-
-            .container-total-orders {
-                margin-top: 30px;
-            }
-
-            .container-total-orders h2 {
-                text-align: center;
-            }
-
-            .statistic-month-year {
-                display: flex;
-                gap: 10%;
-            }
-        </style>
-        <!-- <script src="js/app.js"></script> -->
 </body>
+
+<script>
+    document.getElementById("show-hide-sidebar-ad").addEventListener("click", function () {
+        var sidebar = document.querySelector(".container-sidebar-ad");
+        var main = document.querySelector(".main-ad-page");
+        var h3 = document.querySelector(".sidebar-top-ad h3");
+        var spans = document.querySelectorAll(".sidebar-bottom-ad span");
+        var topSidebarIcon = document.querySelector(".sidebar-top-ad button i");
+
+        if (sidebar.style.width === "5%") {
+            sidebar.style.width = "18%";
+            main.style.width = "82%";
+            main.style.marginLeft = "18%";
+            h3.style.display = "block";
+            spans.forEach(span => {
+                span.style.display = "inline";
+            });
+            sidebar.classList.remove("sidebar-collapsed");
+            topSidebarIcon.style.transform = "rotate(0deg)";
+        } else {
+            sidebar.style.width = "5%";
+            main.style.width = "95%";
+            main.style.marginLeft = "5%";
+            h3.style.display = "none";
+            spans.forEach(span => {
+                span.style.display = "none";
+            });
+            sidebar.classList.add("sidebar-collapsed");
+            topSidebarIcon.style.transform = "rotate(180deg)";
+        }
+    });
+
+</script>
 
 </html>

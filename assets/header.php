@@ -54,9 +54,9 @@
                 </form>
 
                 <ul class="container-nav-right-item">
-                    <a href="" class="view-orders item-nav-right"><i class="fa-solid fa-headphones-simple"></i></a>
+                    <a href="" class="view-orders item-nav-right"><i class="fa-solid fa-headset"></i></a>
 
-                    <a href="login-register/index.html" class="login-link item-nav-right"><i
+                    <a href="login.php" class="login-link item-nav-right"><i
                             class="fa-regular fa-user"></i></a>
 
                     <div class="shopping-cart-page">
@@ -460,13 +460,12 @@
     #show-cart {
         position: fixed;
         width: 400px;
-        height: 90vh;
+        height: 668px;
         box-shadow: 0 8px 10px 0 rgb(0 0 0 / 10%);
-        right: -65px;
+        right: -10%;
         top: 0px;
         /* top: 70px; */
         background-color: #221F20;
-        border-radius: 10px;
         transition: all ease-in-out 0.3s;
         opacity: 0;
         visibility: hidden;
@@ -479,7 +478,7 @@
 
     #show-cart.show {
         opacity: 1;
-        right: 0px;
+        right: -2.7%;
         transition: all ease-in-out 0.3s;
         visibility: visible;
         pointer-events: auto;
@@ -630,7 +629,7 @@
     }
 
     .cart-total {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
         color: #1E90FF;
         font-weight: 600;
         text-align: right;
@@ -656,7 +655,7 @@
 
     .checkout-btn {
         width: 100%;
-        padding: 7px;
+        padding: 10px;
         border: none;
         font-weight: 600;
         cursor: pointer;

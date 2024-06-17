@@ -107,19 +107,50 @@ $totalProductsRow = $totalProductsResult->fetch_assoc();
 $totalProducts = $totalProductsRow['total'];
 $totalPages = ceil($totalProducts / $productsPerPage);
 
+
 echo '<div class="pagination">';
 
 if ($current_page > 1) {
-    echo "<a href='?page=" . ($current_page - 1) . "'><i class='fa-solid fa-angles-left'></i> Previous</a> ";
+    echo "<a href='?page=" . ($current_page - 1) . "'><i class='fa-solid fa-chevron-left'></i> Previous</a> ";
 }
 
-for ($i = 1; $i <= $totalPages; $i++) {
-    $activeClass = ($i == $current_page) ? 'active' : '';
-    echo "<a href='?page=$i' class='$activeClass'>$i</a> ";
+if ($current_page > 1) {
+    echo "<a href='?page=1'>1</a> ";
+}
+
+if ($current_page > 3) {
+    echo "... ";
+}
+
+if ($current_page > 2) {
+    echo "<a href='?page=" . ($current_page - 1) . "'>" . ($current_page - 1) . "</a> ";
+}
+
+echo "<a class='active' href='?page=$current_page'>$current_page</a> ";
+
+if ($current_page < $totalPages) {
+    if($current_page < ($totalPages - 2)){
+        for ($i = $current_page + 1; $i <= min($current_page + 1, $totalPages); $i++) {
+            echo "<a href='?page=$i'>$i</a> ";
+        }
+    }
+    else {
+        for ($i = $current_page + 1; $i <= $totalPages; $i++) {
+            echo "<a href='?page=$i'>$i</a> ";
+        }
+    }
+}
+
+if ($current_page < ($totalPages - 2)) {
+    echo "... ";
+}
+
+if ($current_page != $totalPages) {
+    echo "<a href='?page=$totalPages'>$totalPages</a> ";
 }
 
 if ($current_page < $totalPages) {
-    echo "<a href='?page=" . ($current_page + 1) . "'>Next <i class='fa-solid fa-angles-right'></i></a>";
+    echo "<a href='?page=" . ($current_page + 1) . "'>Next <i class='fa-solid fa-chevron-right'></i></a>";
 }
 
 echo '</div>';
@@ -138,8 +169,8 @@ $conn->close();
         display: inline-block;
         padding: 10px 15px;
         margin: 0 5px;
-        background-color: #55D5D2;
-        color: #FFF;
+        /* background-color: #55D5D2; */
+        color: #221F20;
         text-decoration: none;
         border-radius: 10px;
         font-weight: 600;
@@ -148,10 +179,12 @@ $conn->close();
 
     .pagination a:hover {
         background-color: #F58F5D;
+        color: #FFF;
     }
 
     .pagination .active {
         background-color: #F58F5D;
+        color: #FFF;
     }
 </style>
 

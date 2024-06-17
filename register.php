@@ -10,7 +10,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="../css/register.css">
-    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="css/global.css">
 
     <title>Register | IVANO</title>
 </head>
@@ -24,7 +24,8 @@
 
     <div class="wrapper-register">
         <form action="../action/register.php" method="POST" class="register-form">
-            <h1>REGISTER IVANO COMMUNITY</h1>
+            <h1>Đăng Ký</h1>
+            <p>Đăng ký tài khoản để nhận nhiều ưu đãi hơn</p>
 
             <div class="form-group">
                 <input type="text" id="username" name="username" required placeholder=" ">
@@ -53,10 +54,10 @@
                 </button>
             </div>
 
-            <button type="submit" class="register-button">Register</button>
+            <button type="submit" class="register-button">Đăng Ký</button>
 
             <div class="login-link">
-                <p>Already have an account? <a href="login.php">Login</a></p>
+                <p>Bạn đã có tài khoản? <a href="login.php">Đăng nhập ngay</a></p>
             </div>
         </form>
     </div>
@@ -91,7 +92,12 @@
     .register-form h1 {
         text-align: center;
         font-size: 24px;
-        margin-bottom: 50px;
+       margin-bottom: 10px;
+    }
+
+    .register-form p{
+        text-align: center;
+        margin-bottom: 40px;
     }
 
     .form-group {
@@ -110,7 +116,7 @@
     }
 
     .form-group input:focus {
-        border-color: #1E90FF;
+        border-color: #55D5D2;
     }
 
     .form-group label {
@@ -131,10 +137,11 @@
         top: 0px;
         font-size: 12px;
         color: #1E90FF;
+        font-weight: 600;
     }
 
     .form-group input:focus+label {
-        color: #1E90FF;
+        color: #221F20;
     }
 
     .form-group input:not(:placeholder-shown)+label {
@@ -161,7 +168,7 @@
     .register-button {
         width: 100%;
         padding: 10px 20px;
-        background-color: #1E90FF;
+        background-color: #55D5D2;
         color: white;
         border: none;
         border-radius: 5px;
@@ -172,7 +179,7 @@
     }
 
     .register-button:hover {
-        background-color: #0073e6;
+        background-color: #F58F5D;
     }
 
 

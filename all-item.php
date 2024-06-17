@@ -210,13 +210,14 @@ form button {
     }
 
     .option_size_brand_btn{
-        width: 100%;
+        padding: 10px;
+        display: inline-block;
         border: none;
         color: #FFF;
         background-color: #55D5D2;
         font-weight: 600;
         transition: all ease-in-out 0.3s;
-        margin-top: 20px;
+        margin-top: 30px;
     }
 
     .option_size_brand_btn:hover{

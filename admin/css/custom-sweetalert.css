@@ -1,0 +1,31 @@
+.swal2-input {
+    width: 80%;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.swal2-title {
+    font-size: 25px;
+    padding: 10px;
+    color: #221F20;
+    text-transform: capitalize;
+}
+
+.swal2-confirm {
+    background-color: #55D5D2 !important;
+    border: none !important;
+    transition: all ease-in-out 0.3s !important;
+    padding: 5px 30px !important;
+    box-shadow: none !important;
+    font-weight: 600 !important;
+}
+
+.swal2-confirm:hover{
+    background-color: #F58F5D !important;
+}
+.swal2-cancel {
+    background-color: #FF0000 !important;
+    padding: 5px 30px !important;
+    transition: all ease-in-out 0.3s !important;
+    font-weight: 600 !important
+}

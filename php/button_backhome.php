@@ -5,8 +5,6 @@
     </a>
 </div>
 
-
-
 <style>
     /* Style for back-to-home-button */
 .back-to-home-button {

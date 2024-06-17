@@ -1,0 +1,245 @@
+.container-admin-page {
+    display: flex;
+}
+
+.container-sidebar-ad {
+    width: 18%;
+    height: 100vh;
+    background-color: #55D5D2;
+    color: #fff;
+    top: 0;
+    left: 0;
+    transition: width 0.3s ease-in-out;
+    position: fixed;
+}
+
+.sidebar-top-ad {
+    height: 10vh;
+    padding: 20px;
+    gap: 30px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #fff;
+    justify-content: center;
+}
+
+.sidebar-top-ad h3 {
+    font-size: 20px
+}
+
+.sidebar-top-ad #show-hide-sidebar-ad {
+    border: none;
+    font-size: 35px;
+    cursor: pointer;
+    background: none;
+    color: #FFF;
+    transition: all ease-in-out 0.3s;
+}
+
+#show-hide-sidebar-ad i {}
+
+#show-hide-sidebar-ad:hover {
+    color: #000;
+}
+
+.sidebar-bottom-ad {
+    /* margin: 20px 0 20px 0; */
+    overflow-y: auto;
+    height: 90vh;
+    max-height: 83vh;
+}
+
+.sidebar-bottom-ad::-webkit-scrollbar {
+    display: none;
+}
+
+.container-navbar-ad {
+    align-items: center;
+}
+
+.navbar-ad-item {
+    align-items: center;
+    width: 100%;
+    padding: 15px 0px 15px 50px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+    position: relative;
+    border-bottom: 1px dashed #fff;
+}
+
+.sidebar-collapsed .navbar-ad-item {
+    padding: 15px 0px 15px 10px;
+    text-align: center;
+    justify-content: center;
+}
+
+.sidebar-collapsed .navbar-ad-item a span i:after {
+    display: none;
+}
+
+.sidebar-collapsed .navbar-ad-item:hover::after {
+    display: none;
+}
+
+.navbar-ad-item::after {
+    content: '\f061';
+    font-family: 'FontAwesome';
+    position: absolute;
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all ease-in-out 0.3s;
+}
+
+.navbar-ad-item:hover::after {
+    left: 15px;
+    opacity: 1;
+}
+
+.navbar-ad-item:hover {
+    background-color: #F58F5D;
+}
+
+.navbar-ad-item a {
+    color: #FFF;
+}
+
+.navbar-ad-item a i {
+    margin-right: 10px;
+}
+
+.navbar-ad-item a span i {
+    margin-left: 5px;
+    display: inline-block;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+}
+
+.navbar-ad-item:hover a span i {
+    transform: rotate(180deg);
+}
+
+
+/* submenu */
+.submenu-ad {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 100%;
+    background-color: #4ABAB6;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: translate(-50%, -20px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.navbar-ad-item:hover .submenu-ad {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.submenu-ad-item {
+    padding: 15px 20px;
+    position: relative;
+}
+
+.submenu-ad-item:hover {
+    background-color: #3B8D8A;
+}
+
+
+.submenu-ad-item::before {
+    content: '\f060';
+    font-family: 'FontAwesome';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all ease-in-out 0.3s;
+}
+
+.submenu-ad-item:hover::before {
+    opacity: 1;
+    right: 10px;
+}
+
+.sidebar-collapsed .submenu-ad {
+    display: none;
+    /* Ẩn submenu khi thanh sidebar thu nhỏ */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.main-ad-page {
+    margin-left: 18%;
+    /* padding: 0 0 0 5px; */
+    border-left: 1px solid #fff;
+    width: 82%;
+    transition: all ease-in-out 0.3s;
+    display: flex;
+}
+
+.main-top-ad-page {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: #55D5D2;
+    align-items: center;
+    height: 10vh;
+    font-weight: 600;
+    padding: 0 10px;
+    border-bottom: 1px solid #fff;
+}
+
+
+.main-top-left-ad-page {
+    align-items: center;
+
+}
+
+.main-top-left-ad-page a {
+    color: #FFF;
+    transition:  all ease-in-out 0.3s;
+}
+
+.main-top-left-ad-page:hover a{
+    color: #000;
+}
+
+.main-top-right-ad-page{
+    display: flex;
+    gap: 10px;
+    text-align: right;
+    align-items: center;
+    color: #fff;
+}
+
+.left-hello-user p{
+    font-weight: 500;
+    font-size: 13px;
+}
+.right-hello-user{
+    border: 1px dashed #fff;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    display: flex;
+}

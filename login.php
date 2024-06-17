@@ -10,7 +10,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="../css/login.css">
-    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="css/global.css">
 
     <title>Login | IVANO</title>
 </head>
@@ -23,8 +23,9 @@
     <?php include "assets/header.php"; ?>
 
     <div class="wrapper-login">
-        <form action="../action/login.php" method="POST" class="login-form">
-            <h1>WELCOM TO IVANO WEBSITE</h1>
+        <form action="action/login-action.php" method="POST" class="login-form">
+            <h1>Đăng Nhập</h1>
+            <p>Đăng nhập để xem thêm nhiều ưu đãi hơn</p>
 
             <div class="form-group">
                 <input type="text" id="username" name="username" required placeholder=" ">
@@ -41,15 +42,15 @@
             <div class="remember-forgot">
                 <div class="container-remmember">
                     <input type="checkbox" id="remember-me">
-                    <label for="remember-me">Remember Me</label>
+                    <label for="remember-me">Ghi nhớ đăng nhập</label>
                 </div>
-                <a href="#" class="forgot-password">Forgot Password?</a>
+                <a href="#" class="forgot-password">Bạn quên mật khẩu?</a>
             </div>
 
             <button type="submit" class="login-button">Login</button>
 
             <div class="register-link">
-                <p>Don't have an account? <a href="register.php">Sign Up</a></p>
+                <p>Bạn chưa có tài khoản? <a href="register.php">Đăng ký ngay</a></p>
             </div>
         </form>
     </div>
@@ -79,7 +80,14 @@
     .login-form h1 {
         text-align: center;
         font-size: 24px;
-        margin-bottom: 50px;
+        margin-bottom: 10px;
+       
+    }
+
+    .login-form p{
+        text-align: center;
+        margin-bottom: 40px;
+
     }
 
     .form-group {
@@ -98,7 +106,7 @@
     }
 
     .form-group input:focus {
-        border-color: #1E90FF;
+        border-color: #55D5D2;
     }
 
     .form-group label {
@@ -118,11 +126,12 @@
     .form-group input:not(:placeholder-shown)+label {
         top: 0px;
         font-size: 12px;
-        color: #1E90FF;
+        color: #55D5D2;
+        font-weight: 600;
     }
 
     .form-group input:focus+label {
-        color: #1E90FF;
+        color: #221F20;
     }
 
     .form-group input:not(:placeholder-shown)+label {
@@ -138,7 +147,6 @@
         border: none;
         cursor: pointer;
         padding: 0;
-
     }
 
     .show-hide-password i {
@@ -149,7 +157,7 @@
     .login-button {
         width: 100%;
         padding: 10px 20px;
-        background-color: #1E90FF;
+        background-color: #55D5D2;
         color: white;
         border: none;
         border-radius: 5px;
@@ -160,7 +168,7 @@
     }
 
     .login-button:hover {
-        background-color: #0073e6;
+        background-color: #F58F5D;
     }
 
 
