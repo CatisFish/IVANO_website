@@ -13,40 +13,61 @@ if ($conn->connect_error) {
     die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
 }
 
-// Định nghĩa hàm kiểm tra xem có form tư vấn nào có trạng thái "Chưa Tư Vấn" hay không
-function hasChuaTuvan($conn) {
-    $sql = "SELECT COUNT(*) AS count FROM tuvan_form WHERE TrangThai = '2'";
-    $result = $conn->query($sql);
-    if ($result && $result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        return $row['count'] > 0;
-    }
-    return false;
-}
-
-$hasChuaTuvan = hasChuaTuvan($conn);
-
-
-// Kiểm tra xem form đã được gửi chưa
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Lấy dữ liệu từ form
+// Xử lý cập nhật
+if (isset($_POST['update'])) {
     $id = $_POST['id'];
     $trangthai = $_POST['trangthai'];
 
-    // Cập nhật trạng thái vào bảng tuvan_form
     $sql_update = "UPDATE tuvan_form SET TrangThai = ? WHERE id = ?";
     $stmt_update = $conn->prepare($sql_update);
     $stmt_update->bind_param("ss", $trangthai, $id);
 
-    // Thực thi câu lệnh SQL
     if ($stmt_update->execute()) {
         $success_message = "Cập nhật trạng thái thành công.";
+        // Cập nhật lại danh sách
+        header("Refresh:0"); // Tải lại trang sau khi cập nhật
     } else {
         $error_message = "Có lỗi xảy ra. Vui lòng thử lại sau.";
     }
-
-    // Đóng câu lệnh prepare
     $stmt_update->close();
+}
+
+// Xử lý xóa
+if (isset($_POST['delete'])) {
+    $id = $_POST['id'];
+
+    $sql_delete = "DELETE FROM tuvan_form WHERE id = ?";
+    $stmt_delete = $conn->prepare($sql_delete);
+    $stmt_delete->bind_param("s", $id);
+
+    if ($stmt_delete->execute()) {
+        $success_message = "Xóa form tư vấn thành công.";
+        // Cập nhật lại danh sách
+        header("Refresh:0"); // Tải lại trang sau khi xóa
+    } else {
+        $error_message = "Có lỗi xảy ra. Vui lòng thử lại sau.";
+    }
+    $stmt_delete->close();
+}
+
+// Xử lý thêm mới
+if (isset($_POST['insert'])) {
+    $ten = $_POST['ten'];
+    $sodienthoai = $_POST['sodienthoai'];
+    $trangthai = $_POST['trangthai'];
+
+    $sql_insert = "INSERT INTO tuvan_form (ten, so_dien_thoai, TrangThai) VALUES (?, ?, ?)";
+    $stmt_insert = $conn->prepare($sql_insert);
+    $stmt_insert->bind_param("sss", $ten, $sodienthoai, $trangthai);
+
+    if ($stmt_insert->execute()) {
+        $success_message = "Thêm mới form tư vấn thành công.";
+        // Cập nhật lại danh sách
+        header("Refresh:0"); // Tải lại trang sau khi thêm mới
+    } else {
+        $error_message = "Có lỗi xảy ra. Vui lòng thử lại sau.";
+    }
+    $stmt_insert->close();
 }
 
 // Lấy thông tin từ bảng tuvan_form và bảng trangthai
@@ -182,7 +203,7 @@ $conn->close();
                 <th>Số Điện Thoại</th>
                 <th>Ngày Gửi</th>
                 <th>Trạng Thái</th>
-                <th>Chọn Trạng Thái</th>
+                <th>Thao Tác</th>
             </tr>
         </thead>
         <tbody>
@@ -198,22 +219,41 @@ $conn->close();
                             <input type="hidden" name="id" value="<?php echo $tuvan['id']; ?>">
                             <select name="trangthai">
                                 <?php foreach ($trangthai_list as $trangthai): ?>
-                                    <option value="<?php echo $trangthai['id_tt']; ?>" <?php if (isset($tuvan['TrangThai']) && $tuvan['TrangThai'] == $trangthai['id_tt'])
-                                        echo 'selected'; ?>>
+                                    <option value="<?php echo $trangthai['id_tt']; ?>" <?php if (isset($tuvan['TrangThai']) && $tuvan['TrangThai'] == $trangthai['id_tt']) echo 'selected'; ?>>
                                         <?php echo $trangthai['ten_tt']; ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
-                            <button type="submit">Cập Nhật</button>
+                            <button type="submit" name="update">Cập Nhật</button>
+                            <button type="submit" name="delete" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
                         </form>
                     </td>
                 </tr>
             <?php endforeach; ?>
-
         </tbody>
     </table>
-    <!-- Add your scripts here -->
-</body>
+
+    <h2>Thêm Mới Form Tư Vấn</h2>
+    <form method="POST" action="">
+        <label for="ten">Họ Tên:</label>
+        <input type="text" id="ten" name="ten" required>
+        <label for="sodienthoai">Số Điện Thoại:</label>
+        <input type="text" id="sodienthoai" name="sodienthoai" required>
+        <label for="trangthai">Trạng Thái:</label>
+        <select id="trangthai" name="trangthai" required>
+            <?php foreach ($trangthai_list as $trangthai): ?>
+                <option value="<?php echo $trangthai['id_tt']; ?>"><?php echo $trangthai['ten_tt']; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button type="submit" name="insert">Thêm Mới</button>
+
+        </form>
+    <script>
+        // JavaScript confirmation for delete action
+        function confirmDelete() {
+            return confirm('Bạn có chắc chắn muốn xóa?');
+        }
+    </script></body>
 <?php
 include'../php/agency_form.php';
 ?>

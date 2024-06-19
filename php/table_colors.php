@@ -19,7 +19,7 @@
 <?php
 include './conection.php';
 
-$sql = "SELECT * FROM colors";
+$sql = "SELECT * FROM color";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

@@ -109,6 +109,8 @@ $conn->close();
                         <tr>
                             <td><?php echo htmlspecialchars($color['color_code']); ?></td>
                             <td><div style="background-color: <?php echo htmlspecialchars($color['color_hex']); ?>; width: 50px; height: 20px;"></div></td>
+                            <td><?php echo htmlspecialchars($color['color_hex']); ?></td>
+
                             <td><?php echo htmlspecialchars($color['color_group']); ?></td>
                             <td><?php echo htmlspecialchars($color['color_group_main']); ?></td>
                             <td>

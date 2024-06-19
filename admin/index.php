@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-if (isset($_SESSION['username'])) {
-    $loggedInUsername = $_SESSION['username'];
+if (isset($_SESSION['user_name'])) {
+    $loggedInUsername = $_SESSION['user_name'];
 
     if (isset($loggedInUsername)) {
         $initial = substr($loggedInUsername, 0, 1);
@@ -33,6 +33,23 @@ if (isset($_SESSION['username'])) {
         width: 82%;
         transition: all ease-in-out 0.3s;
     }
+
+
+    .main-info {
+        display: flex;
+        margin: auto;
+    }
+
+    .left-info {
+        margin: 20px;
+    }
+    .oders_tal{
+        width: 100%;
+    }
+    .count-info{
+        display: flex;
+        width: 100%;
+    }
 </style>
 
 <body>
@@ -47,6 +64,46 @@ if (isset($_SESSION['username'])) {
                 </div>
 
                 <?php include "assets/hello-user.php"; ?>
+            </section>
+            <section class="main-info">
+                <div class="right-info">
+                    <div class="top-product">
+                        <?php
+                        include './statistical/top_product.php';
+                        ?>
+                    </div>
+
+                </div>
+                <div class="left-info">
+                    <div class="count-info">
+                        <div class="revenue">
+                            <?php
+                            include './statistical/tongdoanhthu.php';
+                            ?>
+                        </div>
+
+                        <div class="oders">
+                            <?php
+                            include './statistical/order.php';
+                            ?>
+                        </div>
+                        <div class="product-tal">
+                            <?php
+                            include './statistical/product.php';
+                            ?>
+                        </div>
+                        <div class="agency-tal">
+                            <?php
+                            include './statistical/daily.php';
+                            ?>
+                        </div>
+                    </div>
+                    <div class="oders_tal">
+                            <?php
+                            include './statistical/thongke_donhang.php';
+                            ?>
+                        </div>
+                </div>
             </section>
         </main>
     </div>

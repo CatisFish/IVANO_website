@@ -12,7 +12,7 @@ $sql = "SELECT p.*, c.category_name, b.brand_name, pc.ProductCategory_name, ps.p
         INNER JOIN productcategory pc ON p.ProductCategory_id = pc.ProductCategory_id
         INNER JOIN product_size ps ON p.product_id = ps.product_id
         INNER JOIN sizes s ON ps.size_id = s.size_id
-        GROUP BY  p.product_id
+        GROUP BY p.product_id
         LIMIT 4";
 
 $result = $conn->query($sql);
@@ -45,6 +45,7 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 ?>
+
 
 
 <style>

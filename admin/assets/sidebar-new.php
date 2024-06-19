@@ -1,3 +1,62 @@
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const menuItems = document.querySelectorAll('.nav-icons .product');
+
+        menuItems.forEach(function(item) {
+            item.addEventListener('click', function(event) {
+               
+
+                const isActive = this.classList.contains('active');
+
+                menuItems.forEach(function(item) {
+                    item.classList.remove('active');
+                });
+
+                if (!isActive) {
+                    this.classList.add('active');
+                }
+            });
+        });
+    });
+</script>
+
+<?php
+function hasCauTuvan($conn) {
+    $sql = "SELECT COUNT(*) AS count FROM agency WHERE TrangThai = '2'";
+    $result = $conn->query($sql);
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    }
+    return 0;
+}
+
+
+// Kiểm tra xem có bất kỳ form tư vấn nào có trạng thái "chưa tư vấn" hay không
+// Hàm kiểm tra xem có bất kỳ form tư vấn nào có trạng thái "Chưa Tư Vấn" hay không
+function hasChuaTuvan($conn) {
+    $sql = "SELECT COUNT(*) AS count FROM tuvan_form WHERE TrangThai = '2'";
+    $result = $conn->query($sql);
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    }
+    return 0; // Trả về 0 nếu không có kết quả nào
+}
+
+// Tạo kết nối đến cơ sở dữ liệu
+include'../php/conection.php';
+// Kiểm tra có form tư vấn nào có trạng thái "chưa tư vấn" hay không
+$hasChuaTuvan = hasChuaTuvan($conn);
+$hasCauTuvan = hasCauTuvan($conn);
+
+
+// Đóng kết nối
+$conn->close();
+?>
+
 <section class="container-sidebar-admin">
     <div class="sidebar-top-admin">
         <h3>SB ADMIN 😍</h3>
@@ -35,20 +94,34 @@
                 </a>
 
                 <ul class="submenu-admin">
-                    <li class="submenu-admin-item"><a href="">Quản lý màu</a></li>
-                    <li class="submenu-admin-item"><a href="">Bảng màu</a></li>
+                    <li class="submenu-admin-item"><a href="../assets/manage-colors.php">Quản lý màu</a></li>
+                    <li class="submenu-admin-item"><a href="table_colors.php">Bảng màu</a></li>
                 </ul>
             </li>
-
             <li class="navbar-admin-item">
-                <a href="../assets/tuvan_form.php">
-                    <i class="fa-solid fa-headset"></i>
-                    <span>Tư Vấn</span>
+                <a href="../assets/manage-size-suffix.php">
+                    <i class="fa-solid fa-store"></i>
+                    <span>Kích thước - Đuôi màu </span>
                 </a>
+            </li>
+            <li class="navbar-admin-item">
+                <?php if ($hasChuaTuvan > 0 || $hasCauTuvan > 0): ?>
+                    <a href="../assets/tuvan_form.php">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>Cần Tư Vấn</span>
+                        <i class="fa fa-bell" style="color: #ffd400;"></i>
+                        <span class="badge"><?php echo $hasChuaTuvan + $hasCauTuvan; ?></span>
+                    </a>
+                <?php else: ?>
+                    <a href="../assets/tuvan_form.php">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>Cần Tư Vấn</span>
+                    </a>
+                <?php endif; ?>
             </li>
 
             <li class="navbar-admin-item">
-                <a href="../php/agency.php">
+                <a href="../php/manage_agency.php">
                     <i class="fa-solid fa-people-arrows"></i>
                     <span>Đại Lý</span>
                 </a>
@@ -97,7 +170,44 @@
     </div>
 </section>
 
+
+
 <style>
+
+
+    /*cái chuông thông báo*/
+    .fa-bell:before {
+    content: "\f0f3";
+    font-size: 20px;
+}
+    .navbar-admin-item {
+            position: relative; /* Để có thể điều khiển vị trí của chuông */
+        }
+
+        .badge {
+    position: absolute;
+    background-color: red;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 50%;
+    animation: bell-ring 0.6s infinite alternate;
+    margin: -9px;
+}
+
+        @keyframes bell-ring {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.2);
+            }
+        }
+
+    /*cái chuông thông báo*/
+
+
+
     .container-sidebar-admin {
         width: 18%;
         height: 100vh;

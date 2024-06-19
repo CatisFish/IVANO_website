@@ -15,36 +15,50 @@
 
 <body>
     <main id="main-product-detail">
-        <?php
-        include "assets/header.php";
+    <?php
+include "assets/header.php";
 
-        // Kiểm tra xem product_id có tồn tại trong URL không
-        if (isset($_GET['product_id'])) {
-            $productId = $_GET['product_id'];
-            include 'php/conection.php';
+// Kiểm tra xem product_id có tồn tại trong URL không
+if (isset($_GET['product_id'])) {
+    $productId = $_GET['product_id'];
+    include 'php/conection.php';
 
-            // Kiểm tra xem product_id có tồn tại trong cơ sở dữ liệu không
-            $checkProductSql = "SELECT * FROM products WHERE product_id = ?";
-            $stmtCheck = $conn->prepare($checkProductSql);
-            $stmtCheck->bind_param("s", $productId);
-            $stmtCheck->execute();
-            $resultCheck = $stmtCheck->get_result();
+    // Kiểm tra xem product_id có tồn tại trong cơ sở dữ liệu không
+    $checkProductSql = "SELECT * FROM products WHERE product_id = ?";
+    $stmtCheck = $conn->prepare($checkProductSql);
+    if (!$stmtCheck) {
+        echo "Lỗi prepare statement: " . $conn->error;
+        exit();
+    }
+    $stmtCheck->bind_param("s", $productId);
+    $stmtCheck->execute();
+    $resultCheck = $stmtCheck->get_result();
 
-            if ($resultCheck->num_rows > 0) {
-                // Tăng số lượng click cho sản phẩm
-                $updateClicksSql = "UPDATE products SET clicks = clicks + 1 WHERE product_id = ?";
-                $stmtUpdate = $conn->prepare($updateClicksSql);
-                $stmtUpdate->bind_param("s", $productId);
-                $stmtUpdate->execute();
-                $stmtUpdate->close();
-            } else {
-                echo "Product ID không tồn tại";
-            }
-
-            $stmtCheck->close();
-        } else {
-            echo "Không có product ID được truyền qua URL";
+    if ($resultCheck->num_rows > 0) {
+        // Tăng số lượng click cho sản phẩm
+        $updateClicksSql = "UPDATE products SET clicks = clicks + 1 WHERE product_id = ?";
+        $stmtUpdate = $conn->prepare($updateClicksSql);
+        if (!$stmtUpdate) {
+            echo "Lỗi prepare statement: " . $conn->error;
+            exit();
         }
+        $stmtUpdate->bind_param("s", $productId);
+        if ($stmtUpdate->execute()) {
+            echo "Số lần click đã được cập nhật.";
+        } else {
+            echo "Lỗi khi cập nhật số lần click: " . $stmtUpdate->error;
+        }
+        $stmtUpdate->close();
+    } else {
+        echo "Product ID không tồn tại";
+    }
+
+    $stmtCheck->close();
+} else {
+    echo "Không có product ID được truyền qua URL";
+}
+
+
 
         if (isset($_GET['product_id'])) {
             $productId = $_GET['product_id'];
