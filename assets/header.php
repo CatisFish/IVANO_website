@@ -1,13 +1,13 @@
 <link rel="stylesheet" href="css/scroll-to-top.css">
 
 <header id="header-page">
-    <!-- <div class="wrapper-header-top">
+    <div class="wrapper-header-top">
             <section class="header-top">
                 <p>ĐIỂM TÔ CUỘC SỐNG - TIẾP BƯỚC THÀNH CÔNG</p>
 
                 
             </section>
-        </div> -->
+        </div>
 
     <div class="wrapper-header-bottom">
         <section class="header-bottom">
@@ -123,7 +123,6 @@
         visibility: hidden;
     }
 
-
     .wrapper-header-top {
         /* background: linear-gradient(135deg, rgb(74, 234, 220) 0%, rgb(151, 120, 209) 20%, rgb(207, 42, 186) 40%, rgb(238, 44, 130) 60%, rgb(251, 105, 98) 80%, rgb(254, 248, 76) 100%); */
     }
@@ -170,7 +169,6 @@
         padding: 35px 30px;
         align-items: center;
         transition: transform 0.3s ease, opacity 0.3s ease;
-        margin-top: 2px;
     }
 
     .logo-page {
@@ -205,6 +203,7 @@
     .nav-item a {
         transition: all ease-in-out 0.3s;
         color: #000;
+        font-size: 15px;
     }
 
     .nav-item:hover>a {
@@ -324,6 +323,7 @@
         transition: top 0.3s ease, opacity 0.3s ease;
         visibility: hidden;
         text-align: left;
+        font-size: 15px;
     }
 
     .nav-item:hover #overlay {

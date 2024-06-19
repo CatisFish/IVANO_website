@@ -36,7 +36,7 @@
 <style>
     .gallery-slider-container {
         position: relative;
-        height: 600px;
+        height: 630px;
         overflow: hidden;
     }
 
@@ -53,13 +53,14 @@
         height: 270px;
         position: absolute;
         top: 50%;
-        transform: translate(0, -50%);
+        transform: translate(0, 5%);
         border-radius: 20px;
         background-position: 50% 50%;
         background-size: cover;
         display: inline-block;
-        transition: 0.5s ease;
+        transition: 0.5s ease-in-out;
         opacity: 1;
+        border: 1px solid #FFFF;
     }
 
     .gallery-slide-item:nth-child(1),

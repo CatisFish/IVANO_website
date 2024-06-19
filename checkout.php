@@ -76,6 +76,7 @@
         </section>
 
         <section class="checkout-page-right">
+<<<<<<< HEAD
     <div class="container-discount">
         <div class="form-discount">
             <input type="text" id="discount-text" class="discount-text" name="discount" placeholder=" ">
@@ -118,12 +119,56 @@
     </div>
 </section>
 
+=======
+            <div class="container-discount">
+                <div class="form-discount">
+                    <input type="text" id="discount-text" class="discount-text" name="discount" placeholder=" ">
+                    <label>Mã giảm giá</label>
+                </div>
+                <button class="discount-btn">Kiểm Tra</button>
+            </div>
+
+            <div class="container-cartItem">
+                <div class="cart-header">
+                    <div class="product-info"><span>Sản phẩm</span></div>
+                    <div class="cart-header-price"><span>Thành tiền</span></div>
+                </div>
+
+                <div class="container-cart-item">
+                    <!-- item show here -->
+                </div>
+
+                <div class="cart-bottom">
+                    <div class="temporary-price">
+                        <p>Tạm tính</p>
+                        <span></span>
+                    </div>
+
+                    <div class="transport-fee">
+                        <p>Phí vận chuyển</p>
+                        <span>30.000 VND</span>
+                    </div>
+
+                    <div class="discount-price">
+                        <p>Giảm</p>
+                        <span>0 VNĐ</span>
+                    </div>
+
+                    <div class="total-price">
+                        <p>Tổng tiền</p>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+>>>>>>> 0a8edbe19ce4a58245bea4393fff2c9dbad227c7
     </main>
 
     <?php include "assets/footer.php"; ?>
 </body>
 
 <script>
+<<<<<<< HEAD
     
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -173,6 +218,47 @@
                 var unitPrice = totalPrice / cartItem.quantity;
 
                 var cartItemHTML = `
+=======
+    document.addEventListener('DOMContentLoaded', function () {
+        var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        var cartProduct = document.querySelector('.container-cart-item');
+        var temporaryPriceElement = document.querySelector('.temporary-price span');
+        var transportFeeElement = document.querySelector('.transport-fee span');
+        var discountPriceElement = document.querySelector('.discount-price span');
+        var totalPriceElement = document.querySelector('.total-price span');
+
+        function currencyStringToNumber(currencyString) {
+            return parseInt(currencyString.replace(/[^\d]/g, ''));
+        }
+
+        function formatCurrency(amount) {
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VNĐ";
+        }
+
+        function calculateTemporaryPrice() {
+            return cartItems.reduce(function (total, cartItem) {
+                return total + currencyStringToNumber(cartItem.price);
+            }, 0);
+        }
+
+        function calculateTotalPrice() {
+            var temporaryPrice = currencyStringToNumber(temporaryPriceElement.textContent);
+            var transportFee = currencyStringToNumber(transportFeeElement.textContent);
+            var discountAmount = currencyStringToNumber(discountPriceElement.textContent);
+            return temporaryPrice + transportFee - discountAmount;
+        }
+
+        function updateCartItems() {
+            if (cartProduct) {
+                cartProduct.innerHTML = '';
+                var hiddenInputValue = ''; // Initialize hiddenInputValue
+
+                cartItems.forEach(function (cartItem, index) {
+                    var totalPrice = currencyStringToNumber(cartItem.price);
+                    var unitPrice = totalPrice / cartItem.quantity;
+
+                    var cartItemHTML = `
+>>>>>>> 0a8edbe19ce4a58245bea4393fff2c9dbad227c7
                     <div class="cart-item">
                         <img src="${cartItem.image}" alt="${cartItem.name}" class="cart-item-image">
                         <div class="product-info">
@@ -186,6 +272,7 @@
                     </div>
                 `;
 
+<<<<<<< HEAD
                 cartProduct.innerHTML += cartItemHTML;
             });
         }
@@ -244,6 +331,44 @@
 
 
 
+=======
+                    cartProduct.innerHTML += cartItemHTML;
+
+                    var itemDetails = `${cartItem.name} - ${cartItem.size} - Đuôi ${cartItem.color} - x${cartItem.quantity}`;
+                    hiddenInputValue += itemDetails;
+
+                    if (index < cartItems.length - 1) {
+                        hiddenInputValue += ' || ';
+                    }
+                });
+
+                var temporaryPrice = calculateTemporaryPrice();
+                temporaryPriceElement.textContent = formatCurrency(temporaryPrice);
+
+                var totalPrice = calculateTotalPrice();
+                totalPriceElement.textContent = formatCurrency(totalPrice);
+
+                // Create hidden input for order information
+                var hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'orders-info';
+                hiddenInput.value = hiddenInputValue;
+                document.querySelector('form').appendChild(hiddenInput);
+
+                var totalPriceInput = document.createElement('input');
+                totalPriceInput.type = 'hidden';
+                totalPriceInput.name = 'od-total-price';
+                totalPriceInput.value = formatCurrency(calculateTotalPrice());
+                document.querySelector('form').appendChild(totalPriceInput);
+            }
+        }
+
+        updateCartItems();
+    });
+
+</script>
+
+>>>>>>> 0a8edbe19ce4a58245bea4393fff2c9dbad227c7
 <style>
     #main-checkout-page {
         display: flex;
