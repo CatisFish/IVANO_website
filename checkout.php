@@ -122,95 +122,7 @@
     <?php include "assets/footer.php"; ?>
 </body>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        var cartProduct = document.querySelector('.container-cart-item');
-        var temporaryPriceElement = document.querySelector('.temporary-price span');
-        var transportFeeElement = document.querySelector('.transport-fee span');
-        var discountPriceElement = document.querySelector('.discount-price span');
-        var totalPriceElement = document.querySelector('.total-price span');
-
-        function currencyStringToNumber(currencyString) {
-            return parseInt(currencyString.replace(/[^\d]/g, ''));
-        }
-
-        function formatCurrency(amount) {
-            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VNĐ";
-        }
-
-        function calculateTemporaryPrice() {
-            return cartItems.reduce(function (total, cartItem) {
-                return total + currencyStringToNumber(cartItem.price);
-            }, 0);
-        }
-
-        function calculateTotalPrice() {
-            var temporaryPrice = currencyStringToNumber(temporaryPriceElement.textContent);
-            var transportFee = currencyStringToNumber(transportFeeElement.textContent);
-            var discountAmount = currencyStringToNumber(discountPriceElement.textContent);
-            return temporaryPrice + transportFee - discountAmount;
-        }
-
-        function updateCartItems() {
-            if (cartProduct) {
-                cartProduct.innerHTML = '';
-                var hiddenInputValue = ''; // Initialize hiddenInputValue
-
-                cartItems.forEach(function (cartItem, index) {
-                    var totalPrice = currencyStringToNumber(cartItem.price);
-                    var unitPrice = totalPrice / cartItem.quantity;
-
-                    var cartItemHTML = `
-                    <div class="cart-item">
-                        <img src="${cartItem.image}" alt="${cartItem.name}" class="cart-item-image">
-                        <div class="product-info">
-                            <div class="product-details">
-                                <span class="cart-item-name">${cartItem.name}</span>
-                                <span class="size-color">Quy cách: ${cartItem.size} - Đuôi ${cartItem.color}</span>
-                            </div>
-                            <div class="quantity">x<span class="quantity-value">${cartItem.quantity}</span></div>
-                        </div>
-                        <div class="price"><span>${formatCurrency(totalPrice)}</span></div>
-                    </div>
-                `;
-
-                    cartProduct.innerHTML += cartItemHTML;
-
-                    var itemDetails = `${cartItem.name} - ${cartItem.size} - Đuôi ${cartItem.color} - x${cartItem.quantity}`;
-                    hiddenInputValue += itemDetails;
-
-                    if (index < cartItems.length - 1) {
-                        hiddenInputValue += ' || ';
-                    }
-                });
-
-                var temporaryPrice = calculateTemporaryPrice();
-                temporaryPriceElement.textContent = formatCurrency(temporaryPrice);
-
-                var totalPrice = calculateTotalPrice();
-                totalPriceElement.textContent = formatCurrency(totalPrice);
-
-                // Create hidden input for order information
-                var hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
-                hiddenInput.name = 'orders-info';
-                hiddenInput.value = hiddenInputValue;
-                document.querySelector('form').appendChild(hiddenInput);
-
-                var totalPriceInput = document.createElement('input');
-                totalPriceInput.type = 'hidden';
-                totalPriceInput.name = 'od-total-price';
-                totalPriceInput.value = formatCurrency(calculateTotalPrice());
-                document.querySelector('form').appendChild(totalPriceInput);
-            }
-        }
-
-        updateCartItems();
-    });
-
-</script>
-
+<!-- ok -->
 <style>
     #main-checkout-page {
         display: flex;
@@ -341,7 +253,7 @@
         background-color: #F58F5D;
     }
 </style>
-
+<!-- ok -->
 <style>
     .container-cart-product {
         width: 95%;
@@ -557,5 +469,93 @@
     }
 </style>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        var cartProduct = document.querySelector('.container-cart-item');
+        var temporaryPriceElement = document.querySelector('.temporary-price span');
+        var transportFeeElement = document.querySelector('.transport-fee span');
+        var discountPriceElement = document.querySelector('.discount-price span');
+        var totalPriceElement = document.querySelector('.total-price span');
+
+        function currencyStringToNumber(currencyString) {
+            return parseInt(currencyString.replace(/[^\d]/g, ''));
+        }
+
+        function formatCurrency(amount) {
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VNĐ";
+        }
+
+        function calculateTemporaryPrice() {
+            return cartItems.reduce(function (total, cartItem) {
+                return total + currencyStringToNumber(cartItem.price);
+            }, 0);
+        }
+
+        function calculateTotalPrice() {
+            var temporaryPrice = currencyStringToNumber(temporaryPriceElement.textContent);
+            var transportFee = currencyStringToNumber(transportFeeElement.textContent);
+            var discountAmount = currencyStringToNumber(discountPriceElement.textContent);
+            return temporaryPrice + transportFee - discountAmount;
+        }
+
+        function updateCartItems() {
+            if (cartProduct) {
+                cartProduct.innerHTML = '';
+                var hiddenInputValue = ''; // Initialize hiddenInputValue
+
+                cartItems.forEach(function (cartItem, index) {
+                    var totalPrice = currencyStringToNumber(cartItem.price);
+                    var unitPrice = totalPrice / cartItem.quantity;
+
+                    var cartItemHTML = `
+                    <div class="cart-item">
+                        <img src="${cartItem.image}" alt="${cartItem.name}" class="cart-item-image">
+                        <div class="product-info">
+                            <div class="product-details">
+                                <span class="cart-item-name">${cartItem.name}</span>
+                                <span class="size-color">Quy cách: ${cartItem.size} - Đuôi ${cartItem.color}</span>
+                            </div>
+                            <div class="quantity">x<span class="quantity-value">${cartItem.quantity}</span></div>
+                        </div>
+                        <div class="price"><span>${formatCurrency(totalPrice)}</span></div>
+                    </div>
+                `;
+
+                    cartProduct.innerHTML += cartItemHTML;
+
+                    var itemDetails = `${cartItem.name} - ${cartItem.size} - Đuôi ${cartItem.color} - x${cartItem.quantity}`;
+                    hiddenInputValue += itemDetails;
+
+                    if (index < cartItems.length - 1) {
+                        hiddenInputValue += ' || ';
+                    }
+                });
+
+                var temporaryPrice = calculateTemporaryPrice();
+                temporaryPriceElement.textContent = formatCurrency(temporaryPrice);
+
+                var totalPrice = calculateTotalPrice();
+                totalPriceElement.textContent = formatCurrency(totalPrice);
+
+                // Create hidden input for order information
+                var hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'orders-info';
+                hiddenInput.value = hiddenInputValue;
+                document.querySelector('form').appendChild(hiddenInput);
+
+                var totalPriceInput = document.createElement('input');
+                totalPriceInput.type = 'hidden';
+                totalPriceInput.name = 'od-total-price';
+                totalPriceInput.value = formatCurrency(calculateTotalPrice());
+                document.querySelector('form').appendChild(totalPriceInput);
+            }
+        }
+
+        updateCartItems();
+    });
+
+</script>
 
 </html>

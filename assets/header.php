@@ -2,12 +2,12 @@
 
 <header id="header-page">
     <div class="wrapper-header-top">
-            <section class="header-top">
-                <p>ĐIỂM TÔ CUỘC SỐNG - TIẾP BƯỚC THÀNH CÔNG</p>
+        <section class="header-top">
+            <p>ĐIỂM TÔ CUỘC SỐNG - TIẾP BƯỚC THÀNH CÔNG</p>
 
-                
-            </section>
-        </div>
+
+        </section>
+    </div>
 
     <div class="wrapper-header-bottom">
         <section class="header-bottom">
@@ -58,11 +58,10 @@
                 <ul class="container-nav-right-item">
                     <a href="" class="view-orders item-nav-right"><i class="fa-solid fa-headset"></i></a>
 
-                    <a href="login.php" class="login-link item-nav-right"><i
-                            class="fa-regular fa-user"></i></a>
+                    <a href="login.php" class="login-link item-nav-right"><i class="fa-regular fa-user"></i></a>
 
                     <div class="shopping-cart-page">
-                        <a href="#">
+                        <a href="cart-page.php">
                             <i class="fa-solid fa-basket-shopping item-nav-right"></i>
                             <p id="lenght-cart"></p>
                         </a>
@@ -71,9 +70,7 @@
                             <div id="my-cart">
                                 <div class="top-cart">
                                     <p>Giỏ Hàng</p>
-                                    <button type="button" class="close-cart-btn">
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </button>
+                                    <button type="button" class="see-cart"><a href="cart-page.php">Xem giỏ</a></button>
                                 </div>
                                 <div id="cart-items">
                                     <!-- item here -->
@@ -82,10 +79,8 @@
                                 <div class="cart-bottom">
                                     <p class="cart-total">Tổng tiền: <span>0 VNĐ</span></p>
 
-                                    <button class="clear-cart-btn" type="button">Clear giỏ hàng</button>
-                                    <button class="checkout-btn">
-                                        <a href="cart-page.php">Thanh Toán</a>
-                                    </button>
+                                    <a href="checkout.php" class="let-cart-link">Thanh Toán <i
+                                            class="fa-solid fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -305,8 +300,6 @@
             overlay.classList.remove('active');
         });
     });
-
-
 </script>
 
 <!-- submenu css -->
@@ -441,7 +434,6 @@
 
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     }, false);
-
 </script>
 
 <!-- show-submenu -->
@@ -454,36 +446,47 @@
         this.style.opacity = 0;
         this.style.visibility = "hidden";
     });
-
 </script>
 
 <!-- css-show-cart -->
 <style>
     #show-cart {
         position: fixed;
-        width: 400px;
-        height: 668px;
-        box-shadow: 0 8px 10px 0 rgb(0 0 0 / 10%);
-        right: -10%;
-        top: 0px;
-        /* top: 70px; */
-        background-color: #221F20;
+        width: 330px;
+        height: 560px;
+        right: 0px;
+        top: 120%;
         transition: all ease-in-out 0.3s;
         opacity: 0;
+        border-radius: 15px;
         visibility: hidden;
+        background-color: #FFF;
         pointer-events: none;
-    }
-
-    #my-cart {
-        padding: 10px;
+        padding: 0 10px;
+        color: #221F20;
+        z-index: 1000;
     }
 
     #show-cart.show {
         opacity: 1;
-        right: -2.7%;
-        transition: all ease-in-out 0.3s;
+        top: 110%;
         visibility: visible;
         pointer-events: auto;
+    }
+
+
+    #show-cart::after {
+        content: "";
+        position: absolute;
+        top: -15px;
+        right: 8%;
+        border-width: 0 15px 15px 15px;
+        border-style: solid;
+        border-color: transparent transparent #fff transparent;
+    }
+
+    #my-cart {
+        padding: 10px;
     }
 
     #lenght-cart {
@@ -504,6 +507,7 @@
     }
 
     .top-cart {
+        height: 10%;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -512,30 +516,28 @@
     }
 
     .top-cart p {
-        font-size: 20px;
-        font-weight: 600;
-        color: #FFF;
+        font-size: 18px;
+        font-weight: 500;
+        color: #221F20;
         margin-bottom: 0;
+        margin-top: 5px;
+        text-transform: uppercase;
     }
 
-    .close-cart-btn {
+    .top-cart .see-cart {
+        background: none;
         border: none;
-        background-color: #55D5D2;
-        color: #FFF;
-        font-size: 16px;
         cursor: pointer;
-        padding: 5px 8px;
-        transition: all ease-in-out 0.3s;
     }
 
-    .close-cart-btn:hover {
-        background-color: #f58f5d;
+    .top-cart a {
+        color: #55D5D2;
     }
 
     #cart-items {
         margin-top: 10px;
-        height: 470px;
-        max-height: 470px;
+        height: 80%;
+        max-height: 400px;
         overflow-y: auto;
         scrollbar-width: none;
         overflow-x: hidden;
@@ -557,7 +559,7 @@
 <style>
     .cart-item {
         display: flex;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         border-bottom: 1px solid #ccc;
         padding-bottom: 10px;
         align-items: center;
@@ -565,8 +567,8 @@
     }
 
     .cart-item-image {
-        width: 100px;
-        height: 120px;
+        width: 80px;
+        height: 100px;
         object-fit: cover;
         margin-right: 5px;
     }
@@ -576,14 +578,14 @@
     }
 
     .item-name {
-        font-size: 15px;
+        font-size: 14px;
         color: #dd9933;
         font-weight: bold;
         margin-bottom: 5px;
     }
 
     .item-price {
-        font-size: 14px;
+        font-size: 13px;
         color: #1E90FF;
         margin-bottom: 10px;
         font-weight: 600;
@@ -591,27 +593,26 @@
 
     .item-quantity {
         font-size: 13px;
-        color: #fff;
         margin-top: 5px;
         margin-bottom: 0;
     }
 
     .item-size {
-        margin-top: 10px;
-        color: #FFF;
+        margin-top: 13px;
         font-size: 14px;
         margin-bottom: 10px;
     }
 
     .item-color {
-        color: #FFF;
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .delete-cart-item {
         position: absolute;
         bottom: 10px;
-        right: 10px;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
         width: 35px;
         height: 35px;
         background-color: #55D5D2;
@@ -628,6 +629,12 @@
 
     .cart-bottom {
         margin-top: 10px;
+        display: block;
+        height: 10%;
+        padding: 10px 0 0 0;
+        border-top: 1px dashed #221F20;
+        text-align: center;
+        justify-content: center;
     }
 
     .cart-total {
@@ -636,64 +643,75 @@
         font-weight: 600;
         text-align: right;
         font-size: 14px;
+
     }
 
-    .clear-cart-btn {
-        width: 100%;
-        padding: 10px;
-        font-size: 15px;
-        margin: 0 0 10px 0;
-        background-color: #d32f2f;
-        color: #fff;
+    .let-cart-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 30px;
+        position: relative;
         border: none;
         font-weight: 600;
         cursor: pointer;
+        background-color: #55D5D2;
         transition: all ease-in-out 0.3s;
+        border-radius: 20px;
+        font-size: 13px;
+        color: #FFF;
     }
 
-    .clear-cart-btn:hover {
-        transform: translateY(-5px);
+    .let-cart-link:hover {
+        background-color: #f58f5d;
     }
 
-    .checkout-btn {
-        width: 100%;
-        padding: 10px;
-        border: none;
-        font-weight: 600;
-        cursor: pointer;
-        background-color: rgb(13 167 109);
-        transition: all ease-in-out 0.3s;
+    .let-cart-link i {
+        margin-left: 10px;
+        transition: transform 0.3s ease;
+        transform: rotate(300deg);
     }
 
-    .checkout-btn a {
-        font-size: 15px;
-        color: #fff;
-    }
-
-    .checkout-btn:hover {
-        background-color: rgb(0, 208, 130);
+    .let-cart-link:hover i {
+        transform: rotate(360deg);
     }
 </style>
 
 <!-- show-cart js-->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var cartIcon = document.querySelector('.fa-basket-shopping');
-        cartIcon.addEventListener('click', function (event) {
-            event.preventDefault();
-            var showCart = document.getElementById('show-cart');
+    document.addEventListener("DOMContentLoaded", function () {
+        const shoppingCart = document.querySelector('.shopping-cart-page');
+        const showCart = document.getElementById('show-cart');
+        const overlay = document.querySelector('.overlay');
+        const headerTopP = document.querySelector('.header-top p');
 
-            if (!showCart.classList.contains('show')) {
-                showCart.classList.add('show');
-            }
+        let timeoutId;
+
+        shoppingCart.addEventListener('mouseenter', function () {
+            clearTimeout(timeoutId);
+            showCart.classList.add('show');
+            overlay.classList.add('active');
+            headerTopP.style.color = '#FFF';
         });
 
+        shoppingCart.addEventListener('mouseleave', function () {
+            timeoutId = setTimeout(function () {
+                showCart.classList.remove('show');
+                overlay.classList.remove('active');
+                headerTopP.style.color = '#000';
+            }, 300); // Timeout để giảm trễ xuống còn 300ms
+        });
 
-        var closeBtn = document.querySelector('.close-cart-btn');
-        closeBtn.addEventListener('click', function (event) {
-            event.preventDefault();
-            var showCart = document.getElementById('show-cart');
-            showCart.classList.remove('show');
+        showCart.addEventListener('mouseenter', function () {
+            clearTimeout(timeoutId);
+        });
+
+        showCart.addEventListener('mouseleave', function () {
+            timeoutId = setTimeout(function () {
+                showCart.classList.remove('show');
+                overlay.classList.remove('active');
+                headerTopP.style.color = '#000';
+            }, 300); // Timeout để giảm trễ xuống còn 300ms
         });
     });
 </script>
