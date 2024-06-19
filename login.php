@@ -1,23 +1,20 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>Login | IVANO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="css/global.css">
-
-    <title>Login | IVANO</title>
 </head>
-
-<style>
-
-</style>
 
 <body>
     <?php include "assets/header.php"; ?>
@@ -27,13 +24,20 @@
             <h1>Đăng Nhập</h1>
             <p>Đăng nhập để xem thêm nhiều ưu đãi hơn</p>
 
+            <?php
+            if (isset($_SESSION['error_message'])) {
+                echo '<div class="error-message">' . $_SESSION['error_message'] . '</div>';
+                unset($_SESSION['error_message']); // Xóa thông báo lỗi sau khi đã hiển thị
+            }
+            ?>
+
             <div class="form-group">
-                <input type="text" id="username" name="username" required placeholder=" ">
-                <label for="name">UserName</label>
+                <input type="text" id="user_name" name="user_name" required placeholder=" ">
+                <label for="user_name">UserName</label>
             </div>
             <div class="form-group">
                 <input type="password" id="password" name="password" required placeholder=" ">
-                <label for="address">Password</label>
+                <label for="password">Password</label>
                 <button class="show-hide-password" type="button" onclick="togglePassword()">
                     <i class="fa-regular fa-eye"></i>
                 </button>
@@ -41,7 +45,7 @@
 
             <div class="remember-forgot">
                 <div class="container-remmember">
-                    <input type="checkbox" id="remember-me">
+                    <input type="checkbox" id="remember-me" name="remember_me">
                     <label for="remember-me">Ghi nhớ đăng nhập</label>
                 </div>
                 <a href="#" class="forgot-password">Bạn quên mật khẩu?</a>
@@ -55,6 +59,8 @@
         </form>
     </div>
 </body>
+
+</html>
 
 <style>
     .wrapper-login {

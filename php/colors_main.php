@@ -241,7 +241,7 @@
     $search_group = isset($_GET['search_group']) ? $_GET['search_group'] : '';
 
     if ($search_group) {
-        $sql = "SELECT * FROM colors WHERE color_group LIKE ?";
+        $sql = "SELECT * FROM color WHERE color_group LIKE ?";
         $stmt = $conn->prepare($sql);
         $searchTerm = '%' . $search_group . '%';
         $stmt->bind_param("s", $searchTerm);
@@ -257,7 +257,7 @@
         $result = $stmt->get_result();
     } elseif ($search_hex) {
         // Kiểm tra xem có từ khóa tìm kiếm mã hex không
-        $sql = "SELECT * FROM colors WHERE color_hex LIKE ?";
+        $sql = "SELECT * FROM color WHERE color_hex LIKE ?";
         $stmt = $conn->prepare($sql);
         $searchTerm = '%' . $search_hex . '%';
         $stmt->bind_param("s", $searchTerm);
@@ -265,7 +265,7 @@
         $result = $stmt->get_result();
     } else {
         // Truy vấn mặc định
-        $sql = "SELECT * FROM colors";
+        $sql = "SELECT * FROM color";
         $result = $conn->query($sql);
     }
     if ($result->num_rows > 0) {

@@ -6,12 +6,12 @@
         <?php
         include 'connectDB.php';
 
-        $sql = "SELECT SUM(total_price) AS total_revenue FROM orders";
+        $sql = "SELECT SUM(od_total_price) AS od_total_price FROM orders";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            $formatted_revenue = number_format($row['total_revenue']);
+            $formatted_revenue = number_format($row['od_total_price']);
             echo "<span>" . $formatted_revenue . "</span>";
         } else {
             echo "Không có dữ liệu.";

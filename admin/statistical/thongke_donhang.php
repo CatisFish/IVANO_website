@@ -7,7 +7,7 @@
     <style>
         /* CSS cho biểu đồ */
         .chart-container {
-            width: 45%;
+            width: 60%;
             margin: 20px auto;
            
         }

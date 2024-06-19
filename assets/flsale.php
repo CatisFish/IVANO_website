@@ -68,6 +68,14 @@ if ($flashSaleResult->num_rows > 0) {
 }
 ?>
 
+
+
+
+
+
+
+
+
 <style>
     .container-heading-fsale {
         display: flex;
@@ -122,20 +130,44 @@ if ($flashSaleResult->num_rows > 0) {
         width: 90%;
         margin: 0px auto;
         position: relative;
-        overflow: hidden;
     }
 
     .container-item-fsale {
         display: flex;
-        overflow: hidden;
+        gap: 10px;
     }
 
     .fsale-product {
+        border-radius: 10px;
         position: relative;
-        padding: 10px 20px;
-        flex-shrink: 0;
+        padding: 20px;
         width: 20%;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
+
+    @-webkit-keyframes shadow-drop-center {
+        0% {
+            -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+
+        100% {
+            -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+        }
+    }
+
+    @keyframes shadow-drop-center {
+        0% {
+            -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+
+        100% {
+            -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+        }
     }
 
     .container-img-fsale {
@@ -148,11 +180,12 @@ if ($flashSaleResult->num_rows > 0) {
 
     .fsale-product-img {
         width: 160px;
+        transition: transform ease-in-out 0.3s;
     }
 
     .fsale-percent {
         position: absolute;
-        right: 5%;
+        right: 0;
         top: 0px;
         font-weight: 700;
         color: #FFF;
@@ -195,13 +228,16 @@ if ($flashSaleResult->num_rows > 0) {
         padding: 10px 20px;
         cursor: pointer;
         border: none;
-        background-color: #FFD400;
-        color: #221F20;
+        background-color: #55D5D2;
+        color: #FFF;
         font-weight: 600;
         transition: all ease-in-out 0.3s;
+        border-radius: 10px;
     }
 
-    .show-detail-fsale:hover {}
+    .show-detail-fsale:hover {
+        background-color: #F58F5D;
+    }
 
     .add-to-cart-fsale {
         padding: 10px;
@@ -212,77 +248,86 @@ if ($flashSaleResult->num_rows > 0) {
         transition: all ease-in-out 0.3s;
         border-radius: 5px;
         -webkit-animation: heartbeat 3s ease-in-out infinite both;
-	        animation: heartbeat 3s ease-in-out infinite both;
+        animation: heartbeat 3s ease-in-out infinite both;
     }
 
     @-webkit-keyframes heartbeat {
-  from {
-    -webkit-transform: scale(1);
+        from {
+            -webkit-transform: scale(1);
             transform: scale(1);
-    -webkit-transform-origin: center center;
+            -webkit-transform-origin: center center;
             transform-origin: center center;
-    -webkit-animation-timing-function: ease-out;
+            -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
-  }
-  10% {
-    -webkit-transform: scale(0.91);
+        }
+
+        10% {
+            -webkit-transform: scale(0.91);
             transform: scale(0.91);
-    -webkit-animation-timing-function: ease-in;
+            -webkit-animation-timing-function: ease-in;
             animation-timing-function: ease-in;
-  }
-  17% {
-    -webkit-transform: scale(0.98);
+        }
+
+        17% {
+            -webkit-transform: scale(0.98);
             transform: scale(0.98);
-    -webkit-animation-timing-function: ease-out;
+            -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
-  }
-  33% {
-    -webkit-transform: scale(0.87);
+        }
+
+        33% {
+            -webkit-transform: scale(0.87);
             transform: scale(0.87);
-    -webkit-animation-timing-function: ease-in;
+            -webkit-animation-timing-function: ease-in;
             animation-timing-function: ease-in;
-  }
-  45% {
-    -webkit-transform: scale(1);
+        }
+
+        45% {
+            -webkit-transform: scale(1);
             transform: scale(1);
-    -webkit-animation-timing-function: ease-out;
+            -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
-  }
-}
-@keyframes heartbeat {
-  from {
-    -webkit-transform: scale(1);
+        }
+    }
+
+    @keyframes heartbeat {
+        from {
+            -webkit-transform: scale(1);
             transform: scale(1);
-    -webkit-transform-origin: center center;
+            -webkit-transform-origin: center center;
             transform-origin: center center;
-    -webkit-animation-timing-function: ease-out;
+            -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
-  }
-  10% {
-    -webkit-transform: scale(0.91);
+        }
+
+        10% {
+            -webkit-transform: scale(0.91);
             transform: scale(0.91);
-    -webkit-animation-timing-function: ease-in;
+            -webkit-animation-timing-function: ease-in;
             animation-timing-function: ease-in;
-  }
-  17% {
-    -webkit-transform: scale(0.98);
+        }
+
+        17% {
+            -webkit-transform: scale(0.98);
             transform: scale(0.98);
-    -webkit-animation-timing-function: ease-out;
+            -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
-  }
-  33% {
-    -webkit-transform: scale(0.87);
+        }
+
+        33% {
+            -webkit-transform: scale(0.87);
             transform: scale(0.87);
-    -webkit-animation-timing-function: ease-in;
+            -webkit-animation-timing-function: ease-in;
             animation-timing-function: ease-in;
-  }
-  45% {
-    -webkit-transform: scale(1);
+        }
+
+        45% {
+            -webkit-transform: scale(1);
             transform: scale(1);
-    -webkit-animation-timing-function: ease-out;
+            -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
-  }
-}
+        }
+    }
 
     .add-to-cart-fsale:hover {
         background-color: #F58F5D;
@@ -479,7 +524,6 @@ if ($flashSaleResult->num_rows > 0) {
         detailsContainer.style.visibility = 'visible';
     }
 
-
     function closeDetails() {
         const overlayFsaleClose = document.getElementById('overlay-fsale');
 
@@ -490,51 +534,3 @@ if ($flashSaleResult->num_rows > 0) {
     }
 </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const container = document.querySelector(".container-item-fsale");
-        const prevButton = document.querySelector(".prev-item-fsale");
-        const nextButton = document.querySelector(".next-item-fsale");
-        const productWidth = document.querySelector(".fsale-product").offsetWidth;
-        let currentIndex = 0;
-
-        function slideTo(index) {
-            container.style.transform = `translateX(${-index * productWidth}px)`;
-            currentIndex = index;
-        }
-
-        nextButton.addEventListener("click", function () {
-            if (currentIndex < container.children.length - 1) {
-                slideTo(currentIndex + 1);
-            } else {
-                const firstProduct = container.children[0].cloneNode(true);
-                container.appendChild(firstProduct);
-                container.style.transition = "transform 0.5s ease-in-out";
-                slideTo(currentIndex + 1);
-                setTimeout(function () {
-                    container.style.transition = "none";
-                }, 500);
-                container.removeChild(container.children[0]);
-            }
-        });
-
-        prevButton.addEventListener("click", function () {
-            if (currentIndex > 0) {
-                slideTo(currentIndex - 1);
-            } else {
-                const lastProduct = container.children[container.children.length - 1].cloneNode(true);
-                container.insertBefore(lastProduct, container.firstChild);
-                container.style.transition = "none";
-                container.style.transform = `translateX(-${productWidth}px)`;
-                container.offsetWidth;
-                container.style.transition = "transform 0.5s ease-in-out";
-                slideTo(0);
-                setTimeout(function () {
-                    container.style.transition = "none";
-                }, 500);
-                container.removeChild(container.children[container.children.length - 1]);
-            }
-        });
-    });
-
-</script>

@@ -1,18 +1,19 @@
+
+
 <?php
-// Kết nối đến cơ sở dữ liệu
 include '../php/conection.php';
 
 // Xử lý thêm mới khách hàng
 if (isset($_POST['add_customer'])) {
-    $customer_id = $_POST['customer_id'];
     $fullname = $_POST['fullname'];
-    $customer_address = $_POST['customer_address'];
-    $customer_tell = $_POST['customer_tell'];
-    $customer_gender = $_POST['customer_gender'];
-    $customer_email = $_POST['customer_email'];
+    $user_name = $_POST['user_name'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $created_at = date('Y-m-d H:i:s'); // Ngày giờ hiện tại
 
     // Thêm khách hàng vào bảng customers
-    $sql_customer = "INSERT INTO customers (customer_id, fullname, customer_address, customer_tell, customer_gender, customer_email) VALUES ('$customer_id', '$fullname', '$customer_address', '$customer_tell', '$customer_gender', '$customer_email')";
+    $sql_customer = "INSERT INTO customers (fullname, user_name, phone, email, password, created_at) VALUES ('$fullname', '$user_name', '$phone', '$email', '$password', '$created_at')";
     if ($conn->query($sql_customer) === TRUE) {
         header("Location: ../php/customer.php");
         exit();
@@ -24,12 +25,30 @@ if (isset($_POST['add_customer'])) {
 // Xử lý xóa khách hàng
 if (isset($_GET['delete_customer'])) {
     $customer_id = $_GET['delete_customer'];
-    $sql_delete_customer = "DELETE FROM customers WHERE customer_id='$customer_id'";
+    $sql_delete_customer = "DELETE FROM customers WHERE id_customer='$customer_id'";
     if ($conn->query($sql_delete_customer) === TRUE) {
         header("Location: ../php/customer.php");
         exit();
     } else {
         echo "Lỗi khi xóa khách hàng: " . $conn->error;
+    }
+}
+
+// Xử lý cập nhật thông tin khách hàng
+if (isset($_POST['update_customer'])) {
+    $customer_id = $_POST['customer_id'];
+    $fullname = $_POST['fullname'];
+    $user_name = $_POST['user_name'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+
+    // Cập nhật thông tin khách hàng vào bảng customers
+    $sql_update_customer = "UPDATE customers SET fullname='$fullname', user_name='$user_name', phone='$phone', email='$email' WHERE id_customer='$customer_id'";
+    if ($conn->query($sql_update_customer) === TRUE) {
+        header("Location: ../php/customer.php");
+        exit();
+    } else {
+        echo "Lỗi khi cập nhật thông tin khách hàng: " . $conn->error;
     }
 }
 
@@ -63,16 +82,11 @@ if ($result->num_rows > 0) {
 
     <!-- Form thêm mới khách hàng -->
     <form method="POST" action="">
-        <input type="text" name="customer_id" placeholder="Mã khách hàng" required><br>
         <input type="text" name="fullname" placeholder="Họ và tên" required><br>
-        <input type="text" name="customer_address" placeholder="Địa chỉ" required><br>
-        <input type="tel" name="customer_tell" placeholder="Số điện thoại" required><br>
-        <select name="customer_gender" required>
-            <option value="Nam">Nam</option>
-            <option value="Nữ">Nữ</option>
-            <option value="Khác">Khác</option>
-        </select><br>
-        <input type="email" name="customer_email" placeholder="Email" required><br>
+        <input type="text" name="user_name" placeholder="Tên đăng nhập" required><br>
+        <input type="text" name="phone" placeholder="Số điện thoại" required><br>
+        <input type="email" name="email" placeholder="Email" required><br>
+        <input type="password" name="password" placeholder="Mật khẩu" required><br>
         <button type="submit" name="add_customer">Thêm</button>
     </form>
     <br>
@@ -83,10 +97,10 @@ if ($result->num_rows > 0) {
             <tr>
                 <th>Mã khách hàng</th>
                 <th>Họ và tên</th>
-                <th>Địa chỉ</th>
+                <th>Tên đăng nhập</th>
                 <th>Số điện thoại</th>
-                <th>Giới tính</th>
                 <th>Email</th>
+                <th>Ngày tạo</th>
                 <th>Thao tác</th>
             </tr>
         </thead>
@@ -94,16 +108,20 @@ if ($result->num_rows > 0) {
             <?php if (!empty($customers)): ?>
                 <?php foreach ($customers as $customer): ?>
                     <tr>
-                        <td><?php echo $customer['customer_id']; ?></td>
-                        <td><?php echo $customer['fullname']; ?></td>
-                        <td><?php echo $customer['customer_address']; ?></td>
-                        <td><?php echo $customer['customer_tell']; ?></td>
-                        <td><?php echo $customer['customer_gender']; ?></td>
-                        <td><?php echo $customer['customer_email']; ?></td>
-                        <td>
-                            <a href="customer.php?delete_customer=<?php echo $customer['customer_id']; ?>"
-                                onclick="return confirm('Bạn có chắc chắn muốn xóa khách hàng này không?')">Xóa</a>
-                        </td>
+                        <form method="POST" action="">
+                            <input type="hidden" name="customer_id" value="<?php echo $customer['id_customer']; ?>">
+                            <td><?php echo $customer['id_customer']; ?></td>
+                            <td><input type="text" name="fullname" value="<?php echo $customer['fullname']; ?>" required></td>
+                            <td><input type="text" name="user_name" value="<?php echo $customer['user_name']; ?>" required></td>
+                            <td><input type="text" name="phone" value="<?php echo $customer['phone']; ?>" required></td>
+                            <td><input type="email" name="email" value="<?php echo $customer['email']; ?>" required></td>
+                            <td><?php echo $customer['created_at']; ?></td>
+                            <td>
+                                <button type="submit" name="update_customer">Cập nhật</button>
+                                <a href="../php/customer.php?delete_customer=<?php echo $customer['id_customer']; ?>"
+                                    onclick="return confirm('Bạn có chắc chắn muốn xóa khách hàng này không?')">Xóa</a>
+                            </td>
+                        </form>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>

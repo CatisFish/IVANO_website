@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="../css/register.css">
     <link rel="stylesheet" href="css/global.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     <title>Register | IVANO</title>
 </head>
 
@@ -23,17 +26,20 @@
     <?php include "assets/header.php"; ?>
 
     <div class="wrapper-register">
-        <form action="../action/register.php" method="POST" class="register-form">
+        <form action="./action/register-action.php" method="POST" class="register-form">
             <h1>Đăng Ký</h1>
             <p>Đăng ký tài khoản để nhận nhiều ưu đãi hơn</p>
-
             <div class="form-group">
-                <input type="text" id="username" name="username" required placeholder=" ">
-                <label for="username">Username</label>
+                <input type="text" id="fullname" name="fullname" required placeholder=" ">
+                <label for="fullname">Họ Và Tên</label>
             </div>
             <div class="form-group">
-                <input type="tel" id="tel" name="tel" required placeholder=" ">
-                <label for="tel">Tel</label>
+                <input type="text" id="user_name" name="user_name" required placeholder=" ">
+                <label for="user_name">Tên Đăng Nhập</label>
+            </div>
+            <div class="form-group">
+                <input type="tel" id="phone" name="phone" required placeholder=" ">
+                <label for="phone">Số Điện Thoại</label>
             </div>
             <div class="form-group">
                 <input type="email" id="email" name="email" required placeholder=" ">
@@ -41,14 +47,14 @@
             </div>
             <div class="form-group">
                 <input type="password" id="password" name="password" required placeholder=" ">
-                <label for="password">Password</label>
+                <label for="password">Mật Khẩu</label>
                 <button class="show-hide-password" type="button" onclick="togglePassword()">
                     <i class="fa-regular fa-eye"></i>
                 </button>
             </div>
             <div class="form-group">
-                <input type="password" id="confirm-password" name="confirm-password" required placeholder=" ">
-                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" required placeholder=" ">
+                <label for="confirm_password">Nhập Lại Mật Khẩu</label>
                 <button class="show-hide-password" type="button" onclick="toggleConfirmPassword()">
                     <i class="fa-regular fa-eye"></i>
                 </button>
@@ -64,6 +70,8 @@
 
     <?php include "assets/footer.php";?>
 </body>
+
+
 
 <style>
     .container-nav-right-item {
