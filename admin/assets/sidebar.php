@@ -1,80 +1,25 @@
-<style>
-    .product,
-    .statistics {
-        position: relative;
-    }
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuItems = document.querySelectorAll('.nav-icons .product');
 
+        menuItems.forEach(function (item) {
+            item.addEventListener('click', function (event) {
 
-    .nav-icons {
-        overflow-y: auto;
-    }
+                const isActive = this.classList.contains('active');
 
-    .nav-icons::-webkit-scrollbar {
-        width: 0;
-    }
+                menuItems.forEach(function (item) {
+                    item.classList.remove('active');
+                });
 
-    .nav-icons li {
-        cursor: pointer;
-    }
-
-    .submenu-admin {
-        display: none;
-        padding: 10px 0;
-        z-index: 1000;
-    }
-
-    .submenu-admin li {
-        padding: 10px 10px;
-    }
-
-    .nav-icons ul li.active .submenu-admin {
-        display: block;
-    }
-
-    .nav-icons ul li {
-        position: relative;
-    }
-
-    .nav-icons ul li .fa-chevron-down {
-        transition: transform 0.4s ease;
-    }
-
-    .nav-icons ul li.active .fa-chevron-down {
-        transform: rotate(180deg);
-    }
-    /* Define animation */
-@keyframes shake {
-    0% { transform: translateX(0); }
-    10%, 90% { transform: translateX(-5px); }
-    20%, 80% { transform: translateX(5px); }
-    30%, 50%, 70% { transform: translateX(-5px); }
-    40%, 60% { transform: translateX(5px); }
-    100% { transform: translateX(0); }
-}
-
-/* Apply animation to the bell icon */
-.fa.fa-bell {
-    animation: shake 1.2s infinite;
-}
-</style>
-
-
+                if (!isActive) {
+                    this.classList.add('active');
+                }
+            });
+        });
+    });
+</script>
 
 <?php
-// Kiểm tra xem có bất kỳ form tư vấn nào có trạng thái "chưa tư vấn" hay không
-// Hàm kiểm tra xem có bất kỳ form tư vấn nào có trạng thái "Chưa Tư Vấn" hay không
-function hasChuaTuvan($conn)
-{
-    $sql = "SELECT COUNT(*) AS count FROM tuvan_form WHERE TrangThai = '2'";
-    $result = $conn->query($sql);
-    if ($result && $result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        return $row['count'];
-    }
-    return 0;
-}
-
-
 function hasCauTuvan($conn) {
     $sql = "SELECT COUNT(*) AS count FROM agency WHERE TrangThai = '2'";
     $result = $conn->query($sql);
@@ -86,286 +31,382 @@ function hasCauTuvan($conn) {
 }
 
 
-// Tạo kết nối đến cơ sở dữ liệu
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "ivano_website";
-
-// Tạo kết nối
-$conn = new mysqli($servername, $username, $password, $database);
-
-// Kiểm tra kết nối
-if ($conn->connect_error) {
-    die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
+// Kiểm tra xem có bất kỳ form tư vấn nào có trạng thái "chưa tư vấn" hay không
+// Hàm kiểm tra xem có bất kỳ form tư vấn nào có trạng thái "Chưa Tư Vấn" hay không
+function hasChuaTuvan($conn)
+{
+    $sql = "SELECT COUNT(*) AS count FROM tuvan_form WHERE TrangThai = '2'";
+    $result = $conn->query($sql);
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    }
+    return 0; // Trả về 0 nếu không có kết quả nào
 }
 
+// Tạo kết nối đến cơ sở dữ liệu
+include 'connectDB.php';
 // Kiểm tra có form tư vấn nào có trạng thái "chưa tư vấn" hay không
 $hasChuaTuvan = hasChuaTuvan($conn);
 $hasCauTuvan = hasCauTuvan($conn);
 
+
 // Đóng kết nối
 $conn->close();
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SB ADMIN</title>
-    <!-- Add your CSS styles here -->
-    <style>
-        .need-advice {
-            color:red;
-        }
-    </style>
-</head>
+<section class="container-sidebar-admin">
+    <div class="sidebar-top-admin">
+        <h3>SB ADMIN 😍</h3>
 
-<body>
-    <div class="top-sidebar">
-        <h2>SB ADMIN 😍</h2>
-        <button id="toggleButton"><i class="fa-solid fa-xmark"></i></button>
+        <button id="show-hide-sidebar-admin"><i class="fa-solid fa-circle-chevron-left"></i></button>
     </div>
 
-    <div class="nav-icons">
-        <ul>
-            <li><a href="index.php"><i class="fa fa-home"></i><span>Trang Chủ</span></a></li>
-            <li class="product">
-                <a><i class="fa-solid fa-store"></i><span>Cửa Hàng <i class="fa-solid fa-chevron-down"></i></span></a>
-                <ul class="submenu-admin">
-                    <li><a href="../php/categories.php">Loại sản phẩm</a></li>
-                    <li><a href="../php/productCategory.php">Doanh mục loại sản phẩm</a></li>
-                    <li><a href="../php/brands.php">Thương hiệu</a></li>
-                    <li><a href="../php/products.php">Sản phẩm</a></li>
-                </ul>
-            </li>
-            <li><a href="../assets/manage_popups.php"><i class="fa-solid fa-photo-film"></i><span>Quản lý Popup</span></a></li>
-            <li <?php if ($hasChuaTuvan > 0 || $hasCauTuvan > 0): ?>class="need-advice"<?php endif; ?>>
-                <a href="../assets/tuvan_form.php">
-                    <i class="fa-solid fa-photo-film"></i>
-                    <span>Cần Tư Vấn</span>
-                    <?php if ($hasChuaTuvan > 0 || $hasCauTuvan > 0): ?>
-                        <i class="fa fa-bell" style="color:  #ffd400; "></i>
-                        <span class="badge"><?php echo $hasChuaTuvan + $hasCauTuvan; ?></span>
-                    <?php endif; ?>
+    <div class="sidebar-bottom-admin">
+        <ul class="container-navbar-admin">
+            <li class="navbar-admin-item">
+                <a href="../../ivano_website/admin/index.php">
+                    <i class="fa fa-home"></i>
+                    <span>Trang Chủ</span>
                 </a>
             </li>
-            <li><a href="../assets/manage_banners.php"><i class="fa-solid fa-bell"></i><span>Quản lý Banner</span></a></li>
-            <li><a href="../php/manage_flashsale.php"><i class="fa-solid fa-user"></i><span>Quản lý Flashsale</span></a></li>
-            <li><a href="../php/manage_agency.php"><i class="fa fa-file-alt"></i><span>Các đại lý</span></a></li>
-            <li><a href="../php/customer.php"><i class="fa-solid fa-user"></i><span>Quản lý khách hàng</span></a></li>
-            <li><a href="../php/employee.php"><i class="fa-solid fa-users"></i><span>Quản lý nhân viên</span></a></li>
-            <li class="statistics">
-                <a><i class="fa fa-chart-bar"></i><span>Thống kê <i class="fa-solid fa-chevron-down"></i></span></a>
+
+            <li class="navbar-admin-item">
+                <a href="">
+                    <i class="fa-solid fa-store"></i>
+                    <span>Cửa Hàng <i class="fa-solid fa-chevron-down"></i></span>
+                </a>
+
                 <ul class="submenu-admin">
-                    <li><a href="../php/thongke/doanhthu_theohoadon.php">Doanh thu theo hóa đơn</a></li>
-                    <li><a href="../php/thongke/donhang_theothang.php">Doanh thu theo thời gian</a></li>
-                    <li><a href="../php/thongke/thongke_sodaily.php">Thống kê số lượng đại lý theo ngày</a></li>
-                    <li><a href="../php/thongke/quanly_nhanvien.php">Thống kê nhân viên</a></li>
+                    <li class="submenu-admin-item"><a href="sizes-colors-AD.php"><span>Kích thước - Đuôi màu </span></a></li>
+                    <li class="submenu-admin-item"><a href="productCategoryAD.php">Doanh mục loại sản phẩm</a></li>
+                    <li class="submenu-admin-item"><a href="categoriesAD.php">Loại sản phẩm</a></li>
+                    <li class="submenu-admin-item"><a href="brandsAD.php">Thương hiệu</a></li>
+                    <li class="submenu-admin-item"><a href="productsAD.php">Sản phẩm</a></li>
                 </ul>
             </li>
-            <li><a href="../php/colors.php"><i class="fa-solid fa-paint-roller"></i><span>Quản lý màu</span></a></li>
-            <li><a href="../php/table_colors.php"><i class="fa-solid fa-palette"></i><span>Bảng màu</span></a></li>
+
+            <li class="navbar-admin-item">
+                <a href="">
+                    <i class="fa-solid fa-paint-roller"></i>
+                    <span>Màu Sắc <i class="fa-solid fa-chevron-down"></i></span>
+                </a>
+
+                <ul class="submenu-admin">
+                    <li class="submenu-admin-item"><a href="../assets/manage-colors.php">Quản lý màu</a></li>
+                    <li class="submenu-admin-item"><a href="table_colors.php">Bảng màu</a></li>
+                </ul>
+            </li>
+
+            <li class="navbar-admin-item">
+                <?php if ($hasChuaTuvan > 0 || $hasCauTuvan > 0): ?>
+                    <a href="../assets/tuvan_form.php">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>Cần Tư Vấn</span>
+                        <i class="fa fa-bell" style="color: #ffd400;"></i>
+                        <span class="badge"><?php echo $hasChuaTuvan + $hasCauTuvan; ?></span>
+                    </a>
+                <?php else: ?>
+                    <a href="../assets/tuvan_form.php">
+                        <i class="fa-solid fa-headset"></i>
+                        <span>Cần Tư Vấn</span>
+                    </a>
+                <?php endif; ?>
+            </li>
+
+            <li class="navbar-admin-item">
+                <a href="../php/manage_agency.php">
+                    <i class="fa-solid fa-people-arrows"></i>
+                    <span>Đại Lý</span>
+                </a>
+            </li>
+
+            <li class="navbar-admin-item">
+                <a href="../php/customer.php">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Khách Hàng</span>
+                </a>
+            </li>
+
+            <li class="navbar-admin-item">
+                <a href="../php/employee.php">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Nhân Viên</span>
+                </a>
+            </li>
+
+            <li class="navbar-admin-item">
+                <a href="../assets/manage_popups.php">
+                    <i class="fa-regular fa-file"></i>
+                    <span>Popup</span>
+                </a>
+            </li>
+            <li class="navbar-admin-item">
+                <a href="bannerAD.php">
+                    <i class="fa-regular fa-images"></i>
+                    <span>Banner</span>
+                </a>
+            </li>
+            <li class="navbar-admin-item">
+                <a href="../php/manage_flashsale.php">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Flash Sales</span>
+                </a>
+            </li>
+
+            <li class="navbar-admin-item">
+                <a href="#">
+                    <i class="fa fa-chart-bar"></i>
+                    <span>Thống kê</span>
+                </a>
+            </li>
         </ul>
     </div>
-</body>
-
-</html>
-
+</section>
 
 
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Montserrat", sans-serif;
+    /*cái chuông thông báo*/
+    .fa-bell:before {
+        content: "\f0f3";
+        font-size: 20px;
     }
 
-    .sidebar {
-        width: 18%;
-        height: 100%;
-        /* background-color: rgb(0, 208, 130); */
-        background-color: #7296A4;
+    .navbar-admin-item {
+        position: relative;
+        /* Để có thể điều khiển vị trí của chuông */
+    }
+
+    .badge {
+        position: absolute;
+        background-color: red;
         color: #fff;
-        position: fixed;
+        padding: 2px 6px;
+        border-radius: 50%;
+        animation: bell-ring 0.6s infinite alternate;
+        margin: -9px;
+    }
+
+    @keyframes bell-ring {
+        from {
+            transform: scale(1);
+        }
+
+        to {
+            transform: scale(1.2);
+        }
+    }
+
+    /*cái chuông thông báo*/
+
+    .container-sidebar-admin {
+        width: 18%;
+        height: 100vh;
+        background-color: #55D5D2;
+        color: #fff;
         top: 0;
         left: 0;
-        transition: width 0.3s ease;
-        overflow-y: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
+        transition: width 0.3s ease-in-out;
+        position: fixed;
     }
 
-    .sidebar::-webkit-scrollbar {
-        display: none;
-    }
-
-    .top-sidebar {
+    .sidebar-top-admin {
+        height: 10vh;
         padding: 20px;
+        gap: 30px;
         display: flex;
-        justify-content: space-between;
         align-items: center;
         border-bottom: 1px solid #fff;
+        justify-content: center;
     }
 
-    .nav-icons {
-        margin: 50px 10px 0 10px;
+    .sidebar-top-admin h3 {
+        font-size: 20px
     }
 
-    .nav-icons ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .nav-icons ul li {
-        /* margin: 0 0 10px 10px; */
-        font-weight: 600;
-        align-items: center;
-
-    }
-
-    .nav-icons ul li a {
-        display: block;
-        color: #fff;
-        text-decoration: none;
-        transition: all ease-in-out 0.3s;
-        padding: 10px;
-    }
-
-    .nav-icons ul li:hover a {
-        color: #000;
-    }
-
-    .nav-icons ul li a i {
-        margin-right: 10px;
-        width: 30px;
-        height: 30px;
-    }
-
-    #toggleButton {
-        width: 30px;
-        height: 30px;
-        cursor: pointer;
+    .sidebar-top-admin #show-hide-sidebar-admin {
         border: none;
-        border-radius: 5px;
+        font-size: 35px;
+        cursor: pointer;
+        background: none;
+        color: #FFF;
+        transition: all ease-in-out 0.3s;
     }
 
-
-    .top-sidebar h2,
-    .nav-icons ul li a span {
+    #show-hide-sidebar-admin i {
         transition: transform 0.3s ease;
     }
 
-    .hidden .top-sidebar h2,
-    .hidden .nav-icons ul li a span {
-        transform: translateX(-100%);
+    /* #show-hide-sidebar-admin:hover i {
+    transform: rotate(360deg);
+} */
+
+    #show-hide-sidebar-admin:hover {
+        color: #000;
+    }
+
+    .sidebar-bottom-admin {
+        /* margin: 20px 0 20px 0; */
+        overflow-y: auto;
+        height: 90vh;
+        max-height: 83vh;
+    }
+
+    .sidebar-bottom-admin::-webkit-scrollbar {
+        display: none;
+    }
+
+    .container-navbar-admin {
+        align-items: center;
+    }
+
+    .navbar-admin-item {
+        align-items: center;
+        width: 100%;
+        padding: 15px 0px 15px 50px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all ease-in-out 0.3s;
+        position: relative;
+        border-bottom: 1px dashed #fff;
+    }
+
+    .sidebar-collapsed .navbar-admin-item {
+        padding: 15px 0px 15px 10px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .sidebar-collapsed .navbar-admin-item a span i:after {
+        display: none;
+    }
+
+    .sidebar-collapsed .navbar-admin-item:hover::after {
+        display: none;
+    }
+
+    .navbar-admin-item::after {
+        content: '\f061';
+        font-family: 'FontAwesome';
+        position: absolute;
+        left: -30px;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0;
+        transition: all ease-in-out 0.3s;
+    }
+
+    .navbar-admin-item:hover::after {
+        left: 15px;
+        opacity: 1;
+    }
+
+    .navbar-admin-item:hover {
+        background-color: #F58F5D;
+    }
+
+    .navbar-admin-item a {
+        color: #FFF;
+    }
+
+    .navbar-admin-item a i {
+        margin-right: 10px;
+    }
+
+    .navbar-admin-item a span i {
+        margin-left: 5px;
+        display: inline-block;
+        transform: rotate(0deg);
+        transition: transform 0.3s ease;
+    }
+
+    .navbar-admin-item:hover a span i {
+        transform: rotate(180deg);
     }
 
 
-    .need-advice .fa-bell {
-    margin-left: 10px;
-    position: relative;
-}
+    /* submenu */
+    .submenu-admin {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        width: 100%;
+        background-color: #4ABAB6;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        transform: translate(-50%, -20px);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 100;
+    }
 
-.need-advice .fa-bell span {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: red;
-    color: white;
-    border-radius: 50%;
-    padding: 2px 5px;
-    font-size: 12px;
-}
-.need-advice {
-            color: red;
-            font-size: 20px;
-        }
+    .navbar-admin-item:hover .submenu-admin {
+        transform: translate(-50%, 0);
+        opacity: 1;
+        pointer-events: auto;
+    }
 
-        .submenu-admin {
-            display: none;
-        }
+    .submenu-admin-item {
+        padding: 15px 20px;
+        position: relative;
+    }
 
-        .submenu-admin.active {
-            display: block;
-        }
+    .submenu-admin-item:hover {
+        background-color: #3B8D8A;
+    }
 
-        .nav-icons ul li a .badge {
-            background-color: red;
-            color: white;
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 12px;
-            position: relative;
-            top: -10px;
-            right: 30px;
-        }
 
-        .nav-icons ul li.active > a > .fa-chevron-down {
-            transform: rotate(180deg);
-        }
+    .submenu-admin-item::before {
+        content: '\f060';
+        font-family: 'FontAwesome';
+        position: absolute;
+        right: -20px;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0;
+        transition: all ease-in-out 0.3s;
+    }
+
+    .submenu-admin-item:hover::before {
+        opacity: 1;
+        right: 10px;
+    }
+
+    .sidebar-collapsed .submenu-admin {
+        display: none;
+        /* Ẩn submenu khi thanh sidebar thu nhỏ */
+    }
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const toggleButton = document.getElementById("toggleButton");
-        const sidebar = document.getElementById("sidebar");
-        const content = document.getElementById("content");
-        const heading = document.getElementsByClassName("container-heading-admin-page");
-        const navIcons = document.querySelector(".nav-icons");
-        const dashboardTitle = document.querySelector(".top-sidebar h2");
-        const navLinks = document.querySelectorAll(".nav-icons ul li a span");
-        const iconLink = document.querySelectorAll(".nav-icons ul li a i");
-        const toggleIcon = document.querySelector("#toggleButton i");
+    document.getElementById("show-hide-sidebar-admin").addEventListener("click", function () {
+        var sidebar = document.querySelector(".container-sidebar-admin");
+        var main = document.querySelector(".main-admin-page");
+        var h3 = document.querySelector(".sidebar-top-admin h3");
+        var spans = document.querySelectorAll(".sidebar-bottom-admin span");
+        var topSidebarIcon = document.querySelector(".sidebar-top-admin button i");
 
-        // Toggle sidebar visibility
-        toggleButton.addEventListener("click", function () {
-            sidebar.classList.toggle("hidden");
-            if (sidebar.classList.contains("hidden")) {
-                sidebar.style.width = "5%";
-                dashboardTitle.style.display = "none";
-                navIcons.style.width = "100%";
-                content.style.marginLeft = "5%";
-                navLinks.forEach(function (link) {
-                    link.style.display = "none";
-                });
-                iconLink.forEach(function (icon) {
-                    icon.style.textAlign = "center";
-                });
-                toggleIcon.classList.remove("fa-xmark");
-                toggleIcon.classList.add("fa-bars");
-            } else {
-                sidebar.style.width = "18%";
-                dashboardTitle.style.display = "block";
-                navIcons.style.width = "100%";
-                content.style.marginLeft = "18%";
-                navLinks.forEach(function (link) {
-                    link.style.display = "inline";
-                });
-                toggleIcon.classList.remove("fa-bars");
-                toggleIcon.classList.add("fa-xmark");
-            }
-        });
-
-        // Toggle submenu visibility
-        const menuItems = document.querySelectorAll('.nav-icons .product, .nav-icons .statistics');
-        menuItems.forEach(function (item) {
-            item.addEventListener('click', function () {
-                const isActive = this.classList.contains('active');
-                menuItems.forEach(function (item) {
-                    item.classList.remove('active');
-                    item.querySelector('.submenu-admin').classList.remove('active');
-                });
-                if (!isActive) {
-                    this.classList.add('active');
-                    this.querySelector('.submenu-admin').classList.add('active');
-                }
+        if (sidebar.style.width === "5%") {
+            sidebar.style.width = "18%";
+            main.style.width = "82%";
+            main.style.marginLeft = "18%";
+            h3.style.display = "block";
+            spans.forEach(span => {
+                span.style.display = "inline";
             });
-        });
+            sidebar.classList.remove("sidebar-collapsed");
+            topSidebarIcon.style.transform = "rotate(0deg)";
+        } else {
+            sidebar.style.width = "5%";
+            main.style.width = "95%";
+            main.style.marginLeft = "5%";
+            h3.style.display = "none";
+            spans.forEach(span => {
+                span.style.display = "none";
+            });
+            sidebar.classList.add("sidebar-collapsed");
+            topSidebarIcon.style.transform = "rotate(180deg)";
+        }
     });
 </script>

@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+if (isset($_SESSION['user_name'])) {
+    $loggedInUsername = $_SESSION['user_name'];
+
+    if (isset($loggedInUsername)) {
+        $initial = substr($loggedInUsername, 0, 1);
+    } else {
+        echo "Không có tên người dùng đăng nhập";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,13 +23,13 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../admin/css/custom-sweetalert.css">
+    <link rel="stylesheet" href="css/global-style-ad.css">
 
-    <title>Loại Sản Phẩm | IVANO</title>
+    <title>Categories Management</title>
 
     <?php
-    include ("../php/conection.php");
+    include ("connectDB.php");
+
     $sql = "SELECT * FROM categories ORDER BY category_id DESC";
     $result = $conn->query($sql);
     $categories = array();
@@ -32,25 +46,16 @@
 </head>
 
 <body>
-    <?php include "../admin/assets/sidebar-new.php"; ?>
+    <?php include "assets/sidebar.php"; ?>
 
     <main class="main-admin-page">
         <section class="main-top-admin-page">
             <div class="main-top-left-admin-page">
-                <a href="../../ivano_website/admin/index.php">Trang Quản Trị</a> <i class="fa-solid fa-angle-right"
+                <a href="index.php">Trang Quản Trị</a> <i class="fa-solid fa-angle-right"
                     style="color: #000; margin: 0 5px"></i> <a href="#">Loại Sản Phẩm</a>
             </div>
 
-            <a href="" class="main-top-right-admin-page">
-                <div class="left-hello-user">
-                    <p>Hi</p>
-                    <span>Admin</span>
-                </div>
-
-                <div class="right-hello-user">
-                    <span>A</span>
-                </div>
-            </a>
+            <?php include "assets/hello-user.php"; ?>
         </section>
 
         <style>
@@ -116,7 +121,7 @@
                 position: sticky;
                 top: 0;
                 color: white;
-                border-bottom: 1px solid #000;
+                border-bottom: 1px solid #ddd;
             }
 
             .categories-page-table th:nth-child(1),
@@ -124,7 +129,7 @@
                 width: 5%;
                 /* Chiều rộng của cột ID */
                 text-align: center;
-                border-right: 1px solid #000;
+                border-right: 1px solid #ddd;
             }
 
             .categories-page-table th:nth-child(2),
@@ -138,7 +143,7 @@
                 width: 10%;
                 /* Chiều rộng của cột Action */
                 text-align: center;
-                border-left: 1px solid #000;
+                border-left: 1px solid #ddd;
             }
 
 
@@ -153,7 +158,7 @@
             }
 
             .categories-page-table tbody tr {
-                border-bottom: 1px solid #000;
+                border-bottom: 1px solid #ddd;
             }
 
             .categories-page-table tbody tr:hover {
@@ -252,6 +257,9 @@
             font-weight: 600;
             padding: 0 20px;
             border-bottom: 1px solid #fff;
+            top: 0;
+            position: sticky;
+            background: url('images/BacksAndBeyond_Images_Learning_2-2000x700-1-1400x490.jpg') no-repeat center center;
         }
 
         .main-top-left-admin-page {

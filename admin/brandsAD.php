@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+if (isset($_SESSION['user_name'])) {
+    $loggedInUsername = $_SESSION['user_name'];
+
+    if (isset($loggedInUsername)) {
+        $initial = substr($loggedInUsername, 0, 1);
+    } else {
+        echo "Không có tên người dùng đăng nhập";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -7,18 +21,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Danh Mục Loại Sản Phẩm | IVANO</title>
 
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../admin/css/custom-sweetalert.css">
+    <title>Brands Management</title>
+
+    <link rel="stylesheet" href="css/global-style-ad.css">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-          .content-page-category {
-                padding: 20px;
-                position: relative;
-            }
+        .content-page-category {
+            padding: 20px;
+            position: relative;
+        }
+
         .container-add-new-btn {
             display: flex;
             justify-content: space-between;
@@ -77,105 +92,92 @@
         }
 
         .category-page-table thead {
-                background-color: #F58F5D;
-                position: sticky;
-                top: 0;
-                color: white;
-                border-bottom: 1px solid #000;
-            }
+            background-color: #F58F5D;
+            position: sticky;
+            top: 0;
+            color: white;
+            border-bottom: 1px solid #ddd;
+        }
 
-            .category-page-table th:nth-child(1),
-            .category-page-table td:nth-child(1) {
-                width: 5%;
-                /* Chiều rộng của cột ID */
-                text-align: center;
-                border-right: 1px solid #000;
-            }
+        .category-page-table th:nth-child(1),
+        .category-page-table td:nth-child(1) {
+            width: 5%;
+            text-align: center;
+            border-right: 1px solid #ddd;
+        }
 
-            .category-page-table th:nth-child(2),
-            .category-page-table td:nth-child(2) {
-                width: 85%;
-                /* Chiều rộng của cột Tên */
-            }
+        .category-page-table th:nth-child(2),
+        .category-page-table td:nth-child(2) {
+            width: 85%;
+        }
 
-            .category-page-table th:nth-child(3),
-            .category-page-table td:nth-child(3) {
-                width: 10%;
-                /* Chiều rộng của cột Action */
-                text-align: center;
-                border-left: 1px solid #000;
-            }
+        .category-page-table th:nth-child(3),
+        .category-page-table td:nth-child(3) {
+            width: 10%;
+            text-align: center;
+            border-left: 1px solid #ddd;
+        }
 
-            .category-page-table th,
-            .category-page-table td {
-                padding: 12px;
-                text-align: left;
-            }
+        .category-page-table th,
+        .category-page-table td {
+            padding: 12px;
+            text-align: left;
+        }
 
-            .category-page-table tbody tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
+        .category-page-table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
 
-            .category-page-table tbody tr{
-                border-bottom: 1px solid #000;
-            }
+        .category-page-table tbody tr {
+            border-bottom: 1px solid #ddd;
+        }
 
-            .category-page-table tbody tr:hover {
-                background-color: #ddd;
-            }
+        .category-page-table tbody tr:hover {
+            background-color: #ddd;
+        }
 
-            .edit-category,
-            .delete-category{
-                color: #000;
-                font-size: 20px;
-                margin: 0 10px;
-                transition: all ease-in-out 0.3s;
-                
-            }
+        .edit-category,
+        .delete-category {
+            color: #000;
+            font-size: 20px;
+            margin: 0 10px;
+            transition: all ease-in-out 0.3s;
+        }
 
-            .edit-category:hover{
-                color: #008000;
-            }
+        .edit-category:hover {
+            color: #008000;
+        }
 
-            .delete-category:hover{
-                color: red;
-            }
+        .delete-category:hover {
+            color: red;
+        }
 
-            .table-container {
-                max-height: 550px;
-                overflow-y: auto;
-            }
+        .table-container {
+            max-height: 550px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 
 <body>
 
-    <?php include "../admin/assets/sidebar-new.php"; ?>
+    <?php include "assets/sidebar.php"; ?>
 
     <main class="main-admin-page">
         <section class="main-top-admin-page">
             <div class="main-top-left-admin-page">
-                <a href="../../ivano_website/admin/index.php">Trang Quản Trị</a> <i class="fa-solid fa-angle-right" style="color: #000; margin: 0 5px"></i> <a
-                    href="#">Danh Mục Loại Sản Phẩm</a>
+                <a href="../../ivano_website/admin/index.php">Trang Quản Trị</a> <i class="fa-solid fa-angle-right"
+                    style="color: #000; margin: 0 5px"></i> <a href="#">Thương Hiệu</a>
             </div>
 
-            <a href="" class="main-top-right-admin-page">
-                <div class="left-hello-user">
-                    <p>Hi</p>
-                    <span>Admin</span>
-                </div>
-
-                <div class="right-hello-user">
-                    <span>A</span>
-                </div>
-            </a>
+            <?php include "assets/hello-user.php"; ?>
         </section>
 
         <section class="content-page-category">
             <div class="container-add-new-btn">
-                <button class="button-add-new-category" onclick="addProduct()">Thêm danh mục</button>
-                <form action="productCategory-search.php" method="GET" class="search-category-box">
-                    <input type="text" name="search" placeholder="Nhập danh mục cần tìm..."
+                <button class="button-add-new-category" onclick="addBrand()">Thêm thương hiệu</button>
+                <form action="brands-search.php" method="GET" class="search-category-box">
+                    <input type="text" name="search" placeholder="Nhập thương hiệu cần tìm..."
                         class="search-category-text">
                     <button type="submit" class="search-category-btn"><i
                             class="fa-solid fa-magnifying-glass"></i></button>
@@ -187,7 +189,7 @@
                     <thead class="category-table-thead">
                         <tr class="category-table-thead-tr">
                             <th>ID</th>
-                            <th>Tên danh mục loại sản phẩm</th>
+                            <th>Tên thương hiệu</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
@@ -195,7 +197,7 @@
                         <?php
                         include '../php/conection.php';
                         $search = isset($_GET['search']) ? $_GET['search'] : '';
-                        $sql = "SELECT ProductCategory_id, ProductCategory_name FROM ProductCategory WHERE ProductCategory_name LIKE ?";
+                        $sql = "SELECT brand_id, brand_name FROM brands WHERE brand_name LIKE ?";
                         $stmt = $conn->prepare($sql);
                         $searchTerm = "%{$search}%";
                         $stmt->bind_param("s", $searchTerm);
@@ -206,25 +208,24 @@
                             while ($row = $result->fetch_assoc()): ?>
                                 <tr class="category-table-tbody-tr">
                                     <td class="category-table-tbody-td">
-                                        <?php echo htmlspecialchars($row['ProductCategory_id']); ?>
+                                        <?php echo htmlspecialchars($row['brand_id']); ?>
                                     </td>
                                     <td class="category-table-tbody-td">
-                                        <?php echo htmlspecialchars($row['ProductCategory_name']); ?>
+                                        <?php echo htmlspecialchars($row['brand_name']); ?>
                                     </td>
                                     <td class="category-table-tbody-td">
                                         <a class="category-table-action-link edit-category" href="#"
-                                            onclick="editProduct(<?php echo htmlspecialchars($row['ProductCategory_id']); ?>, '<?php echo htmlspecialchars($row['ProductCategory_name']); ?>')"><i
+                                            onclick="editBrand(<?php echo htmlspecialchars($row['brand_id']); ?>, '<?php echo htmlspecialchars($row['brand_name']); ?>')"><i
                                                 class="fa-solid fa-pencil"></i></a>
                                         <a class="category-table-action-link delete-category" href="#"
-                                            onclick="deleteProduct(<?php echo htmlspecialchars($row['ProductCategory_id']); ?>)"><i
+                                            onclick="deleteBrand(<?php echo htmlspecialchars($row['brand_id']); ?>)"><i
                                                 class="fa-regular fa-trash-can"></i></a>
                                     </td>
                                 </tr>
                             <?php endwhile;
                         else: ?>
-                            <tr class="content-page__table-row category-page-table__row">
-                                <td class="category-table-tbody-td" colspan="3">Không có loại sản phẩm nào được tìm thấy.
-                                </td>
+                            <tr class="category-table-tbody-tr">
+                                <td class="category-table-tbody-td" colspan="3">Không có thương hiệu nào được tìm thấy.</td>
                             </tr>
                         <?php endif;
 
@@ -237,27 +238,27 @@
         </section>
 
         <script>
-            function addProduct() {
+            function addBrand() {
                 Swal.fire({
-                    title: 'Thêm loại sản phẩm mới',
-                    html: '<input type="text" id="name" class="swal2-input" placeholder="Tên loại sản phẩm">',
+                    title: 'Thêm thương hiệu mới',
+                    html: '<input type="text" id="name" class="swal2-input" placeholder="Tên thương hiệu">',
                     showCancelButton: true,
                     confirmButtonText: 'Thêm',
                     cancelButtonText: 'Hủy',
                     preConfirm: () => {
                         const name = Swal.getPopup().querySelector('#name').value
                         if (!name) {
-                            Swal.showValidationMessage('Vui lòng nhập tên loại sản phẩm')
+                            Swal.showValidationMessage('Vui lòng nhập tên thương hiệu')
                         }
                         return { name: name }
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const formData = new FormData();
-                        formData.append('add', true);
-                        formData.append('name', result.value.name);
+                        formData.append('add_brand', true);
+                        formData.append('brand_name', result.value.name);
 
-                        fetch('../action/productCategory-action.php', {
+                        fetch('../action/brand-action.php', {
                             method: 'POST',
                             body: formData
                         })
@@ -272,28 +273,29 @@
                 })
             }
 
-            function editProduct(id, name) {
+            function editBrand(id, name) {
                 Swal.fire({
-                    title: 'Sửa loại sản phẩm',
-                    html: `<input type="text" id="name" class="swal2-input" value="${name}">`,
+                    title: 'Sửa thương hiệu',
+                    html
+                        : `<input type="text" id="name" class="swal2-input" value="${name}">`,
                     showCancelButton: true,
                     confirmButtonText: 'Lưu',
                     cancelButtonText: 'Hủy',
                     preConfirm: () => {
                         const name = Swal.getPopup().querySelector('#name').value
                         if (!name) {
-                            Swal.showValidationMessage('Vui lòng nhập tên loại sản phẩm')
+                            Swal.showValidationMessage('Vui lòng nhập tên thương hiệu')
                         }
                         return { name: name }
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const formData = new FormData();
-                        formData.append('edit', true);
+                        formData.append('edit_brand', true);
                         formData.append('id', id);
-                        formData.append('name', result.value.name);
+                        formData.append('brand_name', result.value.name);
 
-                        fetch('../action/productCategory-action.php', {
+                        fetch('../action/brand-action.php', {
                             method: 'POST',
                             body: formData
                         })
@@ -308,10 +310,10 @@
                 })
             }
 
-            function deleteProduct(id) {
+            function deleteBrand(id) {
                 Swal.fire({
-                    title: 'Xóa loại sản phẩm',
-                    text: 'Bạn có chắc chắn muốn xóa loại sản phẩm này không?',
+                    title: 'Xóa thương hiệu',
+                    text: 'Bạn có chắc chắn muốn xóa thương hiệu này không?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Xóa',
@@ -319,10 +321,10 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const formData = new FormData();
-                        formData.append('delete', true);
+                        formData.append('delete_brand', true);
                         formData.append('id', id);
 
-                        fetch('../action/productCategory-action.php', {
+                        fetch('../action/brand-action.php', {
                             method: 'POST',
                             body: formData
                         })
@@ -357,12 +359,13 @@
             font-weight: 600;
             padding: 0 20px;
             border-bottom: 1px solid #fff;
+            top: 0;
+            position: sticky;
+            background: url('images/BacksAndBeyond_Images_Learning_2-2000x700-1-1400x490.jpg') no-repeat center center;
         }
-
 
         .main-top-left-admin-page {
             align-items: center;
-
         }
 
         .main-top-left-admin-page a {
@@ -373,7 +376,6 @@
         .main-top-left-admin-page a:hover {
             color: #000;
         }
-
 
         .main-top-right-admin-page {
             display: flex;

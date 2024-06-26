@@ -18,6 +18,7 @@
     .main-top-right-admin-page:hover .container-setting {
         opacity: 1;
         top: 130%;
+        visibility: visible; 
     }
 
     .container-setting {
@@ -32,6 +33,7 @@
         overflow: visible;
         opacity: 0;
         transition: all ease-in-out 0.3s;
+        visibility: hidden;
     }
 
     .container-setting::before {

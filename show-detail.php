@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
+
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/custom-scroll.css">
     <title>Thông Tin Sản Phẩm | IVANO</title>
@@ -15,50 +15,48 @@
 
 <body>
     <main id="main-product-detail">
-    <?php
-include "assets/header.php";
+        <?php
+        include "assets/header.php";
 
-// Kiểm tra xem product_id có tồn tại trong URL không
-if (isset($_GET['product_id'])) {
-    $productId = $_GET['product_id'];
-    include 'php/conection.php';
+        // Kiểm tra xem product_id có tồn tại trong URL không
+        if (isset($_GET['product_id'])) {
+            $productId = $_GET['product_id'];
+            include 'php/conection.php';
 
-    // Kiểm tra xem product_id có tồn tại trong cơ sở dữ liệu không
-    $checkProductSql = "SELECT * FROM products WHERE product_id = ?";
-    $stmtCheck = $conn->prepare($checkProductSql);
-    if (!$stmtCheck) {
-        echo "Lỗi prepare statement: " . $conn->error;
-        exit();
-    }
-    $stmtCheck->bind_param("s", $productId);
-    $stmtCheck->execute();
-    $resultCheck = $stmtCheck->get_result();
+            // Kiểm tra xem product_id có tồn tại trong cơ sở dữ liệu không
+            $checkProductSql = "SELECT * FROM products WHERE product_id = ?";
+            $stmtCheck = $conn->prepare($checkProductSql);
+            if (!$stmtCheck) {
+                echo "Lỗi prepare statement: " . $conn->error;
+                exit();
+            }
+            $stmtCheck->bind_param("s", $productId);
+            $stmtCheck->execute();
+            $resultCheck = $stmtCheck->get_result();
 
-    if ($resultCheck->num_rows > 0) {
-        // Tăng số lượng click cho sản phẩm
-        $updateClicksSql = "UPDATE products SET clicks = clicks + 1 WHERE product_id = ?";
-        $stmtUpdate = $conn->prepare($updateClicksSql);
-        if (!$stmtUpdate) {
-            echo "Lỗi prepare statement: " . $conn->error;
-            exit();
-        }
-        $stmtUpdate->bind_param("s", $productId);
-        if ($stmtUpdate->execute()) {
-            echo "Số lần click đã được cập nhật.";
+            if ($resultCheck->num_rows > 0) {
+                // Tăng số lượng click cho sản phẩm
+                $updateClicksSql = "UPDATE products SET clicks = clicks + 1 WHERE product_id = ?";
+                $stmtUpdate = $conn->prepare($updateClicksSql);
+                if (!$stmtUpdate) {
+                    echo "Lỗi prepare statement: " . $conn->error;
+                    exit();
+                }
+                $stmtUpdate->bind_param("s", $productId);
+                if ($stmtUpdate->execute()) {
+                    echo "Số lần click đã được cập nhật.";
+                } else {
+                    echo "Lỗi khi cập nhật số lần click: " . $stmtUpdate->error;
+                }
+                $stmtUpdate->close();
+            } else {
+                echo "Product ID không tồn tại";
+            }
+
+            $stmtCheck->close();
         } else {
-            echo "Lỗi khi cập nhật số lần click: " . $stmtUpdate->error;
+            echo "Không có product ID được truyền qua URL";
         }
-        $stmtUpdate->close();
-    } else {
-        echo "Product ID không tồn tại";
-    }
-
-    $stmtCheck->close();
-} else {
-    echo "Không có product ID được truyền qua URL";
-}
-
-
 
         if (isset($_GET['product_id'])) {
             $productId = $_GET['product_id'];
@@ -284,7 +282,7 @@ if (isset($_GET['product_id'])) {
 
         <div class="detail-info-bottom">
             <div class="info-des">
-                <?php include "assets/show-des-plus.php";?>
+                <?php include "assets/show-des-plus.php"; ?>
             </div>
         </div>
 
@@ -295,6 +293,9 @@ if (isset($_GET['product_id'])) {
 </html>
 
 <style>
+    #main-product-detail{
+        padding-top: 150px;
+    }
     .product-detail-container {
         width: 90%;
         margin: 20px auto;
@@ -323,16 +324,17 @@ if (isset($_GET['product_id'])) {
         margin: 20px auto;
     }
 
-    .detail-left{
-         width: 500px;
+    .detail-left {
+        width: 500px;
         height: 500px;
         margin-right: 20px;
         display: flex;
-    align-items: flex-end; 
-    justify-content: center; 
-    border-right: 1px solid #000;
+        align-items: flex-end;
+        justify-content: center;
+        border-right: 1px solid #000;
 
     }
+
     .detail-left img {
         width: 450px;
     }

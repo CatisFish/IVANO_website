@@ -1,7 +1,6 @@
 <?php
 include '../php/conection.php';
 
-// Xử lý thêm banner
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_banner'])) {
     $banner_title = $_POST['banner_title'];
     $banner_date = $_POST['banner_date'];
@@ -49,11 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_banner'])) {
     exit();
 }
 
-// Xử lý xóa banner
 if (isset($_GET['delete_id'])) {
     $banner_id = $_GET['delete_id'];
 
-    // Truy vấn để lấy tên tệp ảnh của banner
     $sql_select_img = "SELECT banner_img FROM banners WHERE banner_id = ?";
     $stmt = $conn->prepare($sql_select_img);
     $stmt->bind_param("i", $banner_id);
@@ -62,14 +59,12 @@ if (isset($_GET['delete_id'])) {
     $stmt->fetch();
     $stmt->close();
 
-    // Xóa banner từ cơ sở dữ liệu
     $sql_delete_banner = "DELETE FROM banners WHERE banner_id = ?";
     $stmt = $conn->prepare($sql_delete_banner);
     $stmt->bind_param("i", $banner_id);
     if ($stmt->execute()) {
         $stmt->close();
 
-        // Xóa tệp ảnh từ thư mục uploads
         $filepath = "" . $banner_img;
         if (file_exists($filepath)) {
             unlink($filepath);
@@ -84,7 +79,6 @@ if (isset($_GET['delete_id'])) {
     exit();
 }
 
-// Lấy danh sách các banner
 $sql = "SELECT * FROM banners";
 $result = $conn->query($sql);
 
@@ -100,94 +94,103 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Banner Management</title>
     <style>
-        table, th, td {
+        table,
+        th,
+        td {
             border: 1px solid black;
             border-collapse: collapse;
         }
-        th, td {
+
+        th,
+        td {
             padding: 10px;
         }
+
         body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-h1, h2 {
-    margin-bottom: 20px;
-}
+        h1,
+        h2 {
+            margin-bottom: 20px;
+        }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
 
-th, td {
-    padding: 8px;
-    text-align: left;
-}
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
 
-th {
-    background-color: #f2f2f2;
-}
+        th {
+            background-color: #f2f2f2;
+        }
 
-img {
-    max-width: 100px;
-    height: auto;
-}
+        img {
+            max-width: 100px;
+            height: auto;
+        }
 
-form {
-    margin-top: 20px;
-}
+        form {
+            margin-top: 20px;
+        }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-}
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
 
-input[type="text"],
-input[type="date"],
-input[type="file"] {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-}
+        input[type="text"],
+        input[type="date"],
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
 
-input[type="submit"],
-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        input[type="submit"],
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-input[type="submit"]:hover,
-button:hover {
-    background-color: #0056b3;
-}
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: #0056b3;
+        }
 
-button {
-    margin-right: 10px;
-}
-
+        button {
+            margin-right: 10px;
+        }
     </style>
 </head>
+
 <body>
     <h1>Banner Management</h1>
-
-    <h2>Banners</h2>
+    
     <table>
         <thead>
             <tr>
@@ -200,16 +203,17 @@ button {
         </thead>
         <tbody>
             <?php foreach ($banners as $banner): ?>
-            <tr>
-                <td><?php echo $banner['banner_id']; ?></td>
-                <td><?php echo $banner['banner_title']; ?></td>
-                <td><?php echo $banner['banner_date']; ?></td>
-                <td><img src="<?php echo $banner['banner_img']; ?>" alt="Banner Image" width="100"></td>
-                <td>
-                    <button onclick="editBanner(<?php echo $banner['banner_id']; ?>)">Edit</button>
-                    <a href="manage_banners.php?delete_id=<?php echo $banner['banner_id']; ?>" onclick="return confirm('Are you sure you want to delete this banner?')">Delete</a>
-                </td>
-            </tr>
+                <tr>
+                    <td><?php echo $banner['banner_id']; ?></td>
+                    <td><?php echo $banner['banner_title']; ?></td>
+                    <td><?php echo $banner['banner_date']; ?></td>
+                    <td><img src="<?php echo $banner['banner_img']; ?>" alt="Banner Image" width="100"></td>
+                    <td>
+                        <button onclick="editBanner(<?php echo $banner['banner_id']; ?>)">Edit</button>
+                        <a href="manage_banners.php?delete_id=<?php echo $banner['banner_id']; ?>"
+                            onclick="return confirm('Are you sure you want to delete this banner?')">Delete</a>
+                    </td>
+                </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
@@ -243,4 +247,5 @@ button {
         }
     </script>
 </body>
+
 </html>
