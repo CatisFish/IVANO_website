@@ -13,7 +13,7 @@ if (isset($_GET['color_id'])) {
     $color = $result->fetch_assoc();
     $stmt->close();
 } else {
-    header("Location: colors.php");
+    header("Location: ../assets/manage-colors.php");
     exit();
 }
 ?>
@@ -33,7 +33,7 @@ if (isset($_GET['color_id'])) {
         </section>
 
         <section class="content-edit-color">
-            <form method="POST" action="manage_color.php">
+            <form method="POST" action="../assets/manage-colors.php">
                 <input type="hidden" name="color_id" value="<?php echo $color_id; ?>">
 
                 <label for="color_code">Mã màu:</label>

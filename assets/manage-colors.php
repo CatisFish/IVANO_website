@@ -1,22 +1,37 @@
 <?php
 include '../php/conection.php';
 
+
+$message = "";
+
 // Xử lý thêm màu
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_colors'])) {
     $colors = $_POST['colors'];
     $stmt_add = $conn->prepare("INSERT INTO colors (color_code, color_hex, color_group, color_group_main) VALUES (?, ?, ?, ?)");
+    $stmt_check = $conn->prepare("SELECT color_code FROM colors WHERE color_code = ?");
 
     foreach ($colors as $color) {
         $color_code = $color['color_code'];
         $color_hex = $color['color_hex'];
         $color_group = $color['color_group'];
         $color_group_main = $color['color_group_main'];
-        $stmt_add->bind_param("ssss", $color_code, $color_hex, $color_group, $color_group_main);
-        $stmt_add->execute();
-    }
-    $stmt_add->close();
-}
 
+        // Kiểm tra xem color_code đã tồn tại hay chưa
+        $stmt_check->bind_param("s", $color_code);
+        $stmt_check->execute();
+        $stmt_check->store_result();
+
+        if ($stmt_check->num_rows > 0) {
+            $message .= "Màu với mã code $color_code đã tồn tại.<br>";
+        } else {
+            $stmt_add->bind_param("ssss", $color_code, $color_hex, $color_group, $color_group_main);
+            $stmt_add->execute();
+        }
+    }
+
+    $stmt_add->close();
+    $stmt_check->close();
+}
 // Xử lý sửa màu
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_color'])) {
     $color_id = $_POST['color_id'];
@@ -96,9 +111,12 @@ $conn->close();
             <h2>Danh sách màu sắc</h2>
             <table>
                 <thead>
-                    <tr>
+                    <tr>                        
+
                         <th>Mã màu</th>
                         <th>Màu HEX</th>
+                        <th>Mã HEX</th>
+
                         <th>Nhóm màu</th>
                         <th>Nhóm màu chính</th>
                         <th>Hành động</th>
@@ -107,6 +125,7 @@ $conn->close();
                 <tbody>
                     <?php foreach ($colors as $color): ?>
                         <tr>
+
                             <td><?php echo htmlspecialchars($color['color_code']); ?></td>
                             <td><div style="background-color: <?php echo htmlspecialchars($color['color_hex']); ?>; width: 50px; height: 20px;"></div></td>
                             <td><?php echo htmlspecialchars($color['color_hex']); ?></td>
@@ -114,8 +133,8 @@ $conn->close();
                             <td><?php echo htmlspecialchars($color['color_group']); ?></td>
                             <td><?php echo htmlspecialchars($color['color_group_main']); ?></td>
                             <td>
-                                <a href="edit_color.php?color_id=<?php echo $color['color_id']; ?>">Sửa</a>
-                                <a href="colors.php?delete=<?php echo $color['color_id']; ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa màu này?');">Xóa</a>
+                                <a href="../php/edit_color.php?color_id=<?php echo $color['color_id']; ?>">Sửa</a>
+                                <a href="?delete=<?php echo $color['color_id']; ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa màu này?');">Xóa</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -155,3 +174,6 @@ $conn->close();
     </script>
 </body>
 </html>
+<style>
+
+</style>
