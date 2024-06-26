@@ -293,6 +293,9 @@
 </html>
 
 <style>
+    #main-product-detail{
+        padding-top: 150px;
+    }
     .product-detail-container {
         width: 90%;
         margin: 20px auto;

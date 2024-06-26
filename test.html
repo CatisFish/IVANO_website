@@ -1,143 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="test.css">
-    <title>test-admin UI</title>
+    <title>Document</title>
 </head>
 
+<style>
+/* Style cho navbar */
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+  font-size: 17px;
+  transition: 0.3s;
+}
+
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.navbar a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Style cho nội dung của tab */
+.tabcontent {
+  display: none;
+  padding: 20px;
+  border-top: none;
+}
+
+/* Hiển thị nội dung của tab đang được chọn */
+.tabcontent.active {
+  display: block;
+}
+
+
+</style>
 <body>
-    <div class="container-admin-page">
-        <section class="container-sidebar-ad">
-            <div class="sidebar-top-ad">
-                <h3>SB ADMIN 😍</h3>
-
-                <button id="show-hide-sidebar-ad"><i class="fa-solid fa-circle-chevron-left"></i></button>
-            </div>
-
-            <div class="sidebar-bottom-ad">
-                <ul class="container-navbar-ad">
-                    <li class="navbar-ad-item">
-                        <a href="">
-                            <i class="fa fa-home"></i>
-                            <span>Trang Chủ</span>
-                        </a>
-                    </li>
-
-                    <li class="navbar-ad-item">
-                        <a href="">
-                            <i class="fa-solid fa-store"></i>
-                            <span>Cửa Hàng <i class="fa-solid fa-chevron-down"></i></span>
-                        </a>
-
-                        <ul class="submenu-ad">
-                            <li class="submenu-ad-item"><a href="">Loại sản phẩm</a></li>
-                            <li class="submenu-ad-item"><a href="">Doanh mục loại sản phẩm</a></li>
-                            <li class="submenu-ad-item"><a href="">Thương hiệu</a></li>
-                            <li class="submenu-ad-item"><a href="">Sản phẩm</a></li>
-                        </ul>
-                    </li>
-                   
-
-                    <li class="navbar-ad-item">
-                        <a href="">
-                            <i class="fa-solid fa-headset"></i>
-                            <span>Tư Vấn</span>
-                        </a>
-                    </li>
-
-                    
-
-                    <li class="navbar-ad-item">
-                        <a href="">
-                            <i class="fa-solid fa-paint-roller"></i>
-                            <span>Màu Sắc</span>
-                        </a>
-                    </li>
-
-                    <li class="navbar-ad-item">
-                        <a href="">
-                            <i class="fa-solid fa-people-arrows"></i>
-                            <span>Đại Lý</span>
-                        </a>
-                    </li>
-
-                    <li class="navbar-ad-item">
-                        <a href="">
-                            <i class="fa-solid fa-users"></i>
-                            <span>Khách Hàng</span>
-                        </a>
-                    </li>
-
-                    <li class="navbar-ad-item">
-                        <a href="">
-                            <i class="fa-solid fa-user"></i>
-                            <span>Nhân Viên</span>
-                        </a>
-                    </li>
-
-                    <li class="navbar-ad-item">
-                        <a href="">
-                            <i class="fa-regular fa-file"></i>
-                            <span>Popup</span>
-                        </a>
-                    </li>
-                    <li class="navbar-ad-item">
-                        <a href="">
-                            <i class="fa-regular fa-images"></i>
-                            <span>Banner</span>
-                        </a>
-                    </li>
-                    <li class="navbar-ad-item">
-                        <a href="">
-                            <i class="fa-solid fa-bolt"></i>
-                            <span>Flash Sales</span>
-                        </a>
-                    </li>
-
-                    <li class="navbar-ad-item">
-                        <a href="#">
-                            <i class="fa fa-chart-bar"></i>
-                            <span>Thống kê</span>
-                        </a>
-                    </li>
-                    
-                    
-                </ul>
-            </div>
-
-            <div class="overlay" id="overlay"></div>
-        </section>
-
-        <main class="main-ad-page">
-            <section class="main-top-ad-page">
-                <div class="main-top-left-ad-page">
-                    <a href="">Trang Quản Trị</a> 
-                </div>
-
-                <a href="" class="main-top-right-ad-page">
-                    <div class="left-hello-user">
-                        <p>Hi</p>
-                        <span>Admin</span>
-                    </div>
-
-                    <div class="right-hello-user">
-                        <span>A</span>
-                    </div>
-                </a>
-            </section>
-        </main>
-    </div>
+    <div class="navbar">
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Users</a>
+        <a href="#">Settings</a>
+      </div>
+      
+      <div id="Dashboard" class="tabcontent">
+        <!-- Nội dung cho Dashboard -->
+        <h3>Dashboard</h3>
+        <p>This is the dashboard content.</p>
+      </div>
+      
+      <div id="Users" class="tabcontent">
+        <!-- Nội dung cho Users -->
+        <h3>Users</h3>
+        <p>This is the users content.</p>
+      </div>
+      
+      <div id="Settings" class="tabcontent">
+        <!-- Nội dung cho Settings -->
+        <h3>Settings</h3>
+        <p>This is the settings content.</p>
+      </div>
+      
 </body>
+<script>
+// Kích hoạt tab đầu tiên khi trang được tải
+document.getElementById("Dashboard").style.display = "block";
 
-<script src="test.js"></script>
+// Bắt sự kiện click trên navbar và mở tab tương ứng
+document.querySelectorAll('.navbar a').forEach(item => {
+  item.addEventListener('click', function() {
+    var tabName = this.getAttribute('href').substring(1); // Lấy id của tab từ href
+    showTab(tabName);
+    return false; // Ngăn chặn chuyển hướng khi click vào link
+  });
+});
 
+// Hàm hiển thị tab
+function showTab(tabName) {
+  var i, tabcontent, navbarLinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  navbarLinks = document.getElementsByClassName("navbar")[0].getElementsByTagName("a");
+  for (i = 0; i < navbarLinks.length; i++) {
+    navbarLinks[i].classList.remove("active");
+  }
+  document.getElementById(tabName).style.display = "block";
+  document.querySelector('.navbar a[href="#' + tabName + '"]').classList.add("active");
+}
+
+</script>
 </html>

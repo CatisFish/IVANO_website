@@ -423,13 +423,9 @@
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
         if (scrollTop > lastScrollTop) {
-            header.style.transform = 'translateY(-150%)';
-            cart.style.opacity = '0';
-            cart.style.pointerEvents = 'none'; // Disable interaction when hidden
+            header.style.transform = 'translateY(-100px)';
         } else {
             header.style.transform = 'translateY(0)';
-            cart.style.opacity = '1';
-            cart.style.pointerEvents = 'auto'; // Re-enable interaction
         }
 
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
@@ -564,6 +560,11 @@
         padding-bottom: 10px;
         align-items: center;
         position: relative;
+    }
+
+    .cart-item:last-child{
+        border-bottom: none;
+        padding-bottom: 0;
     }
 
     .cart-item-image {

@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['user_name'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
 if (isset($_SESSION['user_name'])) {
     $loggedInUsername = $_SESSION['user_name'];
 
@@ -34,6 +39,11 @@ if (isset($_SESSION['user_name'])) {
         transition: all ease-in-out 0.3s;
     }
 
+    .main-top-admin-page{
+        top: 0;
+        position: sticky;
+        background: url('images/BacksAndBeyond_Images_Learning_2-2000x700-1-1400x490.jpg') no-repeat center center;
+    }
 
     .main-info {
         display: flex;
@@ -57,12 +67,12 @@ if (isset($_SESSION['user_name'])) {
 <body>
     <div class="container-admin-page">
 
-        <?php include "assets/sidebar-new.php"; ?>
+        <?php include "assets/sidebar.php"; ?>
 
         <main class="main-admin-page">
             <section class="main-top-admin-page">
                 <div class="main-top-left-admin-page">
-                    <a href="">Trang Quản Trị</a>
+                    <a href="#">Trang Quản Trị</a>
                 </div>
 
                 <?php include "assets/hello-user.php"; ?>

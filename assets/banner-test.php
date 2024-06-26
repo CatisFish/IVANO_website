@@ -10,7 +10,7 @@
 
             if ($result_banner_left->num_rows > 0) {
                 while ($row = $result_banner_left->fetch_assoc()) {
-                    echo '<div class="gallery-slide-item" style="background-image: url(uploads/' . $row["banner_img"] . ');">';
+                    echo '<div class="gallery-slide-item" style="background-image: url(admin/uploads/' . $row["banner_img"] . ');">';
                     echo '<div class="content">';
                     echo '<div class="name">' . $row["banner_title"] . '</div>';
                     echo '<div class="des">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!</div>';
