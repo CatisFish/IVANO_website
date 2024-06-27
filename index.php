@@ -1,3 +1,8 @@
+<?php
+ob_start(); 
+session_start(); 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,12 +36,8 @@
                 </button>
             </div>
            
-
             <?php include "assets/flsale.php"; ?>
         </section>
-
-
-
 
         <?php include "assets/banner-news.php"; ?>
 

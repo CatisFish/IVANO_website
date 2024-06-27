@@ -44,7 +44,7 @@
                 }
                 $stmtUpdate->bind_param("s", $productId);
                 if ($stmtUpdate->execute()) {
-                    echo "Số lần click đã được cập nhật.";
+                    // echo "Số lần click đã được cập nhật.";
                 } else {
                     echo "Lỗi khi cập nhật số lần click: " . $stmtUpdate->error;
                 }
@@ -234,18 +234,15 @@
                 updatePrice();
             });
 
-            // Lấy các phần tử nút tăng và giảm
             var plusButton = document.querySelector('.plus-quantity');
             var minusButton = document.querySelector('.minus-quantity');
             var quantityInput = document.querySelector('.product-quantity input');
 
-            // Lắng nghe sự kiện click vào nút tăng
             plusButton.addEventListener('click', function () {
                 quantityInput.value = parseInt(quantityInput.value) + 1;
                 quantityInput.dispatchEvent(new Event('change'));
             });
 
-            // Lắng nghe sự kiện click vào nút giảm
             minusButton.addEventListener('click', function () {
                 if (parseInt(quantityInput.value) > 1) {
                     quantityInput.value = parseInt(quantityInput.value) - 1;
@@ -294,7 +291,9 @@
 
 <style>
     #main-product-detail{
-        padding-top: 150px;
+        padding: 120px 0 20px 0;
+        background: linear-gradient(to top right, #D7F8F8 0%, #FFFFFF 50%, #FFFFFF 70%, #FFC8B0 120%);
+
     }
     .product-detail-container {
         width: 90%;

@@ -179,6 +179,7 @@
         margin-bottom: 10px;
         padding-left: 20px;
         position: relative;
+        line-height: 1.5;
     }
 
     /* tab2 */

@@ -93,7 +93,7 @@ $conn->close();
                 </a>
 
                 <ul class="submenu-admin">
-                    <li class="submenu-admin-item"><a href="../assets/manage-colors.php">Quản lý màu</a></li>
+                    <li class="submenu-admin-item"><a href="manage-colors.php">Quản lý màu</a></li>
                     <li class="submenu-admin-item"><a href="table_colors.php">Bảng màu</a></li>
                 </ul>
             </li>

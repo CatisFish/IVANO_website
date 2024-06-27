@@ -65,19 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_order_details = $conn->prepare($sql_insert_order_details);
         $stmt_order_details->bind_param("ss", $od_id, $od_info);
         $stmt_order_details->execute();
-<<<<<<< HEAD
-
-        // Cập nhật trạng thái voucher
-        $voucher_code = $_POST['voucher_code'];
-        if (!empty($voucher_code)) {
-            $sql_update_voucher = "UPDATE vouchers SET status = 'Đã sử dụng' WHERE voucher_code = ?";
-            $stmt_update_voucher = $conn->prepare($sql_update_voucher);
-            $stmt_update_voucher->bind_param("s", $voucher_code);
-            $stmt_update_voucher->execute();
-            $stmt_update_voucher->close();
-        }
-=======
->>>>>>> 23a723969e634ad3596602b0ec7b44b05aac15b2
 
         // Hoàn thành transaction
         $conn->commit();

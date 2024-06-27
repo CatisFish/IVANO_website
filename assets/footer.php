@@ -217,30 +217,30 @@
         height: 40px;
         width: 79%;
         padding: 0 15px;
-        border: 2px solid #FFD400;
+        border: 2px solid #55D5D2;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
     }
 
     .input-contact:focus {
-        outline: 2px solid #FFD400;
+        outline: 2px solid #55D5D2;
     }
 
     .contact-btn {
         height: 40px;
         width: 20%;
-        background-color: #C6A300;
+        background-color: #55D5D2;
         color: #fff;
         border: none;
         border-bottom-right-radius: 10px;
         border-top-right-radius: 10px;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
-        font-weight: 600;
+        font-weight: 700;
     }
 
     .contact-btn:hover {
-        background-color: #ffd400;
+        background-color: #F58F5D;
     }
 
     .contact-btn:active {

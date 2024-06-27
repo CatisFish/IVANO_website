@@ -1,10 +1,12 @@
+<link rel="stylesheet" href="css/animation.css">
+
 <section class="gallery-slider-container">
     <div class="gallery-slider">
         <div class="gallery-slide">
             <?php
             include "php/conection.php";
 
-            $sql_banner_left = "SELECT banner_title, banner_img FROM banners ORDER BY banner_id DESC LIMIT 5";
+            $sql_banner_left = "SELECT banner_title, banner_img, banner_description FROM banners ORDER BY banner_id DESC LIMIT 5";
 
             $result_banner_left = $conn->query($sql_banner_left);
 
@@ -13,8 +15,8 @@
                     echo '<div class="gallery-slide-item" style="background-image: url(admin/uploads/' . $row["banner_img"] . ');">';
                     echo '<div class="content">';
                     echo '<div class="name">' . $row["banner_title"] . '</div>';
-                    echo '<div class="des">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!</div>';
-                    echo '<button class="read-button">See More</button>';
+                    echo '<div class="des">' . $row["banner_description"] . '</div>';
+                    // echo '<button class="read-button">See More</button>';
                     echo '</div>';
                     echo '</div>';
                 }
@@ -26,17 +28,17 @@
             ?>
         </div>
 
-        <div class="container-gallery-slide-button">
+        <!-- <div class="container-gallery-slide-button">
             <button class="gallery-slide-button-prev"><i class="fa-solid fa-arrow-left"></i></button>
             <button class="gallery-slide-button-next"><i class="fa-solid fa-arrow-right"></i></button>
-        </div>
+        </div> -->
     </div>
 </section>
 
 <style>
     .gallery-slider-container {
         position: relative;
-        height: 630px;
+        height: 100vh;
         overflow: hidden;
     }
 
@@ -99,7 +101,7 @@
         position: absolute;
         top: 50%;
         left: 100px;
-        width: 400px;
+        width: 450px;
         text-align: left;
         color: #eee;
         transform: translate(0, -50%);
@@ -112,18 +114,69 @@
     }
 
     .name {
-        font-size: 40px;
+        font-size: 45px;
+        line-height: 1.3;
         text-transform: uppercase;
-        font-weight: bold;
-        opacity: 0;
-        animation: animate 1s ease-in-out 1 forwards;
+        font-weight: 700;
+        -webkit-animation: text-shadow-pop-bottom 0.6s both;
+        animation: text-shadow-pop-bottom 0.6s both;
+    }
+
+    @-webkit-keyframes text-shadow-pop-bottom {
+        0% {
+            text-shadow: 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555;
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+        }
+
+        100% {
+            text-shadow: 0 1px #555555, 0 2px #555555, 0 3px #555555, 0 4px #555555, 0 5px #555555, 0 6px #555555, 0 7px #555555, 0 8px #555555;
+            -webkit-transform: translateY(-8px);
+            transform: translateY(-8px);
+        }
+    }
+
+    @keyframes text-shadow-pop-bottom {
+        0% {
+            text-shadow: 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555, 0 0 #555555;
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+        }
+
+        100% {
+            text-shadow: 0 1px #555555, 0 2px #555555, 0 3px #555555, 0 4px #555555, 0 5px #555555, 0 6px #555555, 0 7px #555555, 0 8px #555555;
+            -webkit-transform: translateY(-8px);
+            transform: translateY(-8px);
+        }
     }
 
     .des {
+        font-weight: 500;
+        font-size: 20px;
         margin-top: 10px;
         margin-bottom: 20px;
-        opacity: 0;
-        animation: animate 1s ease-in-out 0.3s 1 forwards;
+        -webkit-animation: text-shadow-drop-center 0.6s both;
+        animation: text-shadow-drop-center 0.6s both;
+    }
+
+    @-webkit-keyframes text-shadow-drop-center {
+        0% {
+            text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+        }
+
+        100% {
+            text-shadow: 0 0 18px rgba(0, 0, 0, 0.35);
+        }
+    }
+
+    @keyframes text-shadow-drop-center {
+        0% {
+            text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+        }
+
+        100% {
+            text-shadow: 0 0 18px rgba(0, 0, 0, 0.35);
+        }
     }
 
     .read-button {
@@ -137,24 +190,13 @@
         color: #fff;
         font-weight: 600;
     }
-    .read-button:hover{
+
+    .read-button:hover {
         background-color: #F58F5D;
-        
+
     }
 
-    @keyframes animate {
-        from {
-            opacity: 0;
-            transform: translate(0, 100px);
-            filter: blur(33px);
-        }
 
-        to {
-            opacity: 1;
-            transform: translate(0);
-            filter: blur(0);
-        }
-    }
 
     .container-gallery-slide-button {
         width: 100%;
@@ -178,25 +220,33 @@
     }
 
     .gallery-slide-button-prev:hover,
-    .gallery-slide-button-next:hover{
+    .gallery-slide-button-next:hover {
         background-color: #F58F5D;
     }
-
 </style>
 
 <script>
-    let next = document.querySelector('.gallery-slide-button-next');
-    let prev = document.querySelector('.gallery-slide-button-prev');
+    // let next = document.querySelector('.gallery-slide-button-next');
+    // let prev = document.querySelector('.gallery-slide-button-prev');
 
-    next.addEventListener('click', function () {
-        let items = document.querySelectorAll('.gallery-slide-item');
+    // next.addEventListener('click', function () {
+    //     let items = document.querySelectorAll('.gallery-slide-item');
+    //     document.querySelector('.gallery-slide').appendChild(items[0]);
+    // });
+
+    // prev.addEventListener('click', function () {
+    //     let items = document.querySelectorAll('.gallery-slide-item');
+    //     document.querySelector('.gallery-slide').prepend(items[items.length - 1]);
+    // });
+
+    let slideIndex = 0;
+    let items = document.querySelectorAll('.gallery-slide-item');
+
+    function autoSlide() {
         document.querySelector('.gallery-slide').appendChild(items[0]);
-    });
+        items = document.querySelectorAll('.gallery-slide-item');
+    }
 
-    prev.addEventListener('click', function () {
-        let items = document.querySelectorAll('.gallery-slide-item');
-        document.querySelector('.gallery-slide').prepend(items[items.length - 1]); // here the length of items = 6
-    });
-
+    setInterval(autoSlide, 3000);
 
 </script>

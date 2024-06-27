@@ -6,15 +6,39 @@ if (!isset($_SESSION['user_name'])) {
     exit();
 }
 
-if (isset($_SESSION['user_name'])) {
-    $loggedInUsername = $_SESSION['user_name'];
+$loggedInUsername = $_SESSION['user_name'];
 
-    if (isset($loggedInUsername)) {
-        $initial = substr($loggedInUsername, 0, 1);
+include "connectDB.php";
+
+$stmt = $conn->prepare("SELECT role_id FROM customers WHERE user_name = ?");
+$stmt->bind_param("s", $loggedInUsername);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows > 0) {
+    $stmt->bind_result($role_id);
+    $stmt->fetch();
+
+    if ($role_id == 1) {
+        if (isset($_SESSION['user_name'])) {
+            $loggedInUsername = $_SESSION['user_name'];
+        
+            if (isset($loggedInUsername)) {
+                $initial = substr($loggedInUsername, 0, 1);
+            } else {
+                echo "Không có tên người dùng đăng nhập";
+            }
+        }
     } else {
-        echo "Không có tên người dùng đăng nhập";
+        header("Location: ../index.php");
+        exit();
     }
+} else {
+    echo "Không tìm thấy người dùng trong CSDL.";
 }
+
+$stmt->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>

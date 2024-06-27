@@ -5,7 +5,22 @@
         <section class="header-top">
             <p>ĐIỂM TÔ CUỘC SỐNG - TIẾP BƯỚC THÀNH CÔNG</p>
 
+            <div class="hello-user-container">
+                <i class="fa-regular fa-user"></i>
+                <?php
+                if (isset($_SESSION['user_name'])) {
+                    $loggedInUsername = $_SESSION['user_name'];
+                    echo '<span>' . htmlspecialchars($loggedInUsername) . '</span>';
 
+                    echo '<div class="user-dropdown-content" id="dropdownContent">';
+                    echo '<a class="user-link" href="#">Cài đặt</a>';
+                    echo '<a class="user-link" href="logout.php">Đăng xuất</a>';
+                    echo ' </div>';
+                } else {
+                    // echo '<span>Người Dùng</span>';
+                }
+                ?>
+            </div>
         </section>
     </div>
 
@@ -41,7 +56,7 @@
                         </ul>
                     </li>
                     <li class="nav-item"><a href="dai-ly.php">Đại Lý</a></li>
-                    <li class="nav-item"><a href="">Bảng Màu</a></li>
+                    <li class="nav-item"><a href="filter-color.php">Bảng Màu</a></li>
                     <li class="nav-item"><a href="">Tuyển Dụng</a></li>
                 </ul>
             </nav>
@@ -58,7 +73,7 @@
                 <ul class="container-nav-right-item">
                     <a href="" class="view-orders item-nav-right"><i class="fa-solid fa-headset"></i></a>
 
-                    <a href="login.php" class="login-link item-nav-right"><i class="fa-regular fa-user"></i></a>
+                    <a href="login.php" class="login-link item-nav-right" id="loginLink"><i class="fa-regular fa-user"></i></a>
 
                     <div class="shopping-cart-page">
                         <a href="cart-page.php">
@@ -138,10 +153,71 @@
         font-size: 12px;
     }
 
-    .header-top-right {
+    .hello-user-container{
+        background-color: #55D5D2;
+        color: #FFF;
+        padding: 5px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
         display: flex;
-        gap: 20px;
+        align-items: center;
+        position: relative;
     }
+
+    .hello-user-container i{
+        margin-right: 10px;
+    }
+
+    .user-dropdown-content {
+        z-index: 1000;
+        position: absolute;
+        background-color: #F58F5D;
+        top: 200%;
+        right: 0;
+        width: 200px;
+        transition: all ease-in-out 0.3s;
+        visibility: hidden;
+        opacity: 0;
+        padding: 5px 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .user-dropdown-content.show {
+        opacity: 1;
+        visibility: visible;
+        top: 115%;
+    }
+
+    .user-dropdown-content::before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: 80%;
+        transform: translateX(-50%);
+        border-width: 0 10px 10px 10px;
+        border-style: solid;
+        border-color: transparent transparent #F58F5D transparent;
+    }
+
+    .user-link {
+        padding: 10px 30px;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        color: #FFF;
+    }
+
+    .user-link:last-child {
+        border-bottom: none;
+    }
+
+    .user-link:hover {
+        background-color: #55D5D2;
+    }
+
+
 
     .wrapper-header-bottom {
         /* background: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 25%, rgba(252, 185, 0, 1) 50%, rgba(255, 105, 0, 1) 75%, rgb(74, 234, 220) 100%); */
@@ -423,7 +499,7 @@
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
         if (scrollTop > lastScrollTop) {
-            header.style.transform = 'translateY(-100px)';
+            header.style.transform = 'translateY(-110px)';
         } else {
             header.style.transform = 'translateY(0)';
         }
@@ -474,7 +550,7 @@
     #show-cart::after {
         content: "";
         position: absolute;
-        top: -15px;
+        top: -13px;
         right: 8%;
         border-width: 0 15px 15px 15px;
         border-style: solid;
@@ -547,7 +623,7 @@
         text-align: center;
         margin: 200px 0 175px 0;
         font-weight: 700;
-        color: #FFF;
+        color: #221F20;
     }
 </style>
 
@@ -562,7 +638,7 @@
         position: relative;
     }
 
-    .cart-item:last-child{
+    .cart-item:last-child {
         border-bottom: none;
         padding-bottom: 0;
     }
@@ -741,3 +817,34 @@
 
 <!-- sweetalert library -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- show user-link js -->
+<script>
+    const helloUser = document.querySelector('.hello-user-container');
+    const dropdownContent = document.querySelector('.user-dropdown-content');
+
+    helloUser.addEventListener('mouseenter', function () {
+        dropdownContent.classList.add('show');
+    });
+
+    helloUser.addEventListener('mouseleave', function () {
+        dropdownContent.classList.remove('show');
+    });
+</script>
+
+<!-- chặn tới login khi đăng nhập rồi -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var loginLink = document.getElementById('loginLink');
+    var helloUserContainer = document.querySelector('.hello-user-container');
+
+    <?php if (isset($_SESSION['user_name'])): ?>
+        loginLink.addEventListener('click', function(event) {
+            event.preventDefault();
+        });
+    <?php else: ?>
+        helloUserContainer.style.display = 'none';
+    <?php endif; ?>
+});
+
+</script>
