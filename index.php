@@ -1,6 +1,6 @@
 <?php
-ob_start(); 
-session_start(); 
+ob_start();
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -21,23 +21,24 @@ session_start();
 </head>
 
 <body>
-    <main id="main-page">
-        <?php include "assets/header.php"; ?>
+<?php include "assets/header.php"; ?>
 
+    <main id="main-page">
+       
         <?php include "assets/banner-test.php"; ?>
 
         <?php include "assets/sales.php"; ?>
 
-        <section class="container-fsale">
+        <!-- <section class="container-fsale">
             <div class="container-heading-fsale">
                 <h2 class="title-fsale">Flash Sale</h2>
                 <button class="see-more-fsale">
                     <a href="">Xem Thêm</a>
                 </button>
             </div>
-           
-            <?php include "assets/flsale.php"; ?>
-        </section>
+
+            <?php // include "assets/flsale.php"; ?>
+        </section> -->
 
         <?php include "assets/banner-news.php"; ?>
 
@@ -62,9 +63,10 @@ session_start();
 
         <?php include "assets/comment-show.php"; ?>
 
-        <?php include "assets/footer.php"; ?>
+       
     </main>
 
+    <?php include "assets/footer.php"; ?>
     <style>
         #main-page {
             position: relative;
@@ -73,14 +75,11 @@ session_start();
 </body>
 
 <?php
-// Kết nối tới cơ sở dữ liệu;
 include 'php/conection.php';
 
-// Lấy product_id từ URL
 if (isset($_GET['product_id'])) {
     $product_id = $_GET['product_id'];
 
-    // Tăng click_count trong bảng products_clicks
     $sql = "UPDATE products_clicks SET click_count = click_count + 1 WHERE product_id = $product_id";
 
     if ($conn->query($sql) === TRUE) {

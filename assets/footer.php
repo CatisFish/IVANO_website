@@ -102,9 +102,10 @@
 </footer>
 
 <style>
-    #footer-page{
+    #footer-page {
         z-index: 100;
     }
+
     .ft-top {
         background: linear-gradient(to bottom right, #555e63, #849396, #c7c3c0, #e2cdaf, #ecdbbf);
         padding: 30px 0;
@@ -244,7 +245,7 @@
     }
 
     .contact-btn:active {
-        background-color: #ffd400;
+        background-color: #F58F5D;
     }
 
     .contact-link-container {
@@ -309,8 +310,9 @@
 <style>
     @media only screen and (max-width: 600px) {
         #footer-page {
-            display: block;
-            color: #fff;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
 
         .ft-top {
@@ -328,11 +330,12 @@
         }
 
         .ft-mid {
-            background: url("images/Paint-splash-black-background.jpg");
+            background: linear-gradient(to top right, #D7F8F8 0%, #FFFFFF 50%, #FFFFFF 70%, #FFC8B0 120%);
         }
 
         .container-ft-mid {
-            display: block;
+            display: flex;
+            flex-direction: column;
             width: 95%;
             margin: 0px auto;
         }
@@ -343,11 +346,13 @@
         }
 
         .container-img-ft-left img {
+            filter: brightness(0%);
             width: 200px;
         }
 
         .ft-mid-left {
-            border-bottom: 1px solid #eee;
+            width: 100%;
+            border-bottom: 1px solid #000;
         }
 
         .ft-mid-left h2 {
@@ -355,16 +360,17 @@
             text-align: center;
             font-size: 22px;
             text-transform: uppercase;
-            color: #DD9933;
+            color: #221F20;
         }
 
         .ft-mid-left p {
+            color: #221F20;
             font-size: 13px;
             margin-bottom: 10px;
         }
 
         .ft-mid-left p a {
-            color: #fff;
+            color: #221F20;
         }
 
         .ft-mid-left p:last-child {
@@ -376,25 +382,35 @@
         }
 
         .ft-mid-mid {
-            margin-top: 20px;
-            border-bottom: 1px solid #eee;
+            margin-top: 10px;
+            border-bottom: 1px solid #000;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .ft-mid-mid p:first-of-type {
+            margin-top: 0;
         }
 
         .ft-mid-mid h2 {
+            grid-column: span 2;
+            color: #221F20;
             font-size: 22px;
             text-align: center;
             margin-bottom: 20px;
             text-transform: capitalize;
         }
 
-        .ft-mid-mid p {
+        .ft-mid-mid p a span {
             font-size: 13px;
             margin-bottom: 10px;
             text-align: center;
+            color: #221F20;
         }
 
         .ft-mid-mid p:last-child {
-            padding: 0 0 20px 0;
+            padding: 0 0 10px 0;
         }
 
         .ft-mid-right {
@@ -414,45 +430,31 @@
         }
 
         .policy-item a span {
-            color: #fff;
+            color: #000;
             font-weight: 600;
             text-transform: capitalize;
         }
 
-        .container-contact {
-            width: 80%;
-            margin: 0px auto;
+        .ft-mid-right {
+            width: 100%;
+        }
+
+        .ft-mid-right h2 {
+            margin: 10px 0 30px 0;
+            color: #000;
+            text-transform: uppercase;
             text-align: center;
         }
 
-        .input-contact {
-            height: 40px;
-            width: 80%;
-            padding: 10px 15px;
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-            border: 1px solid #FFD400;
-        }
-
-        .contact-btn {
-            border: 1px solid #C6A300;
-            height: 40px;
-            width: 15%;
-            background-color: #C6A300;
-            color: #fff;
-            border: none;
-            border-bottom-right-radius: 10px;
-            border-top-right-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-            font-weight: 600;
+        .container-contact{
+            width: 90%;
+            margin: 0px auto;
         }
 
         .contact-link-container {
             display: flex;
             justify-content: space-around;
-            margin-top: 50px;
-            padding: 0 0 30px 0;
+            margin-top: 30px;
         }
 
         .contact-icon {
@@ -460,13 +462,14 @@
         }
 
         .contact-link {
-            color: #fff;
-            color: #000;
+            font-size: 20px;
             text-decoration: none;
             transition: transform 0.3s;
             background-color: #FFF;
-            padding: 10px 30px;
+            padding: 10px 15px;
             border-radius: 5px;
+            border: 1px dashed #000;
+
         }
 
         .fb-icon {
@@ -485,17 +488,13 @@
             color: #E60023;
         }
 
-        .ft-bottom {
-            text-align: center;
-            font-weight: 600;
-            font-size: 22px;
-            background: linear-gradient(to right, #001065 0, #008bd3 25%, #d40063 75%, #d4be00 100%);
-            color: #FFF;
-            padding: 10px 0;
+        .container-gg-map {
+            width: 80%;
+            margin: 0px auto;
+            margin-top: 4px;
+            border-radius: 20px;
+            overflow: hidden;
         }
 
-        .ft-bottom p {
-            font-size: 13px;
-        }
     }
 </style>

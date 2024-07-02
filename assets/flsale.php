@@ -76,20 +76,20 @@ if ($flashSaleResult->num_rows > 0) {
         }
 
         echo '<div class="action-fsale">';
-            echo '<div class="quantity-container-fsale">';
-                echo '<button class="minus-fsale" type="button"><i class="fa-solid fa-minus"></i></button>';
-                echo '<p class="quantity-fsale">1</p>';
-                echo '<button class="plus-fsale" type="button"><i class="fa-solid fa-plus"></i></button>';
-            echo '</div>';
+        echo '<div class="quantity-container-fsale">';
+        echo '<button class="minus-fsale" type="button"><i class="fa-solid fa-minus"></i></button>';
+        echo '<p class="quantity-fsale">1</p>';
+        echo '<button class="plus-fsale" type="button"><i class="fa-solid fa-plus"></i></button>';
+        echo '</div>';
 
-            echo '<button class="add-to-cart-fsale"><i class="fa-solid fa-basket-shopping add-to-cart-icon"></i></button>';
-            echo '</div>';
+        echo '<button class="add-to-cart-fsale"><i class="fa-solid fa-basket-shopping add-to-cart-icon"></i></button>';
+        echo '</div>';
         echo '</div>';
     }
 
     echo '</div>';
 
-   
+
     echo '</div>';
 
 } else {
@@ -100,148 +100,145 @@ $conn->close();
 ?>
 
 <script>
-   document.addEventListener('DOMContentLoaded', function () {
-    var flashSaleProducts = document.querySelector('.container-item-fsale');
+    document.addEventListener('DOMContentLoaded', function () {
+        var flashSaleProducts = document.querySelector('.container-item-fsale');
 
-    if (flashSaleProducts) {
-        var productList = flashSaleProducts.querySelectorAll('.fsale-product');
+        if (flashSaleProducts) {
+            var productList = flashSaleProducts.querySelectorAll('.fsale-product');
 
-        productList.forEach(function (product) {
-            var addToCartBtn = product.querySelector('.add-to-cart-fsale');
-            var productName = product.querySelector('.product-name-fsale').textContent;
-            var discountedPrice = product.querySelector('.fsale-price-new').textContent;
-            var productImage = product.querySelector('.fsale-product-img').getAttribute('src');
-            var availableSizesElement = product.querySelector('.available-sizes');
-            var availableSizesText = availableSizesElement.textContent.trim();
-            var selectedSize = availableSizesText.split(': ')[1]; // Lấy phần kích thước sau dấu hai chấm
-            var productID = product.querySelector('.time-fsale').getAttribute('id').replace('time-', '');
+            productList.forEach(function (product) {
+                var addToCartBtn = product.querySelector('.add-to-cart-fsale');
+                var productName = product.querySelector('.product-name-fsale').textContent;
+                var discountedPrice = product.querySelector('.fsale-price-new').textContent;
+                var productImage = product.querySelector('.fsale-product-img').getAttribute('src');
+                var availableSizesElement = product.querySelector('.available-sizes');
+                var availableSizesText = availableSizesElement.textContent.trim();
+                var selectedSize = availableSizesText.split(': ')[1]; // Lấy phần kích thước sau dấu hai chấm
+                var productID = product.querySelector('.time-fsale').getAttribute('id').replace('time-', '');
 
-            var quantityElement = product.querySelector('.quantity-fsale');
-            var minusBtn = product.querySelector('.minus-fsale');
-            var plusBtn = product.querySelector('.plus-fsale');
+                var quantityElement = product.querySelector('.quantity-fsale');
+                var minusBtn = product.querySelector('.minus-fsale');
+                var plusBtn = product.querySelector('.plus-fsale');
 
-            // Xử lý sự kiện khi nhấn nút "minus"
-            minusBtn.addEventListener('click', function () {
-                var currentQuantity = parseInt(quantityElement.textContent);
-                if (currentQuantity > 1) {
-                    quantityElement.textContent = currentQuantity - 1;
-                }
-            });
+                // Xử lý sự kiện khi nhấn nút "minus"
+                minusBtn.addEventListener('click', function () {
+                    var currentQuantity = parseInt(quantityElement.textContent);
+                    if (currentQuantity > 1) {
+                        quantityElement.textContent = currentQuantity - 1;
+                    }
+                });
 
-            // Xử lý sự kiện khi nhấn nút "plus"
-            plusBtn.addEventListener('click', function () {
-                var currentQuantity = parseInt(quantityElement.textContent);
-                quantityElement.textContent = currentQuantity + 1;
-            });
+                // Xử lý sự kiện khi nhấn nút "plus"
+                plusBtn.addEventListener('click', function () {
+                    var currentQuantity = parseInt(quantityElement.textContent);
+                    quantityElement.textContent = currentQuantity + 1;
+                });
 
-            addToCartBtn.addEventListener('click', function () {
-                var availableColorsContainer = product.querySelector('.available-colors');
-                availableColorsContainer.style.display = 'block';
+                addToCartBtn.addEventListener('click', function () {
+                    var availableColorsContainer = product.querySelector('.available-colors');
+                    availableColorsContainer.style.display = 'block';
 
-                var availableColors = availableColorsContainer.querySelectorAll('.available-color');
-                availableColors.forEach(function (colorElement) {
-                    colorElement.addEventListener('click', function () {
-                        var selectedColor = colorElement.textContent.trim();
-                        availableColorsContainer.style.display = 'none';
+                    var availableColors = availableColorsContainer.querySelectorAll('.available-color');
+                    availableColors.forEach(function (colorElement) {
+                        colorElement.addEventListener('click', function () {
+                            var selectedColor = colorElement.textContent.trim();
+                            availableColorsContainer.style.display = 'none';
 
-                        var item = {
-                            name: productName,
-                            price: discountedPrice,
-                            image: productImage,
-                            quantity: parseInt(quantityElement.textContent), // Lấy số lượng từ element hiển thị
-                            size: selectedSize,
-                            color: selectedColor,
-                            id: productID
-                        };
+                            var item = {
+                                name: productName,
+                                price: discountedPrice,
+                                image: productImage,
+                                quantity: parseInt(quantityElement.textContent), // Lấy số lượng từ element hiển thị
+                                size: selectedSize,
+                                color: selectedColor,
+                                id: productID
+                            };
 
-                        addToCart(item);
+                            addToCart(item);
+                        });
                     });
                 });
             });
-        });
-    } else {
-        var flashSaleContainer = document.getElementById('flash-sale-container');
-        if (flashSaleContainer) {
-            flashSaleContainer.innerHTML = '<p>Không có sản phẩm trong Flash Sale.</p>';
-        }
-    }
-
-    function addToCart(item) {
-        var cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
-
-        var existingItemIndex = cartItems.findIndex(function (cartItem) {
-            return cartItem.name === item.name &&
-                cartItem.size === item.size &&
-                cartItem.color === item.color &&
-                cartItem.id === item.id;
-        });
-
-        if (existingItemIndex !== -1) {
-            cartItems[existingItemIndex].quantity += item.quantity;
         } else {
-            cartItems.push(item);
+            var flashSaleContainer = document.getElementById('flash-sale-container');
+            if (flashSaleContainer) {
+                flashSaleContainer.innerHTML = '<p>Không có sản phẩm trong Flash Sale.</p>';
+            }
         }
 
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        function addToCart(item) {
+            var cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
 
-        updateCartLength();
-    }
-
-    function updateCartLength() {
-        var cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
-        var cartLength = document.getElementById('lenght-cart');
-
-        if (cartLength) {
-            cartLength.textContent = cartItems.reduce(function (total, cartItem) {
-                return total + cartItem.quantity;
-            }, 0);
-        }
-
-        renderCartItems();
-    }
-
-    function renderCartItems() {
-        var cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
-        var cartItemsContainer = document.getElementById('cart-items');
-
-        if (cartItemsContainer) {
-            cartItemsContainer.innerHTML = '';
-
-            cartItems.forEach(function (cartItem, index) {
-                var cartItemHTML = '<div class="cart-item">';
-                cartItemHTML += '<img src="' + cartItem.image + '" alt="' + cartItem.name + '" class="cart-item-image">';
-                cartItemHTML += '<div class="item-details">';
-                cartItemHTML += '<p class="item-name">' + cartItem.name + '</p>';
-                cartItemHTML += '<p class="item-price">Tạm tính: ' + cartItem.price + '</p>';
-                cartItemHTML += '<p class="item-quantity">Số lượng: ' + cartItem.quantity + '</p>';
-                cartItemHTML += '<p class="item-size">Kích Thước: ' + cartItem.size + '</p>';
-                cartItemHTML += '<p class="item-color">Đuôi: ' + cartItem.color + '</p>';
-                cartItemHTML += '<button class="delete-cart-item" data-index="' + index + '"><i class="fa-regular fa-trash-can"></i></button>';
-                cartItemHTML += '</div>';
-                cartItemHTML += '</div>';
-
-                cartItemsContainer.innerHTML += cartItemHTML;
+            var existingItemIndex = cartItems.findIndex(function (cartItem) {
+                return cartItem.name === item.name &&
+                    cartItem.size === item.size &&
+                    cartItem.color === item.color &&
+                    cartItem.id === item.id;
             });
 
-            var deleteButtons = cartItemsContainer.querySelectorAll('.delete-cart-item');
-            deleteButtons.forEach(function (button) {
-                button.addEventListener('click', function (event) {
-                    var index = parseInt(event.currentTarget.getAttribute('data-index'));
-                    cartItems.splice(index, 1);
-                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-                    updateCartLength();
+            if (existingItemIndex !== -1) {
+                cartItems[existingItemIndex].quantity += item.quantity;
+            } else {
+                cartItems.push(item);
+            }
+
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+            updateCartLength();
+        }
+
+        function updateCartLength() {
+            var cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+            var cartLength = document.getElementById('lenght-cart');
+
+            if (cartLength) {
+                cartLength.textContent = cartItems.reduce(function (total, cartItem) {
+                    return total + cartItem.quantity;
+                }, 0);
+            }
+
+            renderCartItems();
+        }
+
+        function renderCartItems() {
+            var cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+            var cartItemsContainer = document.getElementById('cart-items');
+
+            if (cartItemsContainer) {
+                cartItemsContainer.innerHTML = '';
+
+                cartItems.forEach(function (cartItem, index) {
+                    var cartItemHTML = '<div class="cart-item">';
+                    cartItemHTML += '<img src="' + cartItem.image + '" alt="' + cartItem.name + '" class="cart-item-image">';
+                    cartItemHTML += '<div class="item-details">';
+                    cartItemHTML += '<p class="item-name">' + cartItem.name + '</p>';
+                    cartItemHTML += '<p class="item-price">Tạm tính: ' + cartItem.price + '</p>';
+                    cartItemHTML += '<p class="item-quantity">Số lượng: ' + cartItem.quantity + '</p>';
+                    cartItemHTML += '<p class="item-size">Kích Thước: ' + cartItem.size + '</p>';
+                    cartItemHTML += '<p class="item-color">Đuôi: ' + cartItem.color + '</p>';
+                    cartItemHTML += '<button class="delete-cart-item" data-index="' + index + '"><i class="fa-regular fa-trash-can"></i></button>';
+                    cartItemHTML += '</div>';
+                    cartItemHTML += '</div>';
+
+                    cartItemsContainer.innerHTML += cartItemHTML;
                 });
-            });
+
+                var deleteButtons = cartItemsContainer.querySelectorAll('.delete-cart-item');
+                deleteButtons.forEach(function (button) {
+                    button.addEventListener('click', function (event) {
+                        var index = parseInt(event.currentTarget.getAttribute('data-index'));
+                        cartItems.splice(index, 1);
+                        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                        updateCartLength();
+                    });
+                });
+            }
         }
-    }
-});
+    });
 
 
 
 </script>
-
-
-
 
 
 
@@ -467,7 +464,7 @@ $conn->close();
         margin-top: 20px;
     }
 
-    .quantity-container-fsale{
+    .quantity-container-fsale {
         display: flex;
         background-color: #55D5D2;
         padding: 10px;
@@ -477,7 +474,7 @@ $conn->close();
         font-weight: 600;
     }
 
-    .minus-fsale{
+    .minus-fsale {
         padding-right: 20px;
         border: none;
         background: none;
@@ -486,7 +483,8 @@ $conn->close();
         border-right: 1px solid #ddd;
         cursor: pointer;
     }
-    .plus-fsale{
+
+    .plus-fsale {
         padding-left: 20px;
         border: none;
         background: none;
@@ -497,9 +495,10 @@ $conn->close();
 
     }
 
-    .quantity-fsale{
+    .quantity-fsale {
         padding: 0 10px;
     }
+
     .add-to-cart-fsale {
         padding: 10px;
         cursor: pointer;
@@ -593,26 +592,6 @@ $conn->close();
     .add-to-cart-fsale:hover {
         background-color: #F58F5D;
     }
-
-    .prev-item-fsale,
-    .next-item-fsale {
-        position: absolute;
-        padding: 25px 10px;
-        border: none;
-        background-color: #221F20;
-        color: #fff;
-        cursor: pointer;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    .prev-item-fsale {
-        left: 0;
-    }
-
-    .next-item-fsale {
-        right: 0;
-    }
 </style>
 
 <style>
@@ -627,3 +606,129 @@ $conn->close();
         z-index: 100;
     }
 </style>
+
+<style>
+    @media only screen and (max-width: 600px) {
+        .container-fsale {
+            margin-bottom: 20px;
+        }
+
+        .container-item-fsale {
+            display: flex;
+            gap: 10px;
+
+        }
+
+        .fsale-product {
+            border-radius: 10px;
+            position: relative;
+            padding: 20px;
+            width: 49%;
+            -webkit-animation: unset;
+            animation: unset;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        }
+    }
+</style>
+
+<script>
+    if (window.matchMedia("(max-width: 600px)").matches) {
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.matchMedia("(max-width: 600px)").matches) {
+                const fsaleList = document.querySelector('.container-item-fsale');
+                const fsaleItems = document.querySelectorAll('.fsale-product');
+                const fsaleItemWidth = fsaleItems[0].offsetWidth + 10;
+                const itemsToShow = 2; // Số lượng sản phẩm hiển thị trên mỗi dòng
+
+                let fsaleCurrentIndex = 0;
+                let fsaleStartX = 0;
+                let fsaleIsDragging = false;
+
+                function fsaleSlideNext() {
+                    fsaleList.style.transition = "transform 0.5s ease-in-out";
+                    fsaleList.style.transform = `translateX(-${fsaleItemWidth * itemsToShow}px)`;
+
+                    setTimeout(() => {
+                        for (let i = 0; i < itemsToShow; i++) {
+                            const firstItem = fsaleList.querySelector('.fsale-product:first-child');
+                            fsaleList.appendChild(firstItem);
+                        }
+
+                        fsaleList.style.transition = "none";
+                        fsaleList.style.transform = "translateX(0)";
+
+                        fsaleCurrentIndex = (fsaleCurrentIndex + itemsToShow) % fsaleItems.length;
+                    }, 450);
+                }
+
+                function fsaleSlidePrev() {
+                    fsaleList.style.transition = "none";
+                    fsaleList.style.transform = `translateX(-${fsaleItemWidth * itemsToShow}px)`;
+
+                    for (let i = 0; i < itemsToShow; i++) {
+                        const lastItem = fsaleList.querySelector('.fsale-product:last-child');
+                        fsaleList.insertBefore(lastItem, fsaleList.firstChild);
+                    }
+
+                    setTimeout(() => {
+                        fsaleList.style.transition = "transform 0.5s ease-in-out";
+                        fsaleList.style.transform = "translateX(0)";
+                    }, 50);
+                }
+
+                fsaleList.addEventListener('mousedown', (event) => {
+                    fsaleStartX = event.pageX;
+                    fsaleIsDragging = true;
+                });
+
+                fsaleList.addEventListener('mousemove', (event) => {
+                    if (fsaleIsDragging) {
+                        const diffX = event.pageX - fsaleStartX;
+                        if (diffX > 50) {
+                            fsaleSlidePrev();
+                            fsaleIsDragging = false;
+                        } else if (diffX < -50) {
+                            fsaleSlideNext();
+                            fsaleIsDragging = false;
+                        }
+                    }
+                });
+
+                fsaleList.addEventListener('mouseup', () => {
+                    fsaleIsDragging = false;
+                });
+
+                fsaleList.addEventListener('mouseleave', () => {
+                    fsaleIsDragging = false;
+                });
+
+                fsaleList.addEventListener('touchstart', (event) => {
+                    fsaleStartX = event.touches[0].pageX;
+                    fsaleIsDragging = true;
+                });
+
+                fsaleList.addEventListener('touchmove', (event) => {
+                    if (fsaleIsDragging) {
+                        const diffX = event.touches[0].pageX - fsaleStartX;
+                        if (diffX > 50) {
+                            fsaleSlidePrev();
+                            fsaleIsDragging = false;
+                        } else if (diffX < -50) {
+                            fsaleSlideNext();
+                            fsaleIsDragging = false;
+                        }
+                    }
+                });
+
+                fsaleList.addEventListener('touchend', () => {
+                    fsaleIsDragging = false;
+                });
+
+                fsaleList.addEventListener('touchcancel', () => {
+                    fsaleIsDragging = false;
+                });
+            }
+        });
+    }
+</script>
