@@ -58,7 +58,7 @@ if (isset($_GET['id'])) {
 
                 if ($stmt_delete_product->execute()) {
                     // Xóa thành công, chuyển hướng về trang products.php
-                    header("Location: products.php");
+                    header("Location: \IVANO_website\admin\productsAD.php");
                     exit();
                 } else {
                     // Lỗi khi xóa sản phẩm từ bảng products

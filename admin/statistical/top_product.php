@@ -112,7 +112,7 @@ if ($result->num_rows > 0) {
         // Hiển thị thông tin sản phẩm
         echo '<h3 class="product-name">' . htmlspecialchars($row['product_name'], ENT_QUOTES, 'UTF-8') . '</h3>';
         echo '<p class="brand-name">Thương hiệu: ' . htmlspecialchars($row['brand_name'], ENT_QUOTES, 'UTF-8') . '</p>';
-        echo '<p class="clicks">Số lượt nhấn: ' . htmlspecialchars($row['clicks'], ENT_QUOTES, 'UTF-8') . '</p>';
+        echo '<p class="clicks">Lượt truy cập: ' . htmlspecialchars($row['clicks'], ENT_QUOTES, 'UTF-8') . '</p>';
         echo '</a>';
         echo '</li>';
     }

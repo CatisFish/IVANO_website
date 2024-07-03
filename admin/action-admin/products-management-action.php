@@ -40,21 +40,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_product'])) {
 
                         if ($stmt_product_size->execute()) {
                             echo "Thêm sản phẩm thành công!";
+                            header("Location: \IVANO_website\admin\productsAD.php");
+                            exit();
                         } else {
                             echo "Lỗi khi thêm giá và kích thước sản phẩm: " . $stmt_product_size->error;
+                           
                         }
                     } else {
                         echo "Lỗi khi thêm ảnh sản phẩm: " . $stmt_image->error;
+                        
                     }
                 } else {
                     echo "Lỗi khi di chuyển ảnh vào thư mục";
+                   
                 }
             }
         } else {
             echo "Vui lòng chọn ít nhất một ảnh cho sản phẩm!";
+           
+            
         }
     } else {
         echo "Lỗi khi thêm mới sản phẩm: " . $stmt_product->error;
+        header("Location: \IVANO_website\admin\productsAD.php");
+        exit();
     }
 
     $stmt_product->close();

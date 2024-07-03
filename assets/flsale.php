@@ -5,19 +5,21 @@
 <?php
 include 'php/conection.php';
 
+
+
 $flashSaleSql = "
-    SELECT f.*, p.product_name, b.brand_name, ps.price, i.path_image, t.start_time, t.end_time, 
+    SELECT f.*, p.product_name, b.brand_name, ps.price, i.path_image, t.start_time, t.end_time, f.quantity as remaining_quantity,
            GROUP_CONCAT(DISTINCT s.size_name ORDER BY s.size_id SEPARATOR ', ') as available_sizes, 
            GROUP_CONCAT(DISTINCT cs.color_suffix_name ORDER BY cs.color_suffix_id SEPARATOR ', ') as available_colors_suffix
-            FROM time_flashsale t
-            INNER JOIN flashsale f ON t.flashsale_id = f.flashsale_id
-            INNER JOIN products p ON f.product_id = p.product_id
-            INNER JOIN brands b ON p.brand_id = b.brand_id
-            INNER JOIN product_size ps ON p.product_id = ps.product_id
-            INNER JOIN sizes s ON ps.size_id = s.size_id
-            LEFT JOIN product_images i ON p.product_id = i.product_id
-            LEFT JOIN colorsuffix cs ON 1 = 1
-            GROUP BY f.flashsale_id, p.product_id, ps.price";
+    FROM time_flashsale t
+    INNER JOIN flashsale f ON t.flashsale_id = f.flashsale_id
+    INNER JOIN products p ON f.id_sanpham = p.id_sanpham
+    INNER JOIN brands b ON p.brand_id = b.brand_id
+    INNER JOIN product_size ps ON p.id_sanpham = ps.id_sanpham
+    INNER JOIN sizes s ON ps.size_id = s.size_id
+    LEFT JOIN product_images i ON p.id_sanpham = i.id_sanpham
+    LEFT JOIN colorsuffix cs ON 1 = 1
+    GROUP BY f.flashsale_id, p.id_sanpham, ps.price, f.quantity, p.product_name, b.brand_name, i.path_image, t.start_time, t.end_time";
 
 $flashSaleResult = $conn->query($flashSaleSql);
 
@@ -49,18 +51,21 @@ if ($flashSaleResult->num_rows > 0) {
 
         echo '<p class="product-name-fsale">' . htmlspecialchars($row['product_name']) . '</p>';
 
+
         echo '<div class="container-fsale-price">';
         echo '<p class="original-price">' . number_format($originalPrice) . 'đ</p>';
         echo '<p class="fsale-price-new">' . number_format($discountedPrice) . 'đ</p>';
         echo '</div>';
 
-        echo '<p class="available-sizes">Quy cách: ';
+        echo '<p class="available-sizes product-name-fsale">Quy cách: ';
         $sizes = explode(',', $row['available_sizes']);
         $unique_sizes = array_unique($sizes);
         echo implode(', ', $unique_sizes);
+        echo '<p class="product-name-fsale">Số lượng còn lại: ' . htmlspecialchars($row['remaining_quantity']) . '</p>';
+
         echo '</p>';
 
-        echo '<p id="time-' . htmlspecialchars($row['product_id']) . '" data-end-time="' . htmlspecialchars($endTimeStr) . '" class="time-fsale"></p>';
+        echo '<p id="time-' . htmlspecialchars($row['id_sanpham']) . '" data-end-time="' . htmlspecialchars($endTimeStr) . '" class="time-fsale"></p>';
 
         if (!empty($row['available_colors_suffix'])) {
             $colors = explode(',', $row['available_colors_suffix']);
@@ -76,20 +81,17 @@ if ($flashSaleResult->num_rows > 0) {
         }
 
         echo '<div class="action-fsale">';
-            echo '<div class="quantity-container-fsale">';
-                echo '<button class="minus-fsale" type="button"><i class="fa-solid fa-minus"></i></button>';
-                echo '<p class="quantity-fsale">1</p>';
-                echo '<button class="plus-fsale" type="button"><i class="fa-solid fa-plus"></i></button>';
-            echo '</div>';
+        echo '<div class="quantity-container-fsale">';
+        echo '<button class="minus-fsale" type="button" onclick="reduceQuantity(' . $row['flashsale_id'] . ')"><i class="fa-solid fa-minus"></i></button>';
+        echo '<p class="quantity-fsale" id="quantity-' . $row['flashsale_id'] . '">' . $row['remaining_quantity'] . '</p>';
+        echo '<button class="plus-fsale" type="button"><i class="fa-solid fa-plus"></i></button>';
+        echo '</div>';
 
-            echo '<button class="add-to-cart-fsale"><i class="fa-solid fa-basket-shopping add-to-cart-icon"></i></button>';
-            echo '</div>';
+        echo '<button id="cart-icon"  class="add-to-cart-fsale" onclick="addToCart(' . $row['flashsale_id'] . ')"><i class="fa-solid fa-basket-shopping add-to-cart-icon"></i></button>';
+        echo '</div>';
         echo '</div>';
     }
 
-    echo '</div>';
-
-   
     echo '</div>';
 
 } else {
@@ -98,6 +100,8 @@ if ($flashSaleResult->num_rows > 0) {
 
 $conn->close();
 ?>
+
+
 
 <script>
    document.addEventListener('DOMContentLoaded', function () {
@@ -119,6 +123,15 @@ $conn->close();
             var quantityElement = product.querySelector('.quantity-fsale');
             var minusBtn = product.querySelector('.minus-fsale');
             var plusBtn = product.querySelector('.plus-fsale');
+
+            var cartItems = []; // Mảng chứa các sản phẩm trong giỏ hàng
+
+        // Kiểm tra và load giỏ hàng từ localStorage
+        if (localStorage.getItem('cartItems')) {
+            cartItems = JSON.parse(localStorage.getItem('cartItems'));
+            renderCartItems(); // Render lại danh sách sản phẩm trong giỏ hàng
+            updateCartLength(); // Cập nhật lại số lượng sản phẩm trong giỏ hàng trên giao diện
+        }
 
             // Xử lý sự kiện khi nhấn nút "minus"
             minusBtn.addEventListener('click', function () {
@@ -167,25 +180,30 @@ $conn->close();
     }
 
     function addToCart(item) {
-        var cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+    var cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
 
-        var existingItemIndex = cartItems.findIndex(function (cartItem) {
-            return cartItem.name === item.name &&
-                cartItem.size === item.size &&
-                cartItem.color === item.color &&
-                cartItem.id === item.id;
-        });
+    var existingItemIndex = cartItems.findIndex(function (cartItem) {
+        return cartItem.name === item.name &&
+            cartItem.size === item.size &&
+            cartItem.color === item.color &&
+            cartItem.id === item.id;
+    });
 
-        if (existingItemIndex !== -1) {
-            cartItems[existingItemIndex].quantity += item.quantity;
-        } else {
-            cartItems.push(item);
-        }
-
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
-
-        updateCartLength();
+    if (existingItemIndex !== -1) {
+        // Nếu sản phẩm đã tồn tại, cộng thêm số lượng
+        cartItems[existingItemIndex].quantity += 1; // Cộng thêm 1 vào số lượng hiện có của sản phẩm
+    } else {
+        // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
+        cartItems.push(item);
     }
+
+    // Cập nhật lại dữ liệu trong localStorage
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+    // Cập nhật độ dài của giỏ hàng trên giao diện
+    updateCartLength();
+}
+
 
     function updateCartLength() {
         var cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];

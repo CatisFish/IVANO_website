@@ -94,7 +94,7 @@ $conn->close();
 
                 <ul class="submenu-admin">
                     <li class="submenu-admin-item"><a href="../assets/manage-colors.php">Quản lý màu</a></li>
-                    <li class="submenu-admin-item"><a href="table_colors.php">Bảng màu</a></li>
+                    <li class="submenu-admin-item"><a href="../assets/filter_colors.php">Bảng màu</a></li>
                 </ul>
             </li>
 
@@ -145,6 +145,12 @@ $conn->close();
                 <a href="bannerAD.php">
                     <i class="fa-regular fa-images"></i>
                     <span>Banner</span>
+                </a>
+            </li>
+            <li class="navbar-admin-item">
+                <a href="../php/manage_vouchers.php">
+                    <i class="fa-regular fa-images"></i>
+                    <span>Vouchers</span>
                 </a>
             </li>
             <li class="navbar-admin-item">

@@ -94,18 +94,7 @@
 </style>
 <?php
 // Kết nối đến cơ sở dữ liệu
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "ivano_website";
-
-// Tạo kết nối
-$conn = new mysqli($servername, $username, $password, $database);
-
-// Kiểm tra kết nối
-if ($conn->connect_error) {
-    die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
-}
+include'../../connectDB.php';
 
 if (isset($_GET['id'])) {
     $edit_id = $_GET['id'];
@@ -118,11 +107,11 @@ if (isset($_GET['id'])) {
     $product = $result_product->fetch_assoc();
 
     if ($product) {
-        $product_id = $product['id_sanpham'];
+        $id_sanpham = $product['id_sanpham'];
 
         // Lấy thông tin giá và kích thước hiện tại
         $stmt_product_size = $conn->prepare("SELECT * FROM product_size WHERE id_sanpham = ?");
-        $stmt_product_size->bind_param("i", $product_id);
+        $stmt_product_size->bind_param("i", $id_sanpham);
         $stmt_product_size->execute();
         $result_product_size = $stmt_product_size->get_result();
         $product_size = $result_product_size->fetch_assoc();
@@ -179,7 +168,7 @@ if (isset($_GET['id'])) {
                     // Cập nhật giá và kích thước của sản phẩm vào bảng product_size
                     $sql_update_product_size = "UPDATE product_size SET size_id = ?, price = ? WHERE id_sanpham = ?";
                     $stmt_update_product_size = $conn->prepare($sql_update_product_size);
-                    $stmt_update_product_size->bind_param("sss", $size_id, $price, $product_id);
+                    $stmt_update_product_size->bind_param("sss", $size_id, $price, $id_sanpham);
 
                     // Thực thi câu lệnh SQL
                     if ($stmt_update_product_size->execute()) {
@@ -188,7 +177,7 @@ if (isset($_GET['id'])) {
                             // Tiến hành xóa ảnh cũ trước khi tải lên ảnh mới và lưu vào cơ sở dữ liệu
                             $sql_delete_old_images = "DELETE FROM product_images WHERE id_sanpham = ?";
                             $stmt_delete_old_images = $conn->prepare($sql_delete_old_images);
-                            $stmt_delete_old_images->bind_param("s", $product_id);
+                            $stmt_delete_old_images->bind_param("s", $id_sanpham);
 
                             // Thực thi câu lệnh SQL để xóa ảnh cũ
                             if ($stmt_delete_old_images->execute()) {
@@ -204,7 +193,7 @@ if (isset($_GET['id'])) {
                                         // Lưu đường dẫn của ảnh vào cơ sở dữ liệu
                                         $sql_image = "INSERT INTO product_images (id_sanpham, path_image) VALUES (?, ?)";
                                         $stmt_image = $conn->prepare($sql_image);
-                                        $stmt_image->bind_param("ss", $product_id, $target_file);
+                                        $stmt_image->bind_param("ss", $id_sanpham, $target_file);
 
                                         // Thực thi câu lệnh SQL
                                         if ($stmt_image->execute()) {
@@ -224,6 +213,8 @@ if (isset($_GET['id'])) {
     }
     }                   
      echo "Cập nhật sản phẩm thành công!";
+     header("Location: \IVANO_website\admin\productsAD.php");
+exit();
 } else {
     // Lỗi khi cập nhật giá và kích thước sản phẩm vào bảng product_size
     echo "Lỗi khi cập nhật giá và kích thước sản phẩm: " . $stmt_update_product_size->error;
@@ -235,6 +226,8 @@ echo "Lỗi khi cập nhật sản phẩm: " . $stmt_update_product->error;
 } else {
 // Nếu không có sự thay đổi, không cần thực hiện bất kỳ hành động nào
 echo "Không có sự thay đổi trong dữ liệu!";
+header("Location: \IVANO_website\admin\productsAD.php");
+exit();
 }
 }
 } else {
@@ -301,11 +294,11 @@ else {
     <input type="file" name="product_images[]" id="product_images" multiple><br><br>
     <?php
     // Hiển thị các hình ảnh hiện tại của sản phẩm
-    $sql_product_images = "SELECT * FROM product_images WHERE id_sanpham = $product_id";
+    $sql_product_images = "SELECT * FROM product_images WHERE id_sanpham = $id_sanpham";
     $result_product_images = $conn->query($sql_product_images);
     if ($result_product_images->num_rows > 0) {
         while ($row = $result_product_images->fetch_assoc()) {
-            echo '<img src="' . htmlspecialchars($row['path_image'], ENT_QUOTES, 'UTF-8') . '" alt="Product Image" style="width:150px;height:150px;margin-right:10px;">';
+            echo '<img src="../../' . htmlspecialchars($row['path_image'], ENT_QUOTES, 'UTF-8') . '" alt="Product Image" style="width:150px;height:150px;margin-right:10px;">';
         }
     } else {
         echo "Không có hình ảnh nào.";

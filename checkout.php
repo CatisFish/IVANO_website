@@ -134,19 +134,22 @@
 </body>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var form = document.querySelector('.orders-form');
+  document.addEventListener('DOMContentLoaded', function () {
+    var form = document.querySelector('.orders-form');
 
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-            var formData = new FormData(form);
+        var formData = new FormData(form);
+        var voucherCode = document.getElementById('discount-text').value;
+        formData.append('voucher_code', voucherCode);  // Đảm bảo voucher_code được thêm vào
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'action/orders-action.php', true);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr.onload = function () {
-                if (xhr.status >= 200 && xhr.status < 400) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'action/orders-action.php', true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 400) {
+                try {
                     var response = JSON.parse(xhr.responseText);
                     if (response.status === 'success') {
                         Swal.fire({
@@ -156,10 +159,7 @@
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'OK'
                         }).then(function () {
-                            // Xoá local storage (nếu có)
                             localStorage.clear();
-
-                            // Chuyển người dùng về trang index.php
                             window.location.href = 'index.php';
                         });
 
@@ -173,28 +173,40 @@
                             confirmButtonText: 'OK'
                         });
                     }
-                } else {
+                } catch (e) {
+                    console.error('Error parsing JSON response:', e, xhr.responseText);
                     Swal.fire({
                         icon: 'error',
                         title: 'Lỗi!',
-                        text: 'Đã xảy ra lỗi khi kết nối đến server.',
+                        text: 'Đã xảy ra lỗi khi xử lý phản hồi từ máy chủ.',
                         confirmButtonColor: '#d33',
                         confirmButtonText: 'OK'
                     });
                 }
-            };
-            xhr.onerror = function () {
+            } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Lỗi!',
-                    text: 'Đã xảy ra lỗi không xác định.',
+                    text: 'Đã xảy ra lỗi khi kết nối đến server.',
                     confirmButtonColor: '#d33',
                     confirmButtonText: 'OK'
                 });
-            };
-            xhr.send(formData);
-        });
+            }
+        };
+        xhr.onerror = function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: 'Đã xảy ra lỗi không xác định.',
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'OK'
+            });
+        };
+        xhr.send(formData);
     });
+});
+
+
 
 </script>
 
@@ -209,6 +221,8 @@
     }
 
 </script>
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
@@ -357,93 +371,81 @@
         }
 
         discountBtn.addEventListener('click', function (event) {
-            event.preventDefault();
+        event.preventDefault();
 
-            var voucherCodeInput = document.getElementById('discount-text');
-            var voucherCode = voucherCodeInput.value;
-            var errorMsg = document.getElementById('discount-error');
-            var correctMsg = document.getElementById('discount-correct');
+        var voucherCodeInput = document.getElementById('discount-text');
+        var voucherCode = voucherCodeInput.value;
+        var totalOrderAmount = calculateTemporaryPrice();
+        var errorMsg = document.getElementById('discount-error');
+        var correctMsg = document.getElementById('discount-correct');
 
-            // Clear previous styles and messages
-            if (voucherCodeInput) {
-                voucherCodeInput.style.border = '';
-            }
-            if (errorMsg) {
-                errorMsg.style.display = 'none';
-                errorMsg.textContent = '';
-            }
-            if (correctMsg) {
-                correctMsg.style.display = 'none';
-                correctMsg.textContent = '';
-            }
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'kiem_tra_ma.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                try {
+                    var response = JSON.parse(xhr.responseText);
+                    console.log(response);
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'kiem_tra_ma.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    try {
-                        var response = JSON.parse(xhr.responseText);
-                        console.log(response);
+                    if (response.success) {
+                        var discountAmount = response.discount_amount;
+                        var discountPercentage = response.discount_percentage;
+                        var temporaryPrice = calculateTemporaryPrice();
 
-                        if (response.success) {
-                            var discountAmount = response.discount_amount;
-                            var discountPercentage = response.discount_percentage;
-                            var temporaryPrice = calculateTemporaryPrice();
-
-                            if (discountPercentage > 0) {
-                                discountAmount = Math.max(discountAmount, (temporaryPrice * discountPercentage / 100));
-                            }
-
-                            console.log('Discount Amount:', discountAmount);
-
-                            applyDiscountToCart(discountAmount);
-
-                            // Set green border and show success message
-                            if (voucherCodeInput) {
-                                voucherCodeInput.style.border = '2px solid green';
-                            }
-                            if (correctMsg) {
-                                correctMsg.textContent = "Đã áp dụng mã giảm giá";
-                                correctMsg.style.display = 'block';
-                            }
-                        } else {
-                            // Set red border and show error message
-                            if (voucherCodeInput) {
-                                voucherCodeInput.style.border = '2px solid red';
-                            }
-                            if (errorMsg) {
-                                errorMsg.textContent = response.message;
-                                errorMsg.style.display = 'block';
-                            }
+                        if (discountPercentage > 0) {
+                            discountAmount = Math.max(discountAmount, (temporaryPrice * discountPercentage / 100));
                         }
-                    } catch (e) {
-                        console.error("Không thể phân tích dữ liệu JSON: ", e);
-                        console.log(xhr.responseText);
-                        // Handle JSON parse error
+
+                        console.log('Discount Amount:', discountAmount);
+
+                        applyDiscountToCart(discountAmount);
+
+                        // Set green border and show success message
+                        if (voucherCodeInput) {
+                            voucherCodeInput.style.border = '2px solid green';
+                        }
+                        if (correctMsg) {
+                            correctMsg.textContent = "Đã áp dụng mã giảm giá";
+                            correctMsg.style.display = 'block';
+                        }
+                    } else {
+                        // Set red border and show error message
                         if (voucherCodeInput) {
                             voucherCodeInput.style.border = '2px solid red';
                         }
                         if (errorMsg) {
-                            errorMsg.textContent = "Có lỗi xảy ra. Vui lòng thử lại.";
+                            errorMsg.textContent = response.message;
                             errorMsg.style.display = 'block';
                         }
                     }
-                } else {
-                    console.error("Lỗi kết nối đến máy chủ.");
-                    // Handle server error
+                } catch (e) {
+                    console.error("Không thể phân tích dữ liệu JSON: ", e);
+                    console.log(xhr.responseText);
+                    // Handle JSON parse error
                     if (voucherCodeInput) {
                         voucherCodeInput.style.border = '2px solid red';
                     }
                     if (errorMsg) {
-                        errorMsg.textContent = "Lỗi kết nối đến máy chủ.";
+                        errorMsg.textContent = "Có lỗi xảy ra. Vui lòng thử lại.";
                         errorMsg.style.display = 'block';
                     }
                 }
-            };
-            var formData = 'voucher_code=' + encodeURIComponent(voucherCode);
-            xhr.send(formData);
-        });
+            } else {
+                console.error("Lỗi kết nối đến máy chủ.");
+                // Handle server error
+                if (voucherCodeInput) {
+                    voucherCodeInput.style.border = '2px solid red';
+                }
+                if (errorMsg) {
+                    errorMsg.textContent = "Lỗi kết nối đến máy chủ.";
+                    errorMsg.style.display = 'block';
+                }
+            }
+        };
+        var formData = 'voucher_code=' + encodeURIComponent(voucherCode) + '&total_order_amount=' + totalOrderAmount;
+        xhr.send(formData);
+    });
 
         updateCartItems();
     });

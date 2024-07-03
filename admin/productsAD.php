@@ -508,6 +508,8 @@ $conn->close();
     }
 </style>
 
+
+
 <body>
     <?php include "assets/sidebar.php"; ?>
 
@@ -631,7 +633,7 @@ $conn->close();
             <?php
             include "connectDB.php";
 
-            $sql = "SELECT p.product_id, p.product_name, p.product_description, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
+            $sql = "SELECT p.id_sanpham, p.product_id, p.product_name, p.product_description, c.category_name, b.brand_name, pc.ProductCategory_name, ps.price, s.size_name, i.path_image 
                 FROM products p 
                 INNER JOIN categories c ON p.category_id = c.category_id
                 INNER JOIN brands b ON p.brand_id = b.brand_id
@@ -703,8 +705,8 @@ $conn->close();
                                             VNĐ
                                         </td>
                                         <td class="action-buttons">
-                                            <a href="edit_product.php?id=<?php echo $product['product_id']; ?>">Sửa</a>
-                                            <a href="delete_product.php?id=<?php echo $product['product_id']; ?>"
+                                            <a href="./action-admin/action-product/edit_product.php?id=<?php echo $product['id_sanpham']; ?>">Sửa</a>
+                                            <a href="./action-admin/action-product/delete_product.php?id=<?php echo $product['id_sanpham']; ?>"
                                                 onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Xóa</a>
                                         </td>
                                     </tr>
