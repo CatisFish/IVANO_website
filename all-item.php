@@ -18,66 +18,64 @@
 
 <style>
     .form-show-all-item {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    font-size: 15px;
-}
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        font-size: 15px;
+    }
 
-form label {   
-    text-align: left;
-    margin-top: 10px;
-}
+    form label {
+        text-align: left;
+        margin-top: 10px;
+    }
 
-form select,
-form button {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 13px;
-}
+    form select,
+    form button {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 13px;
+    }
 
-form select:focus,
-form button:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
+    form select:focus,
+    form button:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
 
-form select,
-form button {
-    cursor: pointer;
-}
+    form select,
+    form button {
+        cursor: pointer;
+    }
 
-.selected-filters {
-    margin-top: 40px;
-}
+    .selected-filters {
+        margin-top: 40px;
+    }
 
-.selected-filters p{
-    text-align: center;
-    font-size: 17px;
-    text-transform: uppercase;
-    font-weight: 700;
-}
+    .selected-filters p {
+        text-align: center;
+        font-size: 17px;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
 
-.list-selected-filter{
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-top: 20px;
-}
+    .list-selected-filter {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
 
-.selected-filter-item{
-    background-color: #55D5D2;
-    color: #FFF;
-    font-size: 13px;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-
+    .selected-filter-item {
+        background-color: #55D5D2;
+        color: #FFF;
+        font-size: 13px;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
 </style>
 
 <body>
@@ -192,7 +190,7 @@ form button {
         </section>
     </main>
 
-    <?php include "assets/footer.php";?>
+    <?php include "assets/footer.php"; ?>
 </body>
 
 </html>
@@ -204,12 +202,13 @@ form button {
         font-size: 20px;
     }
 
-    .option_size, .option_brand {
+    .option_size,
+    .option_brand {
         font-size: 16px;
         margin-top: 5px;
     }
 
-    .option_size_brand_btn{
+    .option_size_brand_btn {
         padding: 10px;
         display: inline-block;
         border: none;
@@ -220,10 +219,10 @@ form button {
         margin-top: 30px;
     }
 
-    .option_size_brand_btn:hover{
+    .option_size_brand_btn:hover {
         background-color: #DD9933;
     }
-   
+
     .header-all-item {
         display: flex;
         justify-content: space-between;
@@ -293,4 +292,5 @@ form button {
         text-align: center;
     }
 </style>
+
 </html>

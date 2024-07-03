@@ -171,12 +171,13 @@ if (isset($_SESSION['user_name'])) {
                             <table class="banner-table">
                                 <thead>
                                     <tr>
-                                        <th>STT</th>
-                                        <th>Hình ảnh</th>
-                                        <th>Tiêu đề</th>
-                                        <th>Ngày đăng</th>
+                                        <th style="text-align: center">STT</th>
+                                        <th style="text-align: center">Hình ảnh</th>
+                                        <th style="text-align: center">Tiêu đề</th>
+                                        <th style="text-align: center">Mô tả</th>
+                                        <th style="text-align: center">Ngày đăng</th>
                                         
-                                        <th>Chức năng</th>
+                                        <th style="text-align: center">Chức năng</th>
                                     </tr>
                                 </thead>
                             <tbody>
@@ -186,15 +187,17 @@ if (isset($_SESSION['user_name'])) {
                     while ($row = $result->fetch_assoc()) {
                         $banner_id = $row['banner_id'];
                         $banner_title = htmlspecialchars($row['banner_title']);
+                        $banner_description = htmlspecialchars($row['banner_description']);
                         $banner_date = htmlspecialchars($row['banner_date']);
                         $banner_img = htmlspecialchars($row['banner_img']);
 
                         echo '
                             <tr>
-                                <td style="width: 5%">' . $count . '</td>
+                                <td style="width: 5%; text-align: center">' . $count . '</td>
                                 <td><img src="uploads/' . $banner_img . '" alt="Banner Image" style="max-width: 100px;"></td>
 
-                                <td style="width: 50%">' . $banner_title . '</td>
+                                <td style="width: 30%; font-weight: 600">' . $banner_title . '</td>
+                                <td style="width: 30%; font-size: 14px">' . $banner_description . '</td>
                                 <td>' . $banner_date . '</td>
                                 <td style="width: 10%">
                                     <button onclick="editBanner(' . $banner_id . ')"><i class="fa-solid fa-pencil"></i></button>
@@ -231,7 +234,7 @@ if (isset($_SESSION['user_name'])) {
     .banner-table {
         width: 100%;
         border-collapse: collapse;
-       
+
     }
 
     .container-list-banner::-webkit-scrollbar {
@@ -304,6 +307,7 @@ if (isset($_SESSION['user_name'])) {
             </style>
             <div class="swal2-input-container">
                 <input type="text" id="banner_title" placeholder="Tiêu đề banner" required class="swal2-input-custom">
+                <input type="text" id="banner_des" placeholder="Mô tả banner" required class="swal2-input-custom">
                 <input type="file" id="banner_img" class="swal2-input-custom">
                 <img id="banner_img_preview" alt="Preview Image">
             </div>
@@ -314,6 +318,7 @@ if (isset($_SESSION['user_name'])) {
             preConfirm: () => {
                 const bannerTitle = document.getElementById('banner_title').value;
                 const bannerImg = document.getElementById('banner_img').files[0];
+                const bannerDes = document.getElementById('banner_des').value;
 
                 if (!bannerTitle || !bannerImg) {
                     Swal.showValidationMessage('Vui lòng nhập đầy đủ thông tin');
@@ -323,6 +328,7 @@ if (isset($_SESSION['user_name'])) {
                     formData.append('add_banner', 'true');
                     formData.append('banner_title', bannerTitle);
                     formData.append('banner_img', bannerImg);
+                    formData.append('banner_des', bannerDes);
 
                     return fetch('action-admin/banner-management-action.php', {
                         method: 'POST',
@@ -384,33 +390,34 @@ if (isset($_SESSION['user_name'])) {
         Swal.fire({
             title: 'Sửa banner',
             html: `
-            <style>
-                .swal2-input-container {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
-                .swal2-input-custom {
-                    margin-bottom: 10px;
-                    padding: 10px;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    width: 80%;
-                    max-width: 400px;
-                    box-sizing: border-box;
-                }
-                #edit_banner_img_preview {
-                    margin-top: 10px;
-                    max-width: 100%;
-                    max-height: 200px;
-                    display: none;
-                }
-            </style>
-            <div class="swal2-input-container">
-                <input type="text" id="edit_banner_title" placeholder="Tiêu đề banner" required class="swal2-input-custom">
-                <input type="file" id="edit_banner_img" class="swal2-input-custom">
-                <img id="edit_banner_img_preview" alt="Preview Image">
-            </div>
+        <style>
+            .swal2-input-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .swal2-input-custom {
+                margin-bottom: 10px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                width: 80%;
+                max-width: 400px;
+                box-sizing: border-box;
+            }
+            #edit_banner_img_preview {
+                margin-top: 10px;
+                max-width: 100%;
+                max-height: 200px;
+                display: none;
+            }
+        </style>
+        <div class="swal2-input-container">
+            <input type="text" id="edit_banner_title" placeholder="Tiêu đề banner" required class="swal2-input-custom">
+            <input type="text" id="edit_banner_description" placeholder="Mô tả banner" required class="swal2-input-custom">
+            <input type="file" id="edit_banner_img" class="swal2-input-custom">
+            <img id="edit_banner_img_preview" alt="Preview Image">
+        </div>
         `,
             showCancelButton: true,
             confirmButtonText: 'Lưu',
@@ -420,9 +427,10 @@ if (isset($_SESSION['user_name'])) {
                     .then(response => response.json())
                     .then(data => {
                         document.getElementById('edit_banner_title').value = data.banner_title;
+                        document.getElementById('edit_banner_description').value = data.banner_description;
                         const editBannerImgPreview = document.getElementById('edit_banner_img_preview');
-                        editBannerImgPreview.src = data.banner_img; 
-                        editBannerImgPreview.style.display = 'block'; 
+                        editBannerImgPreview.src = data.banner_img;
+                        editBannerImgPreview.style.display = 'block';
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -452,6 +460,7 @@ if (isset($_SESSION['user_name'])) {
             },
             preConfirm: () => {
                 const bannerTitle = document.getElementById('edit_banner_title').value;
+                const bannerDescription = document.getElementById('edit_banner_description').value; // Lấy mô tả từ input
                 const bannerImg = document.getElementById('edit_banner_img').files[0];
 
                 if (!bannerTitle) {
@@ -461,6 +470,7 @@ if (isset($_SESSION['user_name'])) {
                     formData.append('edit_banner', 'true');
                     formData.append('banner_id', banner_id);
                     formData.append('banner_title', bannerTitle);
+                    formData.append('banner_description', bannerDescription); // Thêm mô tả vào formData
                     if (bannerImg) {
                         formData.append('banner_img', bannerImg);
                     }
@@ -499,6 +509,7 @@ if (isset($_SESSION['user_name'])) {
             }
         });
     }
+
 </script>
 
 <!-- xoá -->

@@ -10,7 +10,6 @@
 
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/custom-scroll.css">
-    <title>Thông Tin Sản Phẩm | IVANO</title>
 </head>
 
 <body>
@@ -44,7 +43,7 @@
                 }
                 $stmtUpdate->bind_param("s", $productId);
                 if ($stmtUpdate->execute()) {
-                    echo "Số lần click đã được cập nhật.";
+                    // echo "Số lần click đã được cập nhật.";
                 } else {
                     echo "Lỗi khi cập nhật số lần click: " . $stmtUpdate->error;
                 }
@@ -82,6 +81,8 @@
 
             if ($detailResult->num_rows > 0) {
                 $detailRow = $detailResult->fetch_assoc();
+                echo '<title>' . htmlspecialchars($detailRow['product_name'], ENT_QUOTES, 'UTF-8') . '</title>';
+                
                 echo '<div class="product-detail-container">';
                 echo '<div class="product-detail-link">';
                 echo '<a href="index.php">Trang Chủ</a> <i class="fa-solid fa-chevron-right"></i> ';
@@ -234,18 +235,15 @@
                 updatePrice();
             });
 
-            // Lấy các phần tử nút tăng và giảm
             var plusButton = document.querySelector('.plus-quantity');
             var minusButton = document.querySelector('.minus-quantity');
             var quantityInput = document.querySelector('.product-quantity input');
 
-            // Lắng nghe sự kiện click vào nút tăng
             plusButton.addEventListener('click', function () {
                 quantityInput.value = parseInt(quantityInput.value) + 1;
                 quantityInput.dispatchEvent(new Event('change'));
             });
 
-            // Lắng nghe sự kiện click vào nút giảm
             minusButton.addEventListener('click', function () {
                 if (parseInt(quantityInput.value) > 1) {
                     quantityInput.value = parseInt(quantityInput.value) - 1;
@@ -289,13 +287,14 @@
     </main>
     <?php include "assets/footer.php"; ?>
 </body>
-
 </html>
 
 <style>
-    #main-product-detail{
-        padding-top: 150px;
+    #main-product-detail {
+        padding: 120px 0 20px 0;
+        background: linear-gradient(to top right, #D7F8F8 0%, #FFFFFF 50%, #FFFFFF 70%, #FFC8B0 120%);
     }
+
     .product-detail-container {
         width: 90%;
         margin: 20px auto;
@@ -326,7 +325,7 @@
 
     .detail-left {
         width: 500px;
-        height: 500px;
+        /* height: 500px; */
         margin-right: 20px;
         display: flex;
         align-items: flex-end;
@@ -471,3 +470,77 @@
         background-color: #F58F5D;
     }
 </style>
+
+<!-- mobile css -->
+<style>
+    @media only screen and (max-width: 600px) {
+    #main-product-detail {
+        padding: 70px 0 10px 0;
+    }
+
+    .product-detail {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin: 0px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .detail-left {
+        width: 400px;
+        height: 400px;
+        margin-right: 0;
+        border-right: none;
+    }
+
+    .detail-left img {
+        width: 350px;
+    }
+
+    .detail-right {
+        margin-left: 0;
+    }
+
+    .product-name {
+        font-size: 20px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: #F58F5D;
+        margin-top: 20px;
+    }
+
+    .container-product-id-category {
+        margin-top: 10px;
+        display: flex;
+        font-size: 15px;
+        gap: 30px;
+        color: #1E90FF;
+        font-weight: 500;
+    }
+
+    .container-size-color {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .product-quantity {
+        display: flex;
+        margin-top: 30px;
+        justify-content: center;
+    }
+
+    .product-des {
+        font-size: 15px;
+        margin-top: 20px;
+    }
+
+    .add-to-cart {
+        padding: 15px 50px;
+    }
+
+}
+
+</style>
+

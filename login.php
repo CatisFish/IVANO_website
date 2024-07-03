@@ -12,8 +12,9 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../css/login.css">
-    <link rel="stylesheet" href="css/global.css">
+
+        <link rel="stylesheet" href="css/custom-scroll.css">
+        <link rel="stylesheet" href="css/global.css">
 </head>
 
 <body>
@@ -58,18 +59,19 @@ session_start();
             </div>
         </form>
     </div>
-</body>
 
-</html>
+    <?php include "assets/footer.php"; ?>
+</body>
 
 <style>
     .wrapper-login {
+         background: linear-gradient(to top right, #D7F8F8 0%, #FFFFFF 50%, #FFFFFF 70%, #FFC8B0 120%);
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
         height: 100%;
-        padding: 30px;
+        padding: 130px 30px 30px 30px;
     }
 
     .login-form {

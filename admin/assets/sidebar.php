@@ -93,8 +93,13 @@ $conn->close();
                 </a>
 
                 <ul class="submenu-admin">
+<<<<<<< HEAD
                     <li class="submenu-admin-item"><a href="../assets/manage-colors.php">Quản lý màu</a></li>
                     <li class="submenu-admin-item"><a href="../assets/filter_colors.php">Bảng màu</a></li>
+=======
+                    <li class="submenu-admin-item"><a href="manage-colors.php">Quản lý màu</a></li>
+                    <li class="submenu-admin-item"><a href="table_colors.php">Bảng màu</a></li>
+>>>>>>> 9a01730474420688a539399630a85ab4ee13a761
                 </ul>
             </li>
 

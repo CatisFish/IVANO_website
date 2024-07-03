@@ -14,7 +14,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
     <title>Register | IVANO</title>
 </head>
 
@@ -62,7 +61,7 @@
 
             <button type="submit" class="register-button">Đăng Ký</button>
 
-            <div class="login-link">
+            <div class="go-login">
                 <p>Bạn đã có tài khoản? <a href="login.php">Đăng nhập ngay</a></p>
             </div>
         </form>
@@ -75,15 +74,17 @@
 
 <style>
     .container-nav-right-item {
-        align-items: center;
+        align-items: center !important;
     }
+
     .wrapper-register {
+        padding: 150px 0 30px 0;
+        background: linear-gradient(to top right, #D7F8F8 0%, #FFFFFF 50%, #FFFFFF 70%, #FFC8B0 120%);
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
         height: 100%;
-        padding: 30px;
     }
 
     .register-form {
@@ -191,19 +192,20 @@
     }
 
 
-    .login-link {
+    .go-login {
         text-align: center;
         margin-top: 20px;
     }
 
-    .login-link a {
+    .go-login a {
         color: #E98D9e;
         font-weight: 600;
         text-decoration: none;
         transition: color 0.3s ease;
+        text-decoration: underline;
     }
 
-    .login-link a:hover {
+    .go-login a:hover {
         color: #C12346;
     }
 

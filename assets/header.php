@@ -5,31 +5,29 @@
         <section class="header-top">
             <p>ĐIỂM TÔ CUỘC SỐNG - TIẾP BƯỚC THÀNH CÔNG</p>
 
+            <div class="hello-user-container">
+                <i class="fa-regular fa-user"></i>
+                <?php
+                if (isset($_SESSION['user_name'])) {
+                    $loggedInUsername = $_SESSION['user_name'];
+                    echo '<span>' . htmlspecialchars($loggedInUsername) . '</span>';
 
+                    echo '<div class="user-dropdown-content" id="dropdownContent">';
+                    echo '<a class="user-link" href="#">Cài đặt</a>';
+                    echo '<a class="user-link" href="logout.php">Đăng xuất</a>';
+                    echo ' </div>';
+                } else {
+                    // echo '<span>Người Dùng</span>';
+                }
+                ?>
+            </div>
         </section>
     </div>
 
     <div class="wrapper-header-bottom">
         <section class="header-bottom">
-
-            <button class="bar-mobile-btn">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-
             <nav class="nav-left">
-                <button class="close-bar-btn">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-
                 <ul class="container-nav-item">
-
-                    <form class="search-box-mobile" action="../assets/search.php" method="GET">
-                        <input type="text" class="search-text-mobile" placeholder="Nhập sản phẩm cần tìm..."
-                            name="search" required>
-                        <button type="submit" class="search-btn-mobile"><i
-                                class="fa-solid fa-magnifying-glass"></i></button>
-                    </form>
-
                     <li class="nav-item">
                         <a href="all-item.php">Sản Phẩm <i class="fa-solid fa-angle-down"></i></a>
 
@@ -41,7 +39,7 @@
                         </ul>
                     </li>
                     <li class="nav-item"><a href="dai-ly.php">Đại Lý</a></li>
-                    <li class="nav-item"><a href="">Bảng Màu</a></li>
+                    <li class="nav-item"><a href="filter-color.php">Bảng Màu</a></li>
                     <li class="nav-item"><a href="">Tuyển Dụng</a></li>
                 </ul>
             </nav>
@@ -58,7 +56,8 @@
                 <ul class="container-nav-right-item">
                     <a href="" class="view-orders item-nav-right"><i class="fa-solid fa-headset"></i></a>
 
-                    <a href="login.php" class="login-link item-nav-right"><i class="fa-regular fa-user"></i></a>
+                    <a href="login.php" class="login-link item-nav-right" id="loginLink"><i
+                            class="fa-regular fa-user"></i></a>
 
                     <div class="shopping-cart-page">
                         <a href="cart-page.php">
@@ -91,6 +90,59 @@
     </div>
 </header>
 
+<div id="header-mobile">
+    <div class="header-mobile-left">
+        <button class="bar-mobile-btn" type="button">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="container-navbar-mobile">
+            <div class="navbar-mobile-top">
+                <?php
+                if (isset($_SESSION['user_name'])) {
+                    $loggedInUsername = $_SESSION['user_name'];
+                    echo '<span class="hello-user-name">Hi, ' . htmlspecialchars($loggedInUsername) . '</span>';
+                } else {
+                    echo '<span class="hello-user-name">Người Dùng</span>';
+                }
+                ?>
+
+                <button class="close-navbar-mobile" type="button"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+
+            <form class="search-box-mobile" action="../assets/search.php" method="GET">
+                <input type="text" class="search-text-mobile" placeholder="Nhập sản phẩm cần tìm..." name="search"
+                    required>
+                <button type="submit" class="search-btn-mobile"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+
+            <div class="navbar-mobile-bottom">
+                <ul class="container-nav-item-mobile">
+                    <li class="nav-item-mobile"><a href="index.php">Trang Chủ</a></li>
+                    <li class="nav-item-mobile"><a href="all-item.php">Sản Phẩm</a></li>
+                    <li class="nav-item-mobile"><a href="dai-ly.php">Đại Lý</a></li>
+                    <li class="nav-item-mobile"><a href="filter-color.php">Bảng Màu</a></li>
+                    <li class="nav-item-mobile"><a href="">Tuyển Dụng</a></li>
+                    <li class="nav-item-mobile"><a href="">Tra Cứu Đơn Hàng</a></li>
+                    <li class="nav-item-mobile"><a href="login.php">Tài Khoản</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <a href="index.php" class="logo-page-mobile"><img src="images/logo.png" alt="LOGO"></a>
+
+    <div class="header-mobile-right">
+        <div class="shopping-cart-page">
+            <a href="cart-page.php">
+                <i class="fa-solid fa-basket-shopping item-nav-right"></i>
+                <p class="lenght-cart"></p>
+            </a>
+        </div>
+    </div>
+</div>
+
 <button class="top-page-btn">
     <i class="fa-solid fa-angle-up"></i>
 </button>
@@ -98,12 +150,6 @@
 <div class="overlay" id="overlay"></div>
 
 <style>
-    .bar-mobile-btn,
-    .close-bar-btn,
-    .search-box-mobile {
-        display: none;
-    }
-
     #header-page {
         position: fixed;
         top: 0;
@@ -138,10 +184,71 @@
         font-size: 12px;
     }
 
-    .header-top-right {
+    .hello-user-container {
+        background-color: #55D5D2;
+        color: #FFF;
+        padding: 5px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
         display: flex;
-        gap: 20px;
+        align-items: center;
+        position: relative;
     }
+
+    .hello-user-container i {
+        margin-right: 10px;
+    }
+
+    .user-dropdown-content {
+        z-index: 1000;
+        position: absolute;
+        background-color: #F58F5D;
+        top: 200%;
+        right: 0;
+        width: 200px;
+        transition: all ease-in-out 0.3s;
+        visibility: hidden;
+        opacity: 0;
+        padding: 5px 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .user-dropdown-content.show {
+        opacity: 1;
+        visibility: visible;
+        top: 115%;
+    }
+
+    .user-dropdown-content::before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: 80%;
+        transform: translateX(-50%);
+        border-width: 0 10px 10px 10px;
+        border-style: solid;
+        border-color: transparent transparent #F58F5D transparent;
+    }
+
+    .user-link {
+        padding: 10px 30px;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        color: #FFF;
+    }
+
+    .user-link:last-child {
+        border-bottom: none;
+    }
+
+    .user-link:hover {
+        background-color: #55D5D2;
+    }
+
+
 
     .wrapper-header-bottom {
         /* background: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 25%, rgba(252, 185, 0, 1) 50%, rgba(255, 105, 0, 1) 75%, rgb(74, 234, 220) 100%); */
@@ -423,13 +530,40 @@
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
         if (scrollTop > lastScrollTop) {
-            header.style.transform = 'translateY(-100px)';
+            header.style.transform = 'translateY(-110px)';
         } else {
             header.style.transform = 'translateY(0)';
         }
 
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     }, false);
+</script>
+
+<!-- header-mobile-fixed js -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.matchMedia("(max-width: 600px)").matches) {
+            const headerMobile = document.getElementById('header-mobile');
+            const containerNavbarMobile = document.querySelector('.container-navbar-mobile');
+            let lastScrollTop = 0;
+
+            window.addEventListener('scroll', function () {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollTop > lastScrollTop) {
+                    headerMobile.style.transform = 'translateY(-110px)';
+                    containerNavbarMobile.style.top = '110px';
+                    containerNavbarMobile.style.top = '155%';
+                } else {
+                    headerMobile.style.transform = 'translateY(0)';
+                    containerNavbarMobile.style.top = '0';
+                }
+
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+            }, false);
+        }
+    });
+
 </script>
 
 <!-- show-submenu -->
@@ -474,7 +608,7 @@
     #show-cart::after {
         content: "";
         position: absolute;
-        top: -15px;
+        top: -13px;
         right: 8%;
         border-width: 0 15px 15px 15px;
         border-style: solid;
@@ -547,7 +681,7 @@
         text-align: center;
         margin: 200px 0 175px 0;
         font-weight: 700;
-        color: #FFF;
+        color: #221F20;
     }
 </style>
 
@@ -562,7 +696,7 @@
         position: relative;
     }
 
-    .cart-item:last-child{
+    .cart-item:last-child {
         border-bottom: none;
         padding-bottom: 0;
     }
@@ -741,3 +875,228 @@
 
 <!-- sweetalert library -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- show user-link js -->
+<script>
+    const helloUser = document.querySelector('.hello-user-container');
+    const dropdownContent = document.querySelector('.user-dropdown-content');
+
+    helloUser.addEventListener('mouseenter', function () {
+        dropdownContent.classList.add('show');
+    });
+
+    helloUser.addEventListener('mouseleave', function () {
+        dropdownContent.classList.remove('show');
+    });
+</script>
+
+<!-- chặn tới login khi đăng nhập rồi -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var loginLink = document.getElementById('loginLink');
+        var helloUserContainer = document.querySelector('.hello-user-container');
+
+        <?php if (isset($_SESSION['user_name'])): ?>
+            loginLink.addEventListener('click', function (event) {
+                event.preventDefault();
+            });
+        <?php else: ?>
+            helloUserContainer.style.display = 'none';
+        <?php endif; ?>
+    });
+</script>
+
+<!-- show-navbar-mobile -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.matchMedia("(max-width: 600px)").matches) {
+            const barMobileBtn = document.querySelector('.bar-mobile-btn');
+            const navContainer = document.querySelector('.container-navbar-mobile');
+            const closeBarBtn = document.querySelector('.close-navbar-mobile');
+
+            barMobileBtn.addEventListener('click', function () {
+                navContainer.style.left = "0px";
+                navContainer.style.opacity = "1";
+                console.log("show navbar-mobile");
+            });
+
+            closeBarBtn.addEventListener('click', function () {
+                navContainer.style.left = "-100%";
+                navContainer.style.opacity = "0";
+                console.log("close is clicked");
+            });
+
+            document.addEventListener('click', function (event) {
+                const isClickInsideNavContainer = navContainer.contains(event.target);
+                const isClickOnBarMobileBtn = barMobileBtn.contains(event.target);
+
+                if (!isClickInsideNavContainer && !isClickOnBarMobileBtn) {
+                    navContainer.style.left = "-100%";
+                    navContainer.style.opacity = "0";
+                    console.log("clicked outside, close navbar-mobile");
+                }
+            });
+        }
+    });
+</script>
+
+<!-- navbar-mobile css -->
+<style>
+    @media only screen and (max-width: 600px) {
+        #header-page {
+            display: none;
+        }
+
+        #header-mobile {
+            display: block;
+            background: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 25%, rgba(252, 185, 0, 1) 50%, rgba(255, 105, 0, 1) 75%, rgb(74, 234, 220) 100%);
+            display: flex;
+            justify-content: space-between;
+            height: 70px;
+            align-items: center;
+            padding: 0 2.5%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1000;
+        }
+
+        /* left */
+        .bar-mobile-btn {
+            width: 30px;
+            height: 30px;
+            color: #fff;
+            background-color: #55D5D2;
+            border: 1px solid #FFF;
+            border-radius: 5px;
+        }
+
+        .container-navbar-mobile {
+            position: fixed;
+            background-color: rgba(192, 192, 192, 0.95);
+            width: 75%;
+            height: 100vh;
+            left: -100%;
+            top: 0;
+            transition: all 0.3s ease-in-out, opacity 0.3s ease;
+            z-index: 1000;
+            font-weight: 600;
+            font-size: 13px;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar-mobile-top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .hello-user-name {
+            margin: 30px 0 0 30px;
+            padding: 10px 30px;
+            border-radius: 30px;
+            color: #FFF;
+            background-color: #55D5D2;
+        }
+
+
+        .close-navbar-mobile {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .close-navbar-mobile i {
+            font-size: 15px;
+        }
+
+        .close-navbar-mobile:active {
+            background-color: #d32f2f;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-box-mobile {
+            display: flex;
+            width: 90%;
+            padding: 5px 10px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            margin: 30px auto;
+        }
+
+        .search-text-mobile {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 12px;
+            width: 90%;
+            height: 35px;
+        }
+
+        .search-btn-mobile {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-left: 10px;
+            width: 35px;
+            height: 35px;
+        }
+
+        .container-nav-item-mobile {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-item-mobile a {
+            display: block;
+            padding: 20px 30px;
+            border-bottom: 1px dashed #FFF;
+            transition: all 0.3s ease;
+        }
+
+        /* mid */
+        .logo-page-mobile img {
+            width: 100px;
+        }
+
+        .shopping-cart-page {
+            border: 1px solid #FFF;
+            padding: 5px;
+            background-color: #55D5D2;
+            border-radius: 5px;
+        }
+
+        .shopping-cart-page a i {
+            color: #FFF;
+
+        }
+    }
+
+    @media only screen and (min-width: 601px) {
+        #header-mobile {
+            display: none;
+        }
+
+    }
+</style>

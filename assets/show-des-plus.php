@@ -136,7 +136,6 @@
     }
 
     .tab-content {
-        border: 1px solid #ddd;
         border-top: none;
         padding: 20px;
         background-color: #fff;
@@ -167,8 +166,14 @@
         text-transform: uppercase;
     }
 
-    .tab-pane h4 i{
+    .tab-pane h4 i {
         margin-left: 10px;
+    }
+
+    .tab-pane p {
+        margin-bottom: 10px;
+        margin-left: 10px;
+        line-height: 1.5;
     }
 
     .tab1-list {
@@ -179,6 +184,7 @@
         margin-bottom: 10px;
         padding-left: 20px;
         position: relative;
+        line-height: 1.5;
     }
 
     /* tab2 */
@@ -240,6 +246,35 @@
         background-color: #F58F5D;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+</style>
+
+<!-- mobile css -->
+<style>
+    @media only screen and (max-width: 600px) {
+        .nav-tabs{
+            padding: 0 !important;
+        }
+
+        .nav-link:last-child{
+            margin-right: 0 !important;
+        }
+
+        .tab-pane h4{   
+            font-size: 15px !important;
+        }
+
+        .tab1-list, .tab-pane p, .tab-pane ul{
+            font-size: 13px !important;
+        }
+
+        .tab-pane ul{
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+
+    }
+
 </style>
 
 <script>

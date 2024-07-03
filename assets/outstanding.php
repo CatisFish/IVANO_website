@@ -47,7 +47,6 @@ $conn->close();
 ?>
 
 
-
 <style>
     .container-outstanding {
         width: 90%;
@@ -228,11 +227,6 @@ $conn->close();
 
 <style>
     @media only screen and (max-width: 600px) {
-        .see-more {
-            display: block;
-        }
-
-
         .container-outstanding {
             width: 95%;
             margin: 25px auto;
@@ -281,16 +275,24 @@ $conn->close();
         }
 
         .list-product {
+            padding: 2px 2px;
             display: flex;
             transition: transform 0.5s ease-in-out;
             width: 100%;
         }
 
         .product-item {
-            min-width: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            -webkit-animation: unset;
+            animation: unset;
+            min-width: 48.2%;
             box-sizing: border-box;
             padding: 0 10px;
             text-align: center;
+        }
+
+        .product-item:hover .product-img {
+            transform: none;
         }
 
         .product-item img {
@@ -324,12 +326,12 @@ $conn->close();
             font-size: 15px;
         }
 
-        .product-price {
-            color: #f80000;
-            font-weight: 600;
-            margin: 10px 0 10px 0;
-            text-align: left;
+        .product-price i {
+            display: inline-block;
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
         }
+
 
         .product-action .action-add {
             display: none;
@@ -430,8 +432,6 @@ $conn->close();
                 listProduct.addEventListener('touchcancel', () => {
                     isDragging = false;
                 });
-
-
             }
         });
     }

@@ -8,7 +8,8 @@ if ($conn->connect_error) {
 // thêm
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_banner'])) {
     $banner_title = $_POST['banner_title'];
-    
+    $banner_description = $_POST['banner_des']; // Chỉnh sửa thành 'banner_des'
+
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     $banner_date = date('Y-m-d H:i:s');
 
@@ -18,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_banner'])) {
     if (move_uploaded_file($_FILES["banner_img"]["tmp_name"], $target_file)) {
         $banner_img = $target_file;
 
-        $sql = "INSERT INTO banners (banner_title, banner_date, banner_img) VALUES ('$banner_title', '$banner_date', '$banner_img')";
+        $sql = "INSERT INTO banners (banner_title, banner_date, banner_img, banner_description) VALUES ('$banner_title', '$banner_date', '$banner_img', '$banner_description')";
 
         if ($conn->query($sql) === TRUE) {
             $response = [
@@ -47,16 +48,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_banner'])) {
 if (isset($_GET['get_banner'])) {
     $banner_id = $_GET['get_banner'];
 
-    $sql_select = "SELECT banner_title, banner_img FROM banners WHERE banner_id = $banner_id";
+    $sql_select = "SELECT banner_title, banner_description, banner_img FROM banners WHERE banner_id = $banner_id";
     $result_select = $conn->query($sql_select);
 
     if ($result_select->num_rows > 0) {
         $row = $result_select->fetch_assoc();
         $banner_title = $row['banner_title'];
+        $banner_description = $row['banner_description'];
         $banner_img = $row['banner_img'];
 
         $response = [
             'banner_title' => $banner_title,
+            'banner_description' => $banner_description,
             'banner_img' => $banner_img
         ];
         echo json_encode($response);
@@ -69,12 +72,15 @@ if (isset($_GET['get_banner'])) {
     }
 }
 
+
 // Xử lý yêu cầu sửa banner
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_banner'])) {
     $banner_id = $_POST['banner_id'];
     $banner_title = $_POST['banner_title'];
+    $banner_description = $_POST['banner_description']; // Thêm lấy mô tả
 
     if (!empty($_FILES['banner_img']['name'])) {
+        // Xử lý hình ảnh nếu người dùng thay đổi
         $sql_select_old_img = "SELECT banner_img FROM banners WHERE banner_id = $banner_id";
         $result_select_old_img = $conn->query($sql_select_old_img);
 
@@ -93,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_banner'])) {
         if (move_uploaded_file($_FILES["banner_img"]["tmp_name"], $target_file)) {
             $banner_img = $target_file;
 
-            $sql_update = "UPDATE banners SET banner_title = '$banner_title', banner_img = '$banner_img' WHERE banner_id = $banner_id";
+            $sql_update = "UPDATE banners SET banner_title = '$banner_title', banner_description = '$banner_description', banner_img = '$banner_img' WHERE banner_id = $banner_id";
 
             if ($conn->query($sql_update) === TRUE) {
                 $response = [
@@ -116,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_banner'])) {
             echo json_encode($response);
         }
     } else {
-        $sql_update = "UPDATE banners SET banner_title = '$banner_title' WHERE banner_id = $banner_id";
+        $sql_update = "UPDATE banners SET banner_title = '$banner_title', banner_description = '$banner_description' WHERE banner_id = $banner_id";
 
         if ($conn->query($sql_update) === TRUE) {
             $response = [
@@ -133,6 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_banner'])) {
         }
     }
 }
+
 
 
 // Xử lý yêu cầu xoá banner
