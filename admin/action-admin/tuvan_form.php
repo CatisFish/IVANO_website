@@ -1,17 +1,5 @@
 <?php
-// Kết nối đến cơ sở dữ liệu
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "ivano_website";
-
-// Tạo kết nối
-$conn = new mysqli($servername, $username, $password, $database);
-
-// Kiểm tra kết nối
-if ($conn->connect_error) {
-    die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
-}
+include'../connectDB.php';
 
 // Xử lý cập nhật
 if (isset($_POST['update'])) {
@@ -255,6 +243,6 @@ $conn->close();
         }
     </script></body>
 <?php
-include'../php/agency_form.php';
+include'../action-admin/agency_form.php';
 ?>
 </html>

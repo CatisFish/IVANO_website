@@ -1,6 +1,6 @@
 <?php
 // Kết nối đến cơ sở dữ liệu
-include '../php/conection.php';
+include '../connectDB.php';
 
 // Hàm để tạo mã voucher ngẫu nhiên
 function generateVoucherCode($prefix, $length = 10) {

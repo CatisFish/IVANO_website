@@ -34,7 +34,7 @@
             $orders_month[] = $row['total_orders'];
         }
     } else {
-        echo "Không có dữ liệu.";
+        echo "Không có dữ liệu đơn hàng.";
     }
 
     // Thống kê đơn hàng theo năm
@@ -50,7 +50,7 @@
             $orders_year[] = $row['total_orders'];
         }
     } else {
-        echo "Không có dữ liệu.";
+        echo "Không có dữ liệu đơn hàng.";
     }
 
     $conn->close();

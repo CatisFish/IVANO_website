@@ -65,7 +65,7 @@
 
     <?php
     // Kết nối đến cơ sở dữ liệu
-    include '../php/conection.php';
+    include '../connectDB.php';
 
     // Kiểm tra xem có thông tin nhân viên cần sửa không
     if (isset($_GET['employee_id'])) {
@@ -122,7 +122,7 @@
         if ($conn->query($sql_update) === TRUE) {
             echo "Cập nhật thông tin nhân viên thành công!";
             // Sau khi cập nhật thành công, chuyển hướng về trang danh sách nhân viên
-            header("Location: ../php/employee.php");
+            header("Location: employee.php");
             exit();
         } else {
             echo "Lỗi khi cập nhật thông tin nhân viên: " . $conn->error;

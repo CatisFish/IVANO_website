@@ -29,7 +29,7 @@ session_start();
 
         <?php include "assets/sales.php"; ?>
 
-        <!-- <section class="container-fsale">
+        <section class="container-fsale">
             <div class="container-heading-fsale">
                 <h2 class="title-fsale">Flash Sale</h2>
                 <button class="see-more-fsale">
@@ -37,8 +37,8 @@ session_start();
                 </button>
             </div>
 
-            <?php // include "assets/flsale.php"; ?>
-        </section> -->
+            <?php include "assets/flsale.php"; ?>
+        </section>
 
         <?php include "assets/banner-news.php"; ?>
 

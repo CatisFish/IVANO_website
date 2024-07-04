@@ -6,7 +6,8 @@
         <?php
         include 'connectDB.php';
 
-        $sql = "SELECT COUNT(*) AS total_products FROM products";
+        $sql = "SELECT COUNT(DISTINCT product_id) AS total_products FROM products;
+";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {

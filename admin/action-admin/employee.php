@@ -1,6 +1,6 @@
 <?php
 // Kết nối đến cơ sở dữ liệu
-include '../php/conection.php';
+include '../connectDB.php';
 
 // Xử lý thêm mới nhân viên
 if (isset($_POST['add_employee'])) {
@@ -21,7 +21,7 @@ if (isset($_POST['add_employee'])) {
     // Thêm nhân viên vào bảng employees
     $sql_employee = "INSERT INTO employees (employee_id, employee_name, employee_email, employee_tel, employee_address, start_time, end_time, nguoiquanly, diachivanphong, nhanhieu_ban, doanhso, kyluat, khenthuong) VALUES ('$employee_id', '$employee_name', '$employee_email', '$employee_tel', '$employee_address', '$start_time', '$end_time', '$nguoiquanly', '$diachivanphong', '$nhanhieuban', '$doanhso', '$kyluat', '$khenthuong')";
     if ($conn->query($sql_employee) === TRUE) {
-        header("Location: ../php/employee.php");
+        header("Location: ..employee.php");
         exit();
     } else {
         echo "Lỗi khi thêm mới nhân viên: " . $conn->error;
@@ -33,7 +33,7 @@ if (isset($_GET['delete_employee'])) {
     $employee_id = $_GET['delete_employee'];
     $sql_delete_employee = "DELETE FROM employees WHERE employee_id='$employee_id'";
     if ($conn->query($sql_delete_employee) === TRUE) {
-        header("Location: ../php/employee.php");
+        header("Location: employee.php");
         exit();
     } else {
         echo "Lỗi khi xóa nhân viên: " . $conn->error;

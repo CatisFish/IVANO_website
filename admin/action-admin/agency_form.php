@@ -1,18 +1,5 @@
 <?php
-// Kết nối đến cơ sở dữ liệu
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "ivano_website";
-
-// Tạo kết nối
-$conn = new mysqli($servername, $username, $password, $database);
-
-// Kiểm tra kết nối
-if ($conn->connect_error) {
-    die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
-}
-
+include'../connectDB.php';
 // Định nghĩa hàm kiểm tra xem có form tư vấn nào có trạng thái "Chưa Tư Vấn" hay không
 function hasCauTuvan($conn) {
     $sql = "SELECT COUNT(*) AS count FROM agency WHERE TrangThai = '2'";

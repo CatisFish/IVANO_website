@@ -179,7 +179,7 @@ form input[type="submit"]:hover,
     <h2>Quản lý agency</h2>
 
     <?php
-    include '../php/conection.php';
+    include '../connectDB.php';
 
     // Thêm agency mới
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add"])) {
@@ -189,7 +189,7 @@ form input[type="submit"]:hover,
         $address = $_POST["address"];
         $note = $_POST["note"];
 
-        $target_dir = "../admin/upload_agency/";
+        $target_dir = "../../admin/upload_agency/";
         $target_file = $target_dir . basename($_FILES["path"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -254,7 +254,7 @@ form input[type="submit"]:hover,
     }
 
     // Định nghĩa biến $target_dir
-    $target_dir = "../admin/upload_agency/";
+    $target_dir = "../../admin/upload_agency/";
     // Chỉnh sửa thông tin agency
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["edit"])) {
         $id = $_POST["id"];

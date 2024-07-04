@@ -1,5 +1,5 @@
 <?php
-include '../php/conection.php'; // Thay đổi tên file connection.php nếu cần
+include '../connectDB.php'; // Thay đổi tên file connection.php nếu cần
 
 // Xử lý thêm popup
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_popup'])) {
@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_popup'])) {
     $popup_description = $_POST['popup_description'];
 
     // Xử lý upload file
-    $target_dir = "../admin/uploads/";
+    $target_dir = "../../admin/uploads/";
     $target_file = $target_dir . basename($_FILES["popup_img"]["name"]);
     if (move_uploaded_file($_FILES["popup_img"]["tmp_name"], $target_file)) {
         $popup_img = $target_file;
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_popup'])) {
     $popup_description = $_POST['popup_description'];
 
     if (!empty($_FILES["popup_img"]["name"])) {
-        $target_dir = "../admin/uploads/";
+        $target_dir = "../../admin/uploads/";
         $target_file = $target_dir . basename($_FILES["popup_img"]["name"]);
         if (move_uploaded_file($_FILES["popup_img"]["tmp_name"], $target_file)) {
             $popup_img = $target_file;

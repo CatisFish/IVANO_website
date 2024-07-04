@@ -1,6 +1,6 @@
 <?php
 // Kết nối đến cơ sở dữ liệu
-include '../php/conection.php';
+include '../connectDB.php';
 
 // Xử lý yêu cầu giảm quantity
 if (isset($_GET['action']) && $_GET['action'] === 'reduce' && isset($_GET['flashsale_id'])) {
@@ -384,7 +384,7 @@ h1, h2 {
                     <td><?php echo $row['end_time']; ?></td>
                     <td class="remaining-time" data-end-time="<?php echo $row['end_time']; ?>"></td>
                     <td><?php if (!empty($row['path_image'])) { ?>
-                            <img src="<?php echo $row['path_image']; ?>" alt="Product Image">
+                            <img src="../<?php echo $row['path_image']; ?>" alt="Product Image">
                         <?php } else { ?>
                             Không có hình ảnh
                         <?php } ?>

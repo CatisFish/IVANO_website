@@ -1,5 +1,5 @@
 <?php
-include '../php/conection.php'; // Kết nối đến cơ sở dữ liệu
+include '../connectDB.php'; // Kết nối đến cơ sở dữ liệu
 
 // Xử lý form khi được submit
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

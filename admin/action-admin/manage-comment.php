@@ -1,5 +1,5 @@
 <?php
-include '../php/conection.php';
+include '../connectDB.php';
 
 $sql = "SELECT * FROM comments";
 $result = $conn->query($sql);
@@ -97,7 +97,7 @@ $result = $conn->query($sql);
                 <td><?php echo $row['name']; ?></td>
                 <td><?php echo $row['phone']; ?></td>
                 <td><?php echo $row['comment']; ?></td>
-                <td><img src="../<?php echo $row['path_img']; ?>" alt="User Image" style="max-width: 100px;"></td>
+                <td><img src="../../<?php echo $row['path_img']; ?>" alt="User Image" style="max-width: 100px;"></td>
                 <td><?php echo $row['created_at']; ?></td>
                 <td>
                     <input type="radio" id="radio-<?php echo $row['id']; ?>" name="selected-comment"

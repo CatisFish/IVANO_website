@@ -1,6 +1,6 @@
 
 <?php
-include '../php/conection.php';
+include '../connectDB.php';
 
 // Xử lý thêm mới khách hàng
 if (isset($_POST['add_customer'])) {
@@ -15,7 +15,7 @@ if (isset($_POST['add_customer'])) {
     // Thêm khách hàng vào bảng customers
     $sql_customer = "INSERT INTO customers (fullname, user_name, phone, email, password, role_id, created_at) VALUES ('$fullname', '$user_name', '$phone', '$email', '$password', '$role_id', '$created_at')";
     if ($conn->query($sql_customer) === TRUE) {
-        header("Location: ../php/customer.php");
+        header("Location: customer.php");
         exit();
     } else {
         echo "Lỗi khi thêm mới khách hàng: " . $conn->error;
@@ -27,7 +27,7 @@ if (isset($_GET['delete_customer'])) {
     $customer_id = $_GET['delete_customer'];
     $sql_delete_customer = "DELETE FROM customers WHERE id_customer='$customer_id'";
     if ($conn->query($sql_delete_customer) === TRUE) {
-        header("Location: ../php/customer.php");
+        header("Location: customer.php");
         exit();
     } else {
         echo "Lỗi khi xóa người dùng: " . $conn->error;
@@ -46,7 +46,7 @@ if (isset($_POST['update_customer'])) {
     // Cập nhật thông tin khách hàng vào bảng customers
     $sql_update_customer = "UPDATE customers SET fullname='$fullname', user_name='$user_name', phone='$phone', email='$email', role_id='$role_id' WHERE id_customer='$customer_id'";
     if ($conn->query($sql_update_customer) === TRUE) {
-        header("Location: ../php/customer.php");
+        header("Location: customer.php");
         exit();
     } else {
         echo "Lỗi khi cập nhật thông tin người dùng: " . $conn->error;
@@ -136,7 +136,7 @@ if ($result->num_rows > 0) {
                                     <td><?php echo $customer['created_at']; ?></td>
                                     <td>
                                         <button type="submit" name="update_customer">Cập nhật</button>
-                                        <a href="../php/customer.php?delete_customer=<?php echo $customer['id_customer']; ?>"
+                                        <a href="customer.php?delete_customer=<?php echo $customer['id_customer']; ?>"
                                             onclick="return confirm('Bạn có chắc chắn muốn xóa khách hàng này không?')">Xóa</a>
                                     </td>
                                 </form>
