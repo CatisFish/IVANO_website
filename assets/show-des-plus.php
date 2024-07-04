@@ -1,3 +1,25 @@
+<?php
+include 'php/conection.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $comment = $_POST['comment'];
+    $path_img = 'admin/images/user-comment.png'; // Đường dẫn đến ảnh
+
+    $sql = "INSERT INTO comments (name, phone, comment, path_img) VALUES ('$name', '$phone', '$comment', '$path_img')";
+    
+    if ($conn->query($sql) === TRUE) {
+    } else {
+        echo "Lỗi: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -65,21 +87,20 @@
                     <li>Đuôi Màu: D, P, T</li>
                 </ul>
             </div>
+
             <div class="tab-pane" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                <form class="custom-form">
+            <form class="custom-form" method="POST" action="">
                     <div class="mb-3">
                         <label for="nameInput" class="form-label">Anh/ Chị</label>
-                        <input type="text" class="form-control" id="nameInput" placeholder="Nhập tên của bạn" required>
+                        <input type="text" class="form-control" id="nameInput" name="name" placeholder="Nhập tên của bạn" required>
                     </div>
                     <div class="mb-3">
                         <label for="phoneInput" class="form-label">Thông tin liên lạc</label>
-                        <input type="tel" class="form-control" id="phoneInput" placeholder="Nhập số điện thoại của bạn"
-                            required>
+                        <input type="tel" class="form-control" id="phoneInput" name="phone" placeholder="Nhập số điện thoại của bạn" required>
                     </div>
                     <div class="mb-3">
                         <label for="commentTextarea" class="form-label">Nhận xét</label>
-                        <textarea class="form-control" id="commentTextarea" rows="3" placeholder="Nhập nhận xét của bạn"
-                            required></textarea>
+                        <textarea class="form-control" id="commentTextarea" name="comment" rows="3" placeholder="Nhập nhận xét của bạn" required></textarea>
                     </div>
                     <input class="btn-submit" type="submit" value="Gửi">
                 </form>
@@ -90,6 +111,7 @@
 </body>
 
 </html>
+
 
 <style>
     .tab-container {

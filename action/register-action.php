@@ -87,8 +87,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Chuẩn bị câu lệnh SQL để chèn dữ liệu
     $insert_stmt = $conn->prepare("INSERT INTO customers (fullname, user_name, phone, email, password, role_id) VALUES (?, ?, ?, ?, ?, ?)");
     
-    // Giá trị mặc định cho role_id là 3
-    $default_role_id = 3;
+    // Giá trị mặc định cho role_id là 4
+    $default_role_id = 4;
     
     $insert_stmt->bind_param("sssssi", $fullname, $user_name, $phone, $email, $hashed_password, $default_role_id);
 

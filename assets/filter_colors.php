@@ -1,5 +1,5 @@
 <?php
-include 'php/conection.php';
+include '../php/conection.php';
 
 $result_main_groups = $conn->query("SELECT DISTINCT color_group_main FROM colors");
 $main_groups = $result_main_groups->fetch_all(MYSQLI_ASSOC);

@@ -56,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_order_details = $conn->prepare($sql_insert_order_details);
         $stmt_order_details->bind_param("ss", $od_id, $od_info);
         $stmt_order_details->execute();
-<<<<<<< HEAD
 
         // Cập nhật trạng thái mã giảm giá
         if (!empty($voucher_code)) {
@@ -65,8 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt_update_voucher->bind_param("s", $voucher_code);
             $stmt_update_voucher->execute();
         }
-=======
->>>>>>> 9a01730474420688a539399630a85ab4ee13a761
 
         $conn->commit();
         $stmt_orders->close();

@@ -112,6 +112,50 @@ form input[type="submit"]:hover,
 .toggle-button:hover {
     background-color: #45a049;
 }
+.toggle-button {
+    width: 30%;
+    margin: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.toggle-button:hover {
+    background-color: #45a049;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.form-col {
+    flex: 1;
+    padding: 0 10px;
+}
+
+.form-col label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-col input[type="text"],
+.form-col input[type="email"],
+.form-col input[type="file"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.form-col input[type="submit"] {
+    width: 100%;
+}
 
 /* Thông báo */
 .message {
@@ -264,25 +308,32 @@ if ($_FILES["new_path"]["name"] != '') {
     </div>
 
     <div class="form-container">
-        <button class="toggle-button" onclick="toggleForm('add-form')">Thêm đại lý mới</button>
-        <div id="add-form" style="display:none;">
-            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
-                <label for="name">Tên đại lý:</label><br>
-                <input type="text" id="name" name="name"><br>
-                <label for="mail">Email:</label><br>
-                <input type="email" id="mail" name="mail"><br>
-                <label for="tell">Số điện thoại:</label><br>
-                <input type="text" id="tell" name="tell"><br>
-                <label for="address">Địa chỉ:</label><br>
-                <input type="text" id="address" name="address"><br>
-                <label for="note">Ghi chú:</label><br>
-                <input type="text" id="note" name="note"><br>
-                <label for="path">Hình ảnh:</label><br>
-                <input type="file" id="path" name="path"><br><br>
-                <input type="submit" name="add" value="Thêm đại lý">
-            </form>
-        </div>
+    <button class="toggle-button" onclick="toggleForm('add-form')">Thêm đại lý mới</button>
+    <div id="add-form" style="display:none;">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-col">
+                    <label for="name">Tên đại lý:</label><br>
+                    <input type="text" id="name" name="name" required><br>
+                    <label for="mail">Email:</label><br>
+                    <input type="email" id="mail" name="mail" required><br>
+                    <label for="tell">Số điện thoại:</label><br>
+                    <input type="text" id="tell" name="tell" required><br>
+                </div>
+                <div class="form-col">
+                    <label for="address">Địa chỉ:</label><br>
+                    <input type="text" id="address" name="address"><br>
+                    <label for="note">Ghi chú:</label><br>
+                    <input type="text" id="note" name="note"><br>
+                    <label for="path">Hình ảnh:</label><br>
+                    <input type="file" id="path" name="path"><br><br>
+                </div>
+            </div>
+            <input type="submit" name="add" value="Thêm đại lý">
+        </form>
     </div>
+</div>
+
 
     <?php
     if ($result->num_rows > 0) {

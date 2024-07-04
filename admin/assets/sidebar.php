@@ -93,13 +93,8 @@ $conn->close();
                 </a>
 
                 <ul class="submenu-admin">
-<<<<<<< HEAD
                     <li class="submenu-admin-item"><a href="../assets/manage-colors.php">Quản lý màu</a></li>
                     <li class="submenu-admin-item"><a href="../assets/filter_colors.php">Bảng màu</a></li>
-=======
-                    <li class="submenu-admin-item"><a href="manage-colors.php">Quản lý màu</a></li>
-                    <li class="submenu-admin-item"><a href="table_colors.php">Bảng màu</a></li>
->>>>>>> 9a01730474420688a539399630a85ab4ee13a761
                 </ul>
             </li>
 
@@ -162,6 +157,12 @@ $conn->close();
                 <a href="../php/manage_flashsale.php">
                     <i class="fa-solid fa-bolt"></i>
                     <span>Flash Sales</span>
+                </a>
+            </li>
+            <li class="navbar-admin-item">
+                <a href="../assets/manage-footer-links.php">
+                    <i class="fa-regular fa-file"></i>
+                    <span>Thông tin liên hệ</span>
                 </a>
             </li>
 

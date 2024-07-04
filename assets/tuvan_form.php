@@ -233,7 +233,7 @@ $conn->close();
         </tbody>
     </table>
 
-    <h2>Thêm Mới Form Tư Vấn</h2>
+    <!-- <h2>Thêm Mới Form Tư Vấn</h2>
     <form method="POST" action="">
         <label for="ten">Họ Tên:</label>
         <input type="text" id="ten" name="ten" required>
@@ -247,7 +247,7 @@ $conn->close();
         </select>
         <button type="submit" name="insert">Thêm Mới</button>
 
-        </form>
+        </form> -->
     <script>
         // JavaScript confirmation for delete action
         function confirmDelete() {
