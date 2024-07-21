@@ -47,6 +47,8 @@ if (isset($_GET['od_id'])) {
         }
         .logo {
             width: 150px;
+            height: 100px;
+            background-color: orange;
         }
         .company-info h1 {
             font-size: 24px;
@@ -98,7 +100,7 @@ if (isset($_GET['od_id'])) {
 <body>
     <div class="invoice">
         <div class="header">
-            <img src="logo.png" alt="Company Logo" class="logo">
+            <img src="../../images/logo.png"  alt="Company Logo" class="logo">
             <div class="company-info">
                 <h1>CÔNG TY CỔ PHẦN IVANO VIỆT NAM</h1>
                 <p>Địa chỉ: Số 36, KDC Hàng Bàng, Phường An Khánh, Quận Ninh Kiều, TP Cần Thơ</p>
@@ -176,118 +178,11 @@ if (isset($_GET['od_id'])) {
             </tbody>
         </table>
         <?php
-// Hàm chuyển đổi số thành chữ số
-function number_to_words($number)
-{
-    $ones = array(
-        0 => 'không',
-        1 => 'một',
-        2 => 'hai',
-        3 => 'ba',
-        4 => 'bốn',
-        5 => 'năm',
-        6 => 'sáu',
-        7 => 'bảy',
-        8 => 'tám',
-        9 => 'chín',
-    );
-
-    $teens = array(
-        11 => 'mười một',
-        12 => 'mười hai',
-        13 => 'mười ba',
-        14 => 'mười bốn',
-        15 => 'mười năm',
-        16 => 'mười sáu',
-        17 => 'mười bảy',
-        18 => 'mười tám',
-        19 => 'mười chín',
-    );
-
-    $tens = array(
-        1 => 'mười',
-        2 => 'hai mươi',
-        3 => 'ba mươi',
-        4 => 'bốn mươi',
-        5 => 'năm mươi',
-        6 => 'sáu mươi',
-        7 => 'bảy mươi',
-        8 => 'tám mươi',
-        9 => 'chín mươi',
-    );
-
-    $groups = array(
-        0 => '',
-        1 => 'nghìn',
-        2 => 'triệu',
-        3 => 'tỷ',
-        4 => 'nghìn tỷ',
-    );
-
-    // Chuyển đổi số thành chữ số
-    $number = (int)$number;
-
-    if ($number == 0) {
-        return 'không đồng';
-    }
-
-    $words = array();
-
-    // Duyệt qua từng nhóm ba chữ số
-    $group = 0;
-    while ($number > 0) {
-        $number3 = $number % 1000;
-        $number = (int)($number / 1000);
-
-        $hundreds = (int)($number3 / 100);
-        $tens_units = $number3 % 100;
-
-        $words_group = array();
-
-        if ($hundreds != 0) {
-            $words_group[] = $ones[$hundreds] . ' trăm';
-        }
-
-        if ($tens_units != 0) {
-            if ($tens_units < 10) {
-                $words_group[] = $ones[$tens_units];
-            } elseif ($tens_units < 20) {
-                $words_group[] = $teens[$tens_units];
-            } else {
-                $tens_digit = (int)($tens_units / 10);
-                $units_digit = $tens_units % 10;
-
-                if ($units_digit != 0) {
-                    $words_group[] = $tens[$tens_digit] . ' ' . $ones[$units_digit];
-                } else {
-                    $words_group[] = $tens[$tens_digit];
-                }
-            }
-        }
-
-        if (count($words_group) > 0) {
-            $words[] = implode(' ', $words_group) . ' ' . $groups[$group];
-        }
-
-        $group++;
-    }
-
-    // Đảo ngược mảng để đưa ra kết quả đúng định dạng
-    $words = array_reverse($words);
-
-    return implode(' ', $words) . ' đồng';
-}
-
-// Ví dụ sử dụng
-$total_amount = $order['od_total_price']; // Số tiền cần chuyển đổi
-
-$total_words = number_to_words($total_amount); // Chuyển đổi số thành chữ số
 
 ?>
 
 <div class="footer">
     <p>Tổng tiền: <?php echo $order['od_total_price']; ?></p>
-    <p>Số tiền viết bằng chữ: <?php echo $total_words; ?></p>
     <p>Người lập phiếu: __________________</p>
     <p>Người nhận hàng: __________________</p>
     <p>Người giao hàng: __________________</p>
@@ -296,5 +191,6 @@ $total_words = number_to_words($total_amount); // Chuyển đổi số thành ch
 
     </div>
     <button onclick="window.print()">Print Order</button>
+    <a href="export_to_word.php?od_id=<?php echo $order['od_id']; ?>" class="btn btn-primary">Tải thành file Word</a>
 </body>
 </html>
