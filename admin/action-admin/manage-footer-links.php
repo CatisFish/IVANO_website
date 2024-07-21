@@ -35,6 +35,8 @@ mysqli_close($conn);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <a href="../../admin/index.php">Quay về trang chính</a>
+
     <title>Quản lý thông tin Footer</title>
     <link rel="stylesheet" href="styles.css">
 </head>

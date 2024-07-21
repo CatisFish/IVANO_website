@@ -75,6 +75,8 @@ $result = $conn->query($sql);
     </style>
 </head>
 <body>
+<a href="../../admin/index.php">Quay về trang chính</a>
+
 <h1>Quản lý Comment</h1>
 <table>
     <thead>

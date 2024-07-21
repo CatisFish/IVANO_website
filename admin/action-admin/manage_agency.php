@@ -176,6 +176,8 @@ form input[type="submit"]:hover,
 </head>
 
 <body>
+<a href="../../admin/index.php">Quay về trang chính</a>
+
     <h2>Quản lý agency</h2>
 
     <?php

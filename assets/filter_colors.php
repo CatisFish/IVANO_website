@@ -145,6 +145,7 @@ function hexToRgb($hex)
         margin-top: 10px;
     }
 </style>
+<a href="../admin/index.php">Quay về trang chính</a>
 
 <div class="container-color-filter">
     <form method="get" class="filter-form">

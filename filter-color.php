@@ -12,7 +12,9 @@
 
     <title>Bảng Màu | IVANO</title>
 </head>
+
 <body>
+    
     <?php include "assets/header.php"; ?>
 
     <main id="filter-color-main">

@@ -47,9 +47,13 @@ if (isset($_GET['od_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <a href="../../admin/index.php">Quay về trang chính</a>
+
     <title>Edit Order</title>
 </head>
 <body>
+<a href="../../admin/index.php">Quay về trang chính</a>
+
     <h1>Edit Order</h1>
     <form action="" method="POST">
         <label for="od_name">Customer Name:</label>

@@ -1,3 +1,5 @@
+
+
 <?php
 // Kết nối đến cơ sở dữ liệu
 include '../connectDB.php';
@@ -309,7 +311,9 @@ h1, h2 {
 
 <body>
     <div class="container">
-        <h1>Quản Lý Flash Sale</h1>
+        <a href="../../admin/index.php">Quay về trang chính</a>
+
+      <h1>Quản Lý Flash Sale</h1>
 
         <h2>Thêm Sản Phẩm Flash Sale</h2>
 

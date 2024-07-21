@@ -82,6 +82,8 @@ if ($result->num_rows > 0) {
 </head>
 
 <body>
+<a href="../../admin/index.php">Quay về trang chính</a>
+
     <div class="container">
         <div class="add-customer">
             <h2>Thêm mới người dùng</h2>

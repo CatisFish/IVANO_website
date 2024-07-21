@@ -12,6 +12,8 @@ include "../connectDB.php";
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<a href="../../admin/index.php">Quay về trang chính</a>
+
     <h1>Manage Orders</h1>
     <form method="GET" action="">
         <input type="text" name="search" placeholder="Search by Customer Name" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">

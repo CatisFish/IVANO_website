@@ -73,6 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Add Order</title>
 </head>
 <body>
+<a href="../../admin/index.php">Quay về trang chính</a>
+
     <h1>Add New Order</h1>
     <form action="" method="POST">
         <label for="od_name">Customer Name:</label>

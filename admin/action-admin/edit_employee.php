@@ -129,6 +129,7 @@
         }
     }
     ?>
+        <a href="../../admin/index.php">Quay về trang chính</a>
 
     <!-- Form sửa thông tin nhân viên -->
     <form method="POST" action="">

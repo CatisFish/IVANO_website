@@ -89,6 +89,8 @@ $conn->close();
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<a href="../../admin/index.php">Quay về trang chính</a>
+
     <h1>Quản Lý Voucher</h1>
 
     <h2>Thêm Đợt Phát Hành Voucher</h2>

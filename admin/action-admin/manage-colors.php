@@ -79,6 +79,8 @@ $conn->close();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+<a href="../../admin/index.php">Quay về trang chính</a>
+
     <main id="main-manage-colors">
         <section class="header-manage-colors">
             <h1>Quản lý màu sắc</h1>

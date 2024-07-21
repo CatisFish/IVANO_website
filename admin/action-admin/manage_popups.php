@@ -195,6 +195,8 @@ $conn->close();
 </head>
 
 <body>
+<a href="../../admin/index.php">Quay về trang chính</a>
+
     <h1>Popup Management</h1>
 
     <h2>Popups</h2>

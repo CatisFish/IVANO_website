@@ -77,6 +77,8 @@ $conn->close();
 </head>
 
 <body>
+<a href="../../admin/index.php">Quay về trang chính</a>
+
     <h2>Danh Sách Đại Lý</h2>
     <?php if (isset($success_message)): ?>
         <p class="message success"><?php echo $success_message; ?></p>

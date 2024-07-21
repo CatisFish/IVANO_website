@@ -67,6 +67,7 @@ if ($result->num_rows > 0) {
 </head>
 
 <body>
+<a href="../../admin/index.php">Quay về trang chính</a>
 
     <h1>Quản lý nhân viên</h1>
 
