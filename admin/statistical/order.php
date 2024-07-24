@@ -13,7 +13,7 @@
             $row = $result->fetch_assoc();
             echo "<span>" . $row['total_orders'] . "</span>";
         } else {
-            echo "Không có dữ liệu.";
+            echo "Không có dữ liệu đơn hàng.";
         }
 
         $conn->close();

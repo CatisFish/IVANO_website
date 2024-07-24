@@ -15,6 +15,8 @@
 <body>
     <main id="main-product-detail">
         <?php
+        
+        
         include "assets/header.php";
 
         // Kiểm tra xem product_id có tồn tại trong URL không

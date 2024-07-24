@@ -14,7 +14,7 @@
             $formatted_revenue = number_format($row['od_total_price']);
             echo "<span>" . $formatted_revenue . "</span>";
         } else {
-            echo "Không có dữ liệu.";
+            echo "Không có dữ liệu doanh thu. ";
         }
 
         $conn->close();

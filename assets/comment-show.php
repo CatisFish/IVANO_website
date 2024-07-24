@@ -1,64 +1,58 @@
+<?php
+include 'php/conection.php';
+
+// Query to fetch comments from the database
+$sql = "SELECT * FROM comments";
+$result = $conn->query($sql);
+
+?>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+
 <section class="show-ex-comment">
     <button class="btn-ex-prev" onclick="uniqueShowPrev()"><i class="fa-solid fa-chevron-left"></i></button>
     <div class="ex-comment-container">
+        <?php
+        // Loop through each comment retrieved from the database
+        while($row = $result->fetch_assoc()) {
+            $name = $row['name'];
+            $phone = $row['phone'];
+            $comment = $row['comment'];
+            $image_path = $row['path_img'];
+        ?>
         <div class="ex-comment-item">
             <div class="content-ex-cmt-left">
-                <img src="images/z3716075312123_b7aec34db52a8b60b0273011cf60ba35.jpg" alt="">
+                <img src="<?php echo $image_path; ?>" alt="">
             </div>
             <div class="content-ex-cmt-right">
-                <div class="ex-cmt-star"><i class="fa-solid fa-star star-point"></i><i
-                        class="fa-solid fa-star star-point"></i><i class="fa-solid fa-star star-point"></i><i
-                        class="fa-solid fa-star star-point"></i><i class="fa-regular fa-star star-no-point"></i></div>
-                <div class="ex-cmt-content">Tôi không chỉ tìm địa điểm mua sơn mà còn tìm những đơn vị bán sơn chất
-                    lượng tốt, ở IVANO luôn đi kèm chính sách bảo hành, dịch vụ hậu mãi. Đây là cách doanh nghiệp tạo
-                    niềm tin cho khách hàng cũng như cho thấy họ quan tâm đến lợi ích người tiêu dùng.</div>
-                <div class="ex-cmt-name"><span class="ex-name">Vũ Khánh</span> / <span class="ex-adress">Bến Tre</span>
-                </div>
+                <div class="ex-cmt-content"><?php echo $comment; ?></div>
+                <div class="ex-cmt-name"><span class="ex-name"><?php echo $name; ?></span> / <span class="ex-adress"><?php echo $phone; ?></span></div>
             </div>
         </div>
-
-        <div class="ex-comment-item">
-            <div class="content-ex-cmt-left">
-                <img src="images/z3716075319228_5eefed20c9b829d36080b94b7296305c.jpg" alt="">
-            </div>
-            <div class="content-ex-cmt-right">
-                <div class="ex-cmt-star"><i class="fa-solid fa-star star-point"></i><i
-                        class="fa-solid fa-star star-point"></i><i class="fa-solid fa-star star-point"></i><i
-                        class="fa-solid fa-star star-point"></i><i class="fa-solid fa-star star-point"></i></div>
-                <div class="ex-cmt-content">Sơn nội thất và ngoại thất của IVANO đều đạt độ che phủ tốt, bề
-                    mặt
-                    mịn, láng bóng và có khả năng chống bám bụi, chống rêu mốc và tăng khả năng chùi rửa
-                    hiệu quả, nên giúp bảo vệ bề mặt rất tốt và chống vi khuẩn gây hại tồn tại ở bề
-                    mặt
-                    sơn và sức khỏe con người</div>
-                <div class="ex-cmt-name"><span class="ex-name">Ngọc Hân</span> / <span class="ex-adress">Bạc Liêu</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="ex-comment-item">
-            <div class="content-ex-cmt-left">
-                <img src="images/z3716116718257_84b686a5eb284bfb95299f7f6e2f85a1.jpg" alt="">
-            </div>
-            <div class="content-ex-cmt-right">
-                <div class="ex-cmt-star"><i class="fa-solid fa-star star-point"></i><i
-                        class="fa-solid fa-star star-point"></i><i class="fa-solid fa-star star-point"></i><i
-                        class="fa-solid fa-star star-point"></i><i class="fa-solid fa-star star-point"></i></div>
-                <div class="ex-cmt-content">Những dòng sơn của IVANO VIỆT NAM là những thương hiệu sơn có giá cả
-                    cạnh
-                    tranh và luôn có sự ưu đãi dành cho khách hàng. Sản phẩm đa dạng phù hợp với túi tiền
-                    và
-                    nhu cầu của mọi người.</div>
-                <div class="ex-cmt-name"><span class="ex-name">Việt Bắc</span> / <span class="ex-adress">Cà Mau</span>
-                </div>
-            </div>
-        </div>
-
+        <?php
+        }
+        ?>
     </div>
+    <button class="btn-ex-next" onclick="uniqueShowNext()"><i class="fa-solid fa-chevron-right"></i></button>
+
+    <div class="radio-buttons-comment">
+        <input type="radio" id="side-comment1" name="side-comment" checked>
+        <label for="side-comment1"></label>
+        <input type="radio" id="side-comment2" name="side-comment">
+        <label for="side-comment2"></label>
+        <input type="radio" id="side-comment3" name="side-comment">
+        <label for="side-comment3"></label>
+    </div>
+</section>
+
+<?php
+// Đóng kết nối với cơ sở dữ liệu
+$conn->close();
+?>
+
 
     </div>
     <button class="btn-ex-next" onclick="uniqueShowNext()"><i class="fa-solid fa-chevron-right"></i></button>

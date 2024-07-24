@@ -93,21 +93,26 @@ $conn->close();
                 </a>
 
                 <ul class="submenu-admin">
+<<<<<<< HEAD
                     <li class="submenu-admin-item"><a href="manage-colors.php">Quản lý màu</a></li>
                     <li class="submenu-admin-item"><a href="table_colors.php">Bảng màu</a></li>
+=======
+                    <li class="submenu-admin-item"><a href="action-admin/manage-colors.php">Quản lý màu</a></li>
+                    <li class="submenu-admin-item"><a href="../assets/filter_colors.php">Bảng màu</a></li>
+>>>>>>> 427d8b78ca8e79a67b0a582f15161364e0a7164c
                 </ul>
             </li>
 
             <li class="navbar-admin-item">
                 <?php if ($hasChuaTuvan > 0 || $hasCauTuvan > 0): ?>
-                    <a href="../assets/tuvan_form.php">
+                    <a href="action-admin/tuvan_form.php">
                         <i class="fa-solid fa-headset"></i>
                         <span>Cần Tư Vấn</span>
                         <i class="fa fa-bell" style="color: #ffd400;"></i>
                         <span class="badge"><?php echo $hasChuaTuvan + $hasCauTuvan; ?></span>
                     </a>
                 <?php else: ?>
-                    <a href="../assets/tuvan_form.php">
+                    <a href="action-admin/tuvan_form.php">
                         <i class="fa-solid fa-headset"></i>
                         <span>Cần Tư Vấn</span>
                     </a>
@@ -115,28 +120,28 @@ $conn->close();
             </li>
 
             <li class="navbar-admin-item">
-                <a href="../php/manage_agency.php">
+                <a href="action-admin/manage_agency.php">
                     <i class="fa-solid fa-people-arrows"></i>
                     <span>Đại Lý</span>
                 </a>
             </li>
 
             <li class="navbar-admin-item">
-                <a href="../php/customer.php">
+                <a href="action-admin/customer.php">
                     <i class="fa-solid fa-users"></i>
                     <span>Khách Hàng</span>
                 </a>
             </li>
 
             <li class="navbar-admin-item">
-                <a href="../php/employee.php">
+                <a href="action-admin/employee.php">
                     <i class="fa-solid fa-user"></i>
                     <span>Nhân Viên</span>
                 </a>
             </li>
 
             <li class="navbar-admin-item">
-                <a href="../assets/manage_popups.php">
+                <a href="action-admin/manage_popups.php">
                     <i class="fa-regular fa-file"></i>
                     <span>Popup</span>
                 </a>
@@ -148,20 +153,32 @@ $conn->close();
                 </a>
             </li>
             <li class="navbar-admin-item">
-                <a href="../php/manage_vouchers.php">
+                <a href="action-admin/manage_vouchers.php">
                     <i class="fa-regular fa-images"></i>
                     <span>Vouchers</span>
                 </a>
             </li>
             <li class="navbar-admin-item">
-                <a href="../php/manage_flashsale.php">
+                <a href="action-admin/manage_flashsale.php">
                     <i class="fa-solid fa-bolt"></i>
                     <span>Flash Sales</span>
                 </a>
             </li>
+            <li class="navbar-admin-item">
+                <a href="action-admin/manage-footer-links.php">
+                    <i class="fa-regular fa-file"></i>
+                    <span>Thông tin liên hệ</span>
+                </a>
+            </li>
+            <li class="navbar-admin-item">
+                <a href="action-admin/manage-comment.php">
+                    <i class="fa-regular fa-file"></i>
+                    <span>Bình Luận</span>
+                </a>
+            </li>
 
             <li class="navbar-admin-item">
-                <a href="#">
+                <a href="action-admin/manage-order.php">
                     <i class="fa fa-chart-bar"></i>
                     <span>Thống kê</span>
                 </a>

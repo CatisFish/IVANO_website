@@ -29,7 +29,11 @@ session_start();
 
         <?php include "assets/sales.php"; ?>
 
+<<<<<<< HEAD
         <section class="fsale">
+=======
+        <section class="container-fsale">
+>>>>>>> 427d8b78ca8e79a67b0a582f15161364e0a7164c
             <div class="container-heading-fsale">
                 <h2 class="title-fsale">Flash Sale</h2>
                 <!-- <button class="see-more-fsale">
@@ -37,7 +41,11 @@ session_start();
                 </button> -->
             </div>
 
+<<<<<<< HEAD
             <?php include "assets/fsales.php"; ?>
+=======
+            <?php include "assets/flsale.php"; ?>
+>>>>>>> 427d8b78ca8e79a67b0a582f15161364e0a7164c
         </section>
 
         <?php include "assets/banner-news.php"; ?>

@@ -70,22 +70,34 @@ if ($flashSaleResult->num_rows > 0) {
 
         echo '<div class="action-fsale">';
         echo '<div class="quantity-container-fsale">';
+<<<<<<< HEAD:assets/fsales.php
         echo '<button class="minus-fsale" type="button"><i class="fa-solid fa-minus"></i></button>';
         echo '<p class="quantity-fsale">1</p>';
         echo '<button class="plus-fsale" type="button"><i class="fa-solid fa-plus"></i></button>';
         echo '</div>';
 
         echo '<button class="add-to-cart-fsale"><i class="fa-solid fa-basket-shopping add-to-cart-icon"></i></button>';
+=======
+        echo '<button class="minus-fsale" type="button" onclick="reduceQuantity(' . $row['flashsale_id'] . ')"><i class="fa-solid fa-minus"></i></button>';
+        echo '<p class="quantity-fsale" id="quantity-' . $row['flashsale_id'] . '">' . $row['remaining_quantity'] . '</p>';
+        echo '<button class="plus-fsale" type="button"><i class="fa-solid fa-plus"></i></button>';
+        echo '</div>';
+
+        echo '<button id="cart-icon"  class="add-to-cart-fsale" onclick="addToCart(' . $row['flashsale_id'] . ')"><i class="fa-solid fa-basket-shopping add-to-cart-icon"></i></button>';
+>>>>>>> 427d8b78ca8e79a67b0a582f15161364e0a7164c:assets/flsale.php
         echo '</div>';
         echo '</div>';
     }
 
     echo '</div>';
 
+<<<<<<< HEAD:assets/fsales.php
 
     echo '</div>';
     echo '</div>';
 
+=======
+>>>>>>> 427d8b78ca8e79a67b0a582f15161364e0a7164c:assets/flsale.php
 } else {
     echo '<p>Không có sản phẩm trong Flash Sale.</p>';
 }
@@ -93,7 +105,176 @@ if ($flashSaleResult->num_rows > 0) {
 $conn->close();
 ?>
 
+<<<<<<< HEAD:assets/fsales.php
 <!-- update time -->
+=======
+
+
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+    var flashSaleProducts = document.querySelector('.container-item-fsale');
+
+    if (flashSaleProducts) {
+        var productList = flashSaleProducts.querySelectorAll('.fsale-product');
+
+        productList.forEach(function (product) {
+            var addToCartBtn = product.querySelector('.add-to-cart-fsale');
+            var productName = product.querySelector('.product-name-fsale').textContent;
+            var discountedPrice = product.querySelector('.fsale-price-new').textContent;
+            var productImage = product.querySelector('.fsale-product-img').getAttribute('src');
+            var availableSizesElement = product.querySelector('.available-sizes');
+            var availableSizesText = availableSizesElement.textContent.trim();
+            var selectedSize = availableSizesText.split(': ')[1]; // Lấy phần kích thước sau dấu hai chấm
+            var productID = product.querySelector('.time-fsale').getAttribute('id').replace('time-', '');
+
+            var quantityElement = product.querySelector('.quantity-fsale');
+            var minusBtn = product.querySelector('.minus-fsale');
+            var plusBtn = product.querySelector('.plus-fsale');
+
+            var cartItems = []; // Mảng chứa các sản phẩm trong giỏ hàng
+
+        // Kiểm tra và load giỏ hàng từ localStorage
+        if (localStorage.getItem('cartItems')) {
+            cartItems = JSON.parse(localStorage.getItem('cartItems'));
+            renderCartItems(); // Render lại danh sách sản phẩm trong giỏ hàng
+            updateCartLength(); // Cập nhật lại số lượng sản phẩm trong giỏ hàng trên giao diện
+        }
+
+            // Xử lý sự kiện khi nhấn nút "minus"
+            minusBtn.addEventListener('click', function () {
+                var currentQuantity = parseInt(quantityElement.textContent);
+                if (currentQuantity > 1) {
+                    quantityElement.textContent = currentQuantity - 1;
+                }
+            });
+
+            // Xử lý sự kiện khi nhấn nút "plus"
+            plusBtn.addEventListener('click', function () {
+                var currentQuantity = parseInt(quantityElement.textContent);
+                quantityElement.textContent = currentQuantity + 1;
+            });
+
+            addToCartBtn.addEventListener('click', function () {
+                var availableColorsContainer = product.querySelector('.available-colors');
+                availableColorsContainer.style.display = 'block';
+
+                var availableColors = availableColorsContainer.querySelectorAll('.available-color');
+                availableColors.forEach(function (colorElement) {
+                    colorElement.addEventListener('click', function () {
+                        var selectedColor = colorElement.textContent.trim();
+                        availableColorsContainer.style.display = 'none';
+
+                        var item = {
+                            name: productName,
+                            price: discountedPrice,
+                            image: productImage,
+                            quantity: parseInt(quantityElement.textContent), // Lấy số lượng từ element hiển thị
+                            size: selectedSize,
+                            color: selectedColor,
+                            id: productID
+                        };
+
+                        addToCart(item);
+                    });
+                });
+            });
+        });
+    } else {
+        var flashSaleContainer = document.getElementById('flash-sale-container');
+        if (flashSaleContainer) {
+            flashSaleContainer.innerHTML = '<p>Không có sản phẩm trong Flash Sale.</p>';
+        }
+    }
+
+    function addToCart(item) {
+    var cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+
+    var existingItemIndex = cartItems.findIndex(function (cartItem) {
+        return cartItem.name === item.name &&
+            cartItem.size === item.size &&
+            cartItem.color === item.color &&
+            cartItem.id === item.id;
+    });
+
+    if (existingItemIndex !== -1) {
+        // Nếu sản phẩm đã tồn tại, cộng thêm số lượng
+        cartItems[existingItemIndex].quantity += 1; // Cộng thêm 1 vào số lượng hiện có của sản phẩm
+    } else {
+        // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
+        cartItems.push(item);
+    }
+
+    // Cập nhật lại dữ liệu trong localStorage
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+    // Cập nhật độ dài của giỏ hàng trên giao diện
+    updateCartLength();
+}
+
+
+    function updateCartLength() {
+        var cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+        var cartLength = document.getElementById('lenght-cart');
+
+        if (cartLength) {
+            cartLength.textContent = cartItems.reduce(function (total, cartItem) {
+                return total + cartItem.quantity;
+            }, 0);
+        }
+
+        renderCartItems();
+    }
+
+    function renderCartItems() {
+        var cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+        var cartItemsContainer = document.getElementById('cart-items');
+
+        if (cartItemsContainer) {
+            cartItemsContainer.innerHTML = '';
+
+            cartItems.forEach(function (cartItem, index) {
+                var cartItemHTML = '<div class="cart-item">';
+                cartItemHTML += '<img src="' + cartItem.image + '" alt="' + cartItem.name + '" class="cart-item-image">';
+                cartItemHTML += '<div class="item-details">';
+                cartItemHTML += '<p class="item-name">' + cartItem.name + '</p>';
+                cartItemHTML += '<p class="item-price">Tạm tính: ' + cartItem.price + '</p>';
+                cartItemHTML += '<p class="item-quantity">Số lượng: ' + cartItem.quantity + '</p>';
+                cartItemHTML += '<p class="item-size">Kích Thước: ' + cartItem.size + '</p>';
+                cartItemHTML += '<p class="item-color">Đuôi: ' + cartItem.color + '</p>';
+                cartItemHTML += '<button class="delete-cart-item" data-index="' + index + '"><i class="fa-regular fa-trash-can"></i></button>';
+                cartItemHTML += '</div>';
+                cartItemHTML += '</div>';
+
+                cartItemsContainer.innerHTML += cartItemHTML;
+            });
+
+            var deleteButtons = cartItemsContainer.querySelectorAll('.delete-cart-item');
+            deleteButtons.forEach(function (button) {
+                button.addEventListener('click', function (event) {
+                    var index = parseInt(event.currentTarget.getAttribute('data-index'));
+                    cartItems.splice(index, 1);
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    updateCartLength();
+                });
+            });
+        }
+    }
+});
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+>>>>>>> 427d8b78ca8e79a67b0a582f15161364e0a7164c:assets/flsale.php
 <script>
     function updateTime() {
         const timeElements = document.querySelectorAll('[id^="time-"]');
@@ -310,7 +491,7 @@ $conn->close();
         margin-top: 20px;
     }
 
-    .quantity-container-fsale {
+    .quantity-container-fsale{
         display: flex;
         background-color: #55D5D2;
         padding: 10px;
@@ -320,7 +501,7 @@ $conn->close();
         font-weight: 600;
     }
 
-    .minus-fsale {
+    .minus-fsale{
         padding-right: 20px;
         border: none;
         background: none;
@@ -329,8 +510,7 @@ $conn->close();
         border-right: 1px solid #ddd;
         cursor: pointer;
     }
-
-    .plus-fsale {
+    .plus-fsale{
         padding-left: 20px;
         border: none;
         background: none;
@@ -341,10 +521,9 @@ $conn->close();
 
     }
 
-    .quantity-fsale {
+    .quantity-fsale{
         padding: 0 10px;
     }
-
     .add-to-cart-fsale {
         padding: 10px;
         cursor: pointer;
@@ -358,8 +537,29 @@ $conn->close();
     .add-to-cart-fsale:hover {
         background-color: #F58F5D;
     }
+
+    .prev-item-fsale,
+    .next-item-fsale {
+        position: absolute;
+        padding: 25px 10px;
+        border: none;
+        background-color: #221F20;
+        color: #fff;
+        cursor: pointer;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .prev-item-fsale {
+        left: 0;
+    }
+
+    .next-item-fsale {
+        right: 0;
+    }
 </style>
 
+<<<<<<< HEAD:assets/fsales.php
 <!-- mobile css -->
 <style>
     @media only screen and (max-width: 600px) {
@@ -626,3 +826,17 @@ $conn->close();
         }
     });
 </script>
+=======
+<style>
+    .overlay-fsale {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 100;
+    }
+</style>
+>>>>>>> 427d8b78ca8e79a67b0a582f15161364e0a7164c:assets/flsale.php

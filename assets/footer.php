@@ -1,6 +1,21 @@
+<?php
+include 'php/conection.php';
+
+// Lấy thông tin footer từ cơ sở dữ liệu
+$sql = "SELECT * FROM footer_info WHERE id=1";
+$result = mysqli_query($conn, $sql);
+$footer_info = mysqli_fetch_assoc($result);
+
+// Đóng kết nối
+mysqli_close($conn);
+?>
+
 <footer id="footer-page">
     <div class="ft-top">
-        <a href="tel:+0886277772">0886 277 772</a><a href="tel:+0856277772">0856 277 772</a>
+        <a
+            href="tel:<?php echo htmlspecialchars($footer_info['phone1'] ?? ''); ?>"><?php echo htmlspecialchars($footer_info['phone1'] ?? ''); ?></a>
+        <a
+            href="tel:<?php echo htmlspecialchars($footer_info['phone2'] ?? ''); ?>"><?php echo htmlspecialchars($footer_info['phone2'] ?? ''); ?></a>
     </div>
 
     <div class="ft-mid">
@@ -11,15 +26,19 @@
                 </div>
 
                 <h2>Công ty cổ phần IVANO Việt Nam</h2>
-                <p><i class="fa-solid fa-hand-point-right"></i><b>Địa chỉ:</b> <span> Số 36, KDC Hàng Bàng, Phường An
-                        Khánh,
-                        Quận Ninh Kiều, TP Cần Thơ</span></p>
-                <p><i class="fa-solid fa-hand-point-right"></i><b>MST:</b> 1801595978</p>
-                <p><i class="fa-solid fa-hand-point-right"></i><b>Điện thoại:</b> 0886 277 772 – 0856 277 772</p>
-                <p><i class="fa-solid fa-hand-point-right"></i><b>Website:</b> <a href="https://www.ivano.com.vn"
-                        target="_blank">www.ivano.com.vn</a></p>
+                <p><i class="fa-solid fa-hand-point-right"></i><b>Địa chỉ:</b>
+                    <span><?php echo htmlspecialchars($footer_info['address'] ?? ''); ?></span></p>
+                <p><i class="fa-solid fa-hand-point-right"></i><b>MST:</b>
+                    <?php echo htmlspecialchars($footer_info['mst'] ?? ''); ?></p>
+                <p><i class="fa-solid fa-hand-point-right"></i><b>Điện thoại:</b>
+                    <?php echo htmlspecialchars($footer_info['phone1'] ?? ''); ?> –
+                    <?php echo htmlspecialchars($footer_info['phone2'] ?? ''); ?></p>
+                <p><i class="fa-solid fa-hand-point-right"></i><b>Website:</b> <a
+                        href="<?php echo htmlspecialchars($footer_info['website'] ?? ''); ?>"
+                        target="_blank"><?php echo htmlspecialchars($footer_info['website'] ?? ''); ?></a></p>
                 <p><i class="fa-solid fa-hand-point-right"></i> <b>Email:</b> <a
-                        href="mailto:ivanovietnam@gmail.com">ivanovietnam@gmail.com</a></p>
+                        href="mailto:<?php echo htmlspecialchars($footer_info['email'] ?? ''); ?>"><?php echo htmlspecialchars($footer_info['email'] ?? ''); ?></a>
+                </p>
             </div>
 
             <div class="ft-mid-mid">
@@ -77,14 +96,15 @@
                 </form>
 
                 <div class="contact-link-container">
-                    <a class="contact-link" href="https://www.facebook.com/ivanovietnam?ref=embed_page"
+                    <a class="contact-link" href="<?php echo htmlspecialchars($footer_info['facebook'] ?? ''); ?>"
                         target="_blank"><i class="fa-brands fa-facebook contact-icon fb-icon"></i></a>
-                    <a class="contact-link" href="#"><i
-                            class="fa-regular fa-envelope contact-icon mail-icon"></i></i></a>
-                    <a class="contact-link" href="#"><i class="fab fa-youtube contact-icon ytb-icon"></i></a>
-                    <a class="contact-link" href="#"><i
-                            class="fa-pinterest fa-brands contact-icon pinterest-icon"></i></a>
+                    <a class="contact-link" href="#"><i class="fa-regular fa-envelope contact-icon mail-icon"></i></a>
+                    <a class="contact-link" href="<?php echo htmlspecialchars($footer_info['youtube'] ?? ''); ?>"
+                        target="_blank"><i class="fab fa-youtube contact-icon ytb-icon"></i></a>
+                    <a class="contact-link" href="<?php echo htmlspecialchars($footer_info['pinterest'] ?? ''); ?>"
+                        target="_blank"><i class="fa-pinterest fa-brands contact-icon pinterest-icon"></i></a>
                 </div>
+
             </div>
         </div>
     </div>
@@ -100,6 +120,8 @@
         <p>IVANO &copy;2024</p>
     </div>
 </footer>
+
+
 
 <style>
     #footer-page {
@@ -446,7 +468,7 @@
             text-align: center;
         }
 
-        .container-contact{
+        .container-contact {
             width: 90%;
             margin: 0px auto;
         }

@@ -56,6 +56,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_order_details = $conn->prepare($sql_insert_order_details);
         $stmt_order_details->bind_param("ss", $od_id, $od_info);
         $stmt_order_details->execute();
+<<<<<<< HEAD
+=======
+
+        // Cập nhật trạng thái mã giảm giá
+        if (!empty($voucher_code)) {
+            $sql_update_voucher = "UPDATE vouchers SET status = 'used' WHERE voucher_code = ?";
+            $stmt_update_voucher = $conn->prepare($sql_update_voucher);
+            $stmt_update_voucher->bind_param("s", $voucher_code);
+            $stmt_update_voucher->execute();
+        }
+>>>>>>> 427d8b78ca8e79a67b0a582f15161364e0a7164c
 
         $conn->commit();
         $stmt_orders->close();
