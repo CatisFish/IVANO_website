@@ -1,7 +1,7 @@
 <div class="container-banner-news">
     <section class="banner-news">
-        <a href="#" class="news-item">
-            <img src="" alt="">
+        <a href="blog.php" class="news-item">
+            <img src="images/1.jpg" alt="">
             <span>
                 <h1>TIN TỨC</h1>
                 <p>Nổi Bật</p>
@@ -9,7 +9,7 @@
         </a>
 
         <a href="gioi-thieu.php" class="news-item">
-            <img src="" alt="">
+            <img src="images/2.jpg" alt="">
             <span>
                 <h1>GIỚI THIỆU</h1>
                 <p>Về Chúng Tôi</p>
@@ -17,7 +17,7 @@
         </a>
 
         <a href="dai-ly.php" class="news-item">
-            <img src="" alt="">
+            <img src="images/3c.jpg" alt="">
             <span>
                 <h1>ĐĂNG KÝ</h1>
                 <p>Đại Lý</p>

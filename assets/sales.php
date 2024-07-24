@@ -3,34 +3,34 @@
         <li class="sale-item">
             <a href="">
                 <img src="images/sales.png" alt="img" class="img-sale">
-                <p class="content-sale">Voucher 1</p>
+                <p class="content-sale">Miễn phí vận chuyển cho Đại Lý mới</p>
             </a>
         </li>
 
         <li class="sale-item">
             <a href="">
                 <img src="images/sales.png" alt="img" class="img-sale">
-                <p class="content-sale">Voucher 2</p>
+                <p class="content-sale">Tặng 1 thùng sơn cùng loại cho hoá đơn từ 10 triệu</p>
             </a>
         </li>
 
         <li class="sale-item">
             <a href="">
                 <img src="images/sales.png" alt="img" class="img-sale">
-                <p class="content-sale">Voucher 3</p>
+                <p class="content-sale">Hàng ngàn ưu đãi cho Đại Lý mới</p>
             </a>
         </li>
 
         <li class="sale-item">
             <a href="">
                 <img src="images/sales.png" alt="img" class="img-sale">
-                <p class="content-sale">Voucher 4</p>
+                <p class="content-sale">Flash Sale chớp nhoáng, deal hời</p>
             </a>
         </li>
         <li class="sale-item">
             <a href="">
                 <img src="images/sales.png" alt="img" class="img-sale">
-                <p class="content-sale">Voucher 5</p>
+                <p class="content-sale">Tặng móc khoá lưu niệm cho Đại Lý</p>
             </a>
         </li>
     </ul>
@@ -81,11 +81,12 @@
         background-size: contain;
         background-repeat: no-repeat;
         margin-bottom: 10px;
+        transition: all ease-in-out 0.3s;
+
     }
 
     .sale-item:hover .img-sale {
         transform: translateY(-10px);
-        transition: all ease-in-out 0.3s;
     }
 
     .content-sale {

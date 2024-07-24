@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/animation.css">
     <link rel="stylesheet" href="css/custom-scroll.css">
     <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/css.css">
 
     <title>Giới Thiệu | IVANO</title>
 </head>
@@ -184,12 +185,14 @@
 
                 <div class="two-introduce-info-right">
                     <h2 class="title-two-introduce">TẦM NHÌN VÀ SỨ MỆNH</h2>
-                    <p>Bằng khát vọng tiên phong cùng chiến lược đầu tư – phát triển bền vững, <span
-                            style="font-weight: 700;">CTCP IVANO VIỆT NAM</span> phấn đấu trở thành một thương hiệu hàng
+                    <p style="grid-area: content;">Bằng khát vọng tiên phong cùng chiến lược đầu tư – phát triển bền
+                        vững, <span style="font-weight: 700;">CTCP IVANO VIỆT NAM</span> phấn đấu trở thành một thương
+                        hiệu hàng
                         đầu Việt Nam được khách hàng tin dùng, tạo sự tin tưởng tới quý khách hàng góp phần sơn đến
                         những công trình mang vẻ đẹp hoàn mỹ bền chắc với thời gian, thể hiện tầm vóc trí tuệ và niềm tự
                         hào Việt Nam trên trường quốc tế.</p> <br>
-                    <p><span style="font-weight: 700;">CTCP IVANO VIỆT NAM</span> ra đời để hoàn thành sứ mệnh đáp ứng
+                    <p style="grid-area: content;"><span style="font-weight: 700;">CTCP IVANO VIỆT NAM</span> ra đời để
+                        hoàn thành sứ mệnh đáp ứng
                         được cho khách hàng sự hài lòng về chất lượng sản phẩm, dịch vụ bán hàng và đặc biệt là một
                         không gian sang trọng được cập nhật xu hướng mới nhất để phù hợp theo tình hình xã hội luôn luôn
                         đổi mới như hiện nay.</p>
@@ -356,7 +359,6 @@
         font-size: 20px;
         padding: 0 20%;
         margin-top: 50px;
-
         line-height: 1.5;
     }
 
@@ -383,6 +385,127 @@
 
     .radio-buttons-introduce input[type="radio"]:checked+label {
         background-color: red;
+    }
+</style>
+
+<!-- mobile css -->
+<style>
+    @media only screen and (max-width: 600px) {
+        .one-introduce {
+            margin-top: 70px !important;
+            height: 220px !important;
+        }
+
+        .info-introduce {
+            width: 90% !important;
+            bottom: -400px !important;
+            left: 50% !important;
+            transform: translate(-50%);
+            padding: 20px !important;
+            border-radius: 10px !important;
+        }
+
+        .title-one-introduce {
+            font-size: 18px !important;
+            margin-bottom: 10px;
+        }
+
+        .info-introduce p {
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* two */
+        .container-two-introduce {
+            gap: 20px !important;
+            width: 95% !important;
+            display: grid !important;
+            grid-template-areas:
+                'heading heading'
+                'img contentt'
+                'contentt contentt' !important;
+            background: linear-gradient(to top right, #D7F8F8 0%, #FFFFFF 50%, #FFFFFF 70%, #FFC8B0 120%);
+        }
+
+        .two-introduce img {
+            width: 250px !important;
+            height: 200px !important;
+            grid-area: img;
+        }
+
+        .title-two-introduce {
+            font-size: 18px !important;
+            width: 100% !important;
+            text-align: center;
+            grid-area: heading;
+        }
+
+        .two-introduce-info-right {
+            font-size: 12px !important;
+            grid-area: contentt;
+            margin-left: 265px !important;
+            padding-bottom: 20px !important;
+            width: 50% !important;
+        }
+
+        /* three */
+        .container-three-introduce {
+            width: 95% !important;
+            padding: 20px !important;
+            border-radius: 10px !important;
+            bottom: -150px !important;
+            right: 50% !important;
+            transform: translate(50%);
+        }
+
+        .title-three-introduce {
+            font-size: 18px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .container-three-introduce p {
+            font-size: 12px !important;
+        }
+
+        .container-three-introduce p span {
+            font-size: 12px !important;
+        }
+
+        /* four */
+        .four-introduce {
+            padding: 20px !important;
+            width: 100% !important;
+        }
+
+        .container-four-introduce {
+            margin-top: 160px !important;
+            flex-direction: column;
+        }
+
+        /* five */
+
+        .five-introduce {
+            height: 200px !important;
+        }
+
+        .item-five-content {
+            padding: 20px 0px !important;
+            background-color: rgba(39, 54, 71, 0.85);
+            height: 200px !important;
+        }
+
+        .item-five-content span {
+            font-size: 20px !important;
+        }
+
+        .item-five-content p {
+            font-size: 13px !important;
+            margin-top: 25px !important;
+        }
+
+        .radio-buttons-introduce {
+            bottom: 10px !important;
+        }
     }
 </style>
 

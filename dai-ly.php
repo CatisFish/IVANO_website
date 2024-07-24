@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/global.css">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Đại Lý | IVANO</title>
 </head>
 
@@ -19,7 +20,7 @@
     #main-daily-page {
         width: 90%;
         margin: 0px auto;
-        padding: 20px 0;
+        padding: 150px 0 50px 0;
         display: flex;
         gap: 20px;
         align-items: center;
@@ -50,30 +51,6 @@
         color: #1E90FF;
     }
 
-    @keyframes moveLeftRight {
-
-        0%,
-        100% {
-            transform: translateX(0);
-        }
-
-        50% {
-            transform: translateX(50px);
-        }
-    }
-
-    @keyframes moveRightLeft {
-
-        0%,
-        100% {
-            transform: translateX(0);
-        }
-
-        50% {
-            transform: translateX(-50px);
-        }
-    }
-
     .container-action-daily {
         display: flex;
         align-items: center;
@@ -82,24 +59,8 @@
         margin: 50px 0 0 0;
     }
 
-    .container-action-daily i {
-        font-size: 24px;
-        color: #f44336;
-        animation-duration: 0.5s;
-        animation-timing-function: ease-in-out;
-        animation-iteration-count: infinite;
-    }
-
-    .container-action-daily i.fa-hand-point-right {
-        animation-name: moveLeftRight;
-    }
-
-    .container-action-daily i.fa-hand-point-left {
-        animation-name: moveRightLeft;
-    }
-
     .daily-action {
-        background-color: #1E90FF;
+        background-color: #55D5D2;
         color: white;
         border: none;
         padding: 10px 20px;
@@ -112,8 +73,43 @@
     }
 
     .daily-action:hover {
-        background-color: #0073e6;
+        background-color: #F58F5D;
         cursor: pointer;
+    }
+</style>
+
+<!-- mobile css -->
+<style>
+    @media only screen and (max-width: 600px) {
+        #main-daily-page {
+            width: 95% !important;
+            flex-direction: column;
+            padding-top: 85px !important;
+        }
+
+        .content-left-daily {
+            width: 400px !important;
+        }
+
+        .container-daily-right {
+            padding: 0 10px 0 10px;
+        }
+
+        .container-daily-right h2 {
+            font-size: 20px;
+        }
+
+        p {
+            font-size: 14px !important;
+        }
+
+        .container-action-daily {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            margin: 50px 0 0 0;
+        }
     }
 </style>
 
@@ -206,24 +202,24 @@
         <form class="daily-form" id="daily-form">
             <button class="close-btn-daily-form" onclick="closeDailyForm()" type="button"><i
                     class="fa-solid fa-xmark"></i></button>
-            <h2>Phiếu Đăng Ký</h2>
-            <div class="form-group">
-                <input type="text" id="name" name="daily-name" required placeholder=" ">
-                <label for="name">Họ tên</label>
-            </div>
-            <div class="form-group">
-                <input type="text" id="address" name="daily-address" required placeholder=" ">
-                <label for="address">Địa chỉ</label>
-            </div>
-            <div class="form-group">
-                <input type="tel" id="phone" name="daily-tell" required placeholder=" ">
-                <label for="phone">Số điện thoại</label>
-            </div>
-            <div class="form-group">
-                <textarea id="content" name="daily-note" required placeholder=" "></textarea>
-                <label for="content">Nội dung</label>
-            </div>
-            <button type="submit" class="submit-btn">Gửi</button>
+                <h2>Phiếu Đăng Ký</h2>
+                <div class="form-group">
+                    <input type="text" id="name" name="daily-name" required placeholder=" ">
+                    <label for="name">Họ tên</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="address" name="daily-address" required placeholder=" ">
+                    <label for="address">Địa chỉ</label>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="phone" name="daily-tell" required placeholder=" ">
+                    <label for="phone">Số điện thoại</label>
+                </div>
+                <div class="form-group">
+                    <textarea id="content" name="daily-note" required placeholder=" "></textarea>
+                    <label for="content">Nội dung</label>
+                </div>
+                <button type="submit" class="submit-btn">Gửi</button>
         </form>
     </main>
 
@@ -272,6 +268,7 @@
         top: 50%;
         left: 50%;
         z-index: 101;
+        visibility: hidden;
     }
 
     .daily-form h2 {
@@ -341,7 +338,7 @@
     .submit-btn {
         width: 100%;
         padding: 10px 20px;
-        background-color: #1E90FF;
+        background-color: #55D5D2;
         color: white;
         border: none;
         border-radius: 5px;
@@ -352,93 +349,100 @@
     }
 
     .submit-btn:hover {
-        background-color: #0073e6;
+        background-color: #F58F5D;
     }
 </style>
 
 <script>
-    document.querySelector('.daily-action').addEventListener('click', function () {
-        const daiLyForm = document.querySelector('.daily-form');
-        daiLyForm.style.opacity = '1';
-        daiLyForm.style.transform = 'translate(-50%, -50%)';
+    document.addEventListener('DOMContentLoaded', function () {
+    const dailyAction = document.querySelector('.daily-action');
+    const closeDailyFormButton = document.querySelector('.close-btn-daily-form');
+    const overlayDaily = document.getElementById('overlay-daily');
+    const daiLyForm = document.querySelector('.daily-form');
 
-        const overlayDailyClose = document.getElementById('overlay-daily');
-
-        overlayDailyClose.style.display = 'block';
-
-    });
-
-    function closeDailyForm() {
-        const closeDailyForm = document.querySelector('.close-btn-daily-form');
-        closeDailyForm.addEventListener('click', function () {
-            const daiLyForm = document.querySelector('.daily-form');
-            daiLyForm.style.opacity = '0';
-            daiLyForm.style.transform = 'translate(-50%, 250%)';
-
-            const overlayDailyClose = document.getElementById('overlay-daily');
-
-            overlayDailyClose.style.display = 'none';
-
+    if (dailyAction) {
+        dailyAction.addEventListener('click', function () {
+            daiLyForm.style.opacity = '1';
+            daiLyForm.style.transform = 'translate(-50%, -50%)';
+            daiLyForm.style.visibility = 'visible';
+            overlayDaily.style.display = 'block';
         });
     }
+
+    function closeDailyForm() {
+        daiLyForm.style.opacity = '0';
+        daiLyForm.style.transform = 'translate(-50%, 250%)';
+        daiLyForm.style.visibility = 'hidden';
+        overlayDaily.style.display = 'none';
+    }
+
+    if (closeDailyFormButton) {
+        closeDailyFormButton.addEventListener('click', closeDailyForm);
+    }
+
+    if (overlayDaily) {
+        overlayDaily.addEventListener('click', closeDailyForm);
+    }
+});
+
 </script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById('daily-form');
-    form.addEventListener('submit', function(event) {
-        event.preventDefault(); 
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById('daily-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
 
-        const formData = new FormData(form);
-       
-        fetch('action/submit-daily.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
+            const formData = new FormData(form);
 
-            if (data.success) {
-                Swal.fire({
-                    title: "Thành Công!",
-                    text: "Hãy đợi chúng tôi liên hệ với bạn qua thông tin trên!",
-                    icon: "success",
-                    allowOutsideClick: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        closeDailyForm();
+            fetch('action/submit-daily.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+
+                    if (data.success) {
+                        Swal.fire({
+                            title: "Thành Công!",
+                            text: "Hãy đợi chúng tôi liên hệ với bạn qua thông tin trên!",
+                            icon: "success",
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                closeDailyForm();
+                            }
+                        });
+
+                    } else {
+                        Swal.fire({
+                            title: "Lỗi!",
+                            text: data.message,
+                            icon: "error",
+                            allowOutsideClick: false
+                        });
                     }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: "Lỗi!",
+                        text: "Đã xảy ra lỗi khi gửi dữ liệu. Vui lòng thử lại.",
+                        icon: "error",
+                        allowOutsideClick: false
+                    });
                 });
-                
-            } else {
-                Swal.fire({
-                    title: "Lỗi!",
-                    text: data.message,
-                    icon: "error",
-                    allowOutsideClick: false
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire({
-                title: "Lỗi!",
-                text: "Đã xảy ra lỗi khi gửi dữ liệu. Vui lòng thử lại.",
-                icon: "error",
-                allowOutsideClick: false
-            });
         });
     });
-});
 
-function closeDailyForm() {
-    const daiLyForm = document.querySelector('.daily-form');
-    daiLyForm.style.opacity = '0';
+    function closeDailyForm() {
+        const daiLyForm = document.querySelector('.daily-form');
+        daiLyForm.style.opacity = '0';
 
-    const overlayDailyClose = document.getElementById('overlay-daily');
-    overlayDailyClose.style.display = 'none';
-}
+        const overlayDailyClose = document.getElementById('overlay-daily');
+        overlayDailyClose.style.display = 'none';
+    }
 
 </script>
 

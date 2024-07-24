@@ -196,6 +196,7 @@ $conn->close();
     }
 
     .product-item-all-item {
+        background-color: #FFF;
         width: calc(33% - 15px);
         border-radius: 20px;
         box-sizing: border-box;

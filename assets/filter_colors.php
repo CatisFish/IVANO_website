@@ -50,13 +50,13 @@ function hexToRgb($hex)
         background-color: #fff;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         text-align: center;
-        width: 600px;
+        width: 550px;
+        max-width: 550px;
         margin: 140px auto;
         padding: 20px;
         border-radius: 20px;
         margin-bottom: 30px;
     }
-
 
     .filter-form label {
         display: block;
@@ -143,6 +143,14 @@ function hexToRgb($hex)
         margin: 0 auto;
         border-radius: 20px;
         margin-top: 10px;
+    }
+</style>
+
+<style>
+    @media only screen and (max-width: 600px) {
+        .container-color-filter {
+            margin-top: 100px;
+        }
     }
 </style>
 

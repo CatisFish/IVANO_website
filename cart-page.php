@@ -477,11 +477,13 @@
         var totalProductElement = document.querySelector('.total-product span');
         var provisionalElement = document.querySelector('.provisional span');
         var deleteProductButton = document.querySelector('.delete-product');
+        var cartLength = document.getElementById('lenght-cart');
 
         if (localStorage.getItem('cartItems')) {
             cartItems = JSON.parse(localStorage.getItem('cartItems'));
             updateCartItems();
             updateSummary();
+            updateCartLength();
         }
 
         function currencyStringToNumber(currencyString) {
@@ -586,6 +588,7 @@
                         localStorage.setItem('cartItems', JSON.stringify(cartItems));
                         updateCartItems();
                         updateSummary();
+                        updateCartLength();
                         updateDeleteProductButtonState();
                         Swal.fire("Xóa thành công!", "", "success");
                     }
@@ -646,6 +649,7 @@
 
             localStorage.setItem('cartItems', JSON.stringify(cartItems));
             updateSummary();
+            updateCartLength();
         }
 
         function handleDecreaseQuantity() {
@@ -682,6 +686,16 @@
 
                 localStorage.setItem('cartItems', JSON.stringify(cartItems));
                 updateSummary();
+                updateCartLength();
+            }
+        }
+
+        function updateCartLength() {
+            var totalItems = cartItems.reduce(function (total, cartItem) {
+                return total + cartItem.quantity;
+            }, 0);
+            if (cartLength) {
+                cartLength.textContent = totalItems;
             }
         }
 
@@ -697,6 +711,27 @@
         }
     });
 
+
+</script>
+
+<!-- chặn nhấn giỏ hàng ở trang giỏ hàng -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var shoppingCartPage = document.querySelector('.shopping-cart-page');
+
+        shoppingCartPage.addEventListener('click', function (event) {
+            event.preventDefault();
+        });
+
+        shoppingCartPage.addEventListener('mouseover', function (event) {
+            event.stopPropagation();
+            event.target.style.pointerEvents = 'none';
+        });
+
+        shoppingCartPage.addEventListener('mousedown', function (event) {
+            event.preventDefault();
+        });
+    });
 </script>
 
 </html>

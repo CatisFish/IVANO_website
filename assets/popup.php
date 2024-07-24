@@ -11,7 +11,8 @@
         position: fixed;
         top: 50%;
         left: 50%;
-        z-index: 1000;
+        transform: translate(-50%, -50%);
+        z-index: 1100;
     }
 
     .popup-header-custom {
@@ -72,8 +73,8 @@
         letter-spacing: 1px;
         width: 100%;
         font-weight: 700;
-        -webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both 3.5s;
-        animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both 3.5s;
+        -webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both 1s;
+        animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both 1s;
     }
 
     @-webkit-keyframes tracking-in-expand {
@@ -111,8 +112,8 @@
         font-size: 16px;
         line-height: 1.5;
         width: 100%;
-        -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both 3.75s;
-        animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both 3.75s;
+        -webkit-animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both 1.5s;
+        animation: focus-in-contract-bck 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both 1.5s;
     }
 
     @-webkit-keyframes focus-in-contract-bck {
@@ -156,7 +157,7 @@
     .signup-btn-custom {
         margin-top: 20px;
         padding: 10px 40px;
-        background-color: #ff4500;
+        background-color: #55D5D2;
         border: none;
         border-radius: 5px;
         color: white;
@@ -164,11 +165,12 @@
         cursor: pointer;
         transition: background-color 0.3s ease;
         font-weight: 600;
-        -webkit-animation: shake-bottom 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both 4.5s;
-        animation: shake-bottom 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both 4.5s;
+        -webkit-animation: shake-bottom 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both 2s;
+        animation: shake-bottom 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both 2s;
     }
 
     @-webkit-keyframes shake-bottom {
+
         0%,
         100% {
             -webkit-transform: rotate(0deg);
@@ -248,7 +250,7 @@
     }
 
     .signup-btn-custom:hover {
-        background-color: #e03e00;
+        background-color: #F58F5D;
     }
 
     .carousel-controls-custom {
@@ -370,7 +372,7 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
+        z-index: 1009;
     }
 </style>
 
@@ -434,13 +436,13 @@ $popup_img = "default_popup_img.jpg";
 $popup_description = "Popup Description";
 
 
-    if ($result_popup && $result_popup->num_rows > 0) {
-        $row_popup = $result_popup->fetch_assoc();
-        $popup_title = $row_popup['popup_content'];
-        $popup_img = "admin/" . $row_popup['popup_img'];
-        $popup_description = $row_popup['popup_description'];
-    }
-    ?>
+if ($result_popup && $result_popup->num_rows > 0) {
+    $row_popup = $result_popup->fetch_assoc();
+    $popup_title = $row_popup['popup_content'];
+    $popup_img = "admin/" . $row_popup['popup_img'];
+    $popup_description = $row_popup['popup_description'];
+}
+?>
 
 
 <div class="overlay" id="overlay"></div>
@@ -466,7 +468,7 @@ $popup_description = "Popup Description";
     </div>
     <div class="form-container-custom" id="form-container-custom">
         <h2>Thông Tin Của Bạn</h2>
-        <form method="post" action="">
+        <form method="post" action="" id="tuvan-form">
             <button type="button" class="cancel-button" onclick="hideFormCustom()"><i
                     class="fa-solid fa-xmark"></i></button>
             <input type="text" name="ten" placeholder="Họ Tên" required>
@@ -475,50 +477,24 @@ $popup_description = "Popup Description";
         </form>
     </div>
 
-    <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "ivano_website";
-
-    $conn = new mysqli($servername, $username, $password, $database);
-
-    if ($conn->connect_error) {
-        die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
-    }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $ho_ten = $_POST['ten'];
-        $so_dien_thoai = $_POST['so_dien_thoai'];
-
-        $thoi_gian_gui = date("Y-m-d H:i:s");
-
-        $sql = "INSERT INTO tuvan_form (ten, so_dien_thoai, ngay_gui) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $ho_ten, $so_dien_thoai, $thoi_gian_gui);
-
-        if ($stmt->execute()) {
-            echo "<p>Thông tin của bạn đã được gửi thành công.</p>";
-        } else {
-            echo "<p>Có lỗi xảy ra. Vui lòng thử lại sau.</p>";
-        }
-
-        $stmt->close();
-    }
-
-    $conn->close();
-    ?>
 
 </div>
 
 <script>
-    let currentSlideCustom = 0;
-    var overlay = document.getElementById('overlay');
+    document.addEventListener("DOMContentLoaded", function () {
+        let currentSlideCustom = 0;
+        var overlay = document.getElementById('overlay');
+
+        setTimeout(function () {
+            document.getElementById('popup-custom').style.opacity = '1';
+            overlay.style.display = 'block';
+            document.getElementById('popup-custom').classList.add('show');
+        }, 100);
+    });
 
     function hidePopUpCustom() {
         document.getElementById('popup-custom').style.display = 'none';
-        overlay.style.display = 'none';
-        document.getElementById('popup-custom').style.
+        document.getElementById('overlay').style.display = 'none';
     }
 
     function showFormCustom() {
@@ -531,35 +507,21 @@ $popup_description = "Popup Description";
         document.querySelector('.left-custom').style.width = "100%";
     }
 
-    // function showSlideCustom(index) {
-    //     const carousel = document.getElementById('carousel-custom');
-    //     const slides = carousel.querySelectorAll('.slide-custom');
+    document.getElementById('tuvan-form').addEventListener('submit', function (e) {
+        e.preventDefault();
 
-    //     const totalSlides = slides.length;
+        var formData = new FormData(this);
 
-    //     if (index >= totalSlides) {
-    //         index = 0;
-    //     } else if (index < 0) {
-    //         index = totalSlides - 1;
-    //     }
-
-    //     carousel.style.transform = `translateX(-${index * 100}%)`;
-    //     currentSlideCustom = index;
-    // }
-
-    // function nextSlideCustom() {
-    //     showSlideCustom(currentSlideCustom + 1);
-    // }
-
-    // function prevSlideCustom() {
-    //     showSlideCustom(currentSlideCustom - 1);
-    // }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        setTimeout(function () {
-            document.getElementById('popup-custom').style.opacity = '1';
-            overlay.style.display = 'block';
-            document.getElementById('popup-custom').classList.add('show');
-        }, 3000);
+        fetch('action/popup-action.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert("Thông tin của bạn đã được gửi thành công.");
+            document.getElementById('form-container-custom').innerHTML = data;
+            hidePopUpCustom();
+        })
+        .catch(error => console.error('Error:', error));
     });
 </script>

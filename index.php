@@ -29,16 +29,16 @@ session_start();
 
         <?php include "assets/sales.php"; ?>
 
-        <!-- <section class="container-fsale">
+        <section class="fsale">
             <div class="container-heading-fsale">
                 <h2 class="title-fsale">Flash Sale</h2>
-                <button class="see-more-fsale">
+                <!-- <button class="see-more-fsale">
                     <a href="">Xem Thêm</a>
-                </button>
+                </button> -->
             </div>
 
-            <?php // include "assets/flsale.php"; ?>
-        </section> -->
+            <?php include "assets/fsales.php"; ?>
+        </section>
 
         <?php include "assets/banner-news.php"; ?>
 
@@ -66,6 +66,7 @@ session_start();
        
     </main>
 
+    <?php include "assets/popup.php"; ?>
     <?php include "assets/footer.php"; ?>
     <style>
         #main-page {

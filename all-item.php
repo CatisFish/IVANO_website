@@ -197,8 +197,8 @@
 
 <style>
     #main-all-item {
-        width: 90%;
-        margin: 0px auto;
+        background: linear-gradient(to top right, #D7F8F8 0%, #FFFFFF 50%, #FFFFFF 70%, #FFC8B0 120%);
+        padding: 120px 5% 30px 5%;
         font-size: 20px;
     }
 
@@ -293,4 +293,43 @@
     }
 </style>
 
-</html>
+<script>
+    // Hàm lấy giá trị từ chuỗi giá tiền (VD: "10,000 VNĐ")
+    function getPriceValue(priceString) {
+        return parseInt(priceString.replace(/[^0-9]/g, ''), 10);
+    }
+
+    // Hàm sắp xếp sản phẩm
+    function sortProducts(order) {
+        var productList = document.querySelector('.list-all-product');
+        var products = Array.from(productList.getElementsByClassName('product-item-all-item'));
+        
+        products.sort(function(a, b) {
+            var priceA = getPriceValue(a.querySelector('.product-price-item span').innerText);
+            var priceB = getPriceValue(b.querySelector('.product-price-item span').innerText);
+            
+            if (order === 'product-price-asc') {
+                return priceA - priceB;
+            } else if (order === 'product-price-desc') {
+                return priceB - priceA;
+            }
+            return 0;
+        });
+        
+        // Xóa các sản phẩm hiện tại
+        productList.innerHTML = '';
+
+        // Thêm lại các sản phẩm đã sắp xếp
+        products.forEach(function(product) {
+            productList.appendChild(product);
+        });
+    }
+
+    // Sự kiện thay đổi bộ sắp xếp
+    document.getElementById('sort').addEventListener('change', function() {
+        var sortValue = this.value;
+        if (sortValue !== 'Chọn 1 cách sắp xếp') {
+            sortProducts(sortValue);
+        }
+    });
+</script>
